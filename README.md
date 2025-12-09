@@ -32,6 +32,7 @@ __Linux distros__:
 + Devuan GNU/Linux
 + Gentoo
 + Android(Termux)
+
 __BSD distros__:
 + FreeBSD
 
