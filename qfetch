@@ -103,6 +103,7 @@ env() {
     elif pgrep -x lxsession >/dev/null 2>&1; then echo "lxde"
     elif pgrep -x mate-session >/dev/null 2>&1; then echo "mate"
     elif pgrep -x sway >/dev/null 2>&1; then
+    # i did it cuz one sway user asked me to do this
         if sway --version 2>/dev/null | grep -q 'swayfx'; then
             echo "swayfx"
         else
@@ -132,7 +133,7 @@ cpug(){
     if [ "$(uname -s)" = "FreeBSD" ]; then 
         sysctl -n hw.model 2>/dev/null
     elif command -v getprop >/dev/null 2>&1; then
-        echo wip
+        cat /poc/cpuinfo | grep -i 'hardware' | awk -F':''{print $2}'
     else
         grep -m 1 'model name' /proc/cpuinfo | cut -d ':' -f2 | sed 's/^ //'
     fi
