@@ -129,7 +129,7 @@ ramd(){
         inactm=$(($(sysctl -n vm.stats.vm.v_inactive_count) * pagesi / 1024 / 1024))
         usedm=$((wiredm + activm + inactm))
         physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
-        echo "$usedm / $physm"
+        echo "${usedm}MiB / ${physm}MiB"
     else
         free | awk 'NR==2 {print int($3 / 1024)"MiB" " / " int($2 / 1024)"MiB"}'
     fi
