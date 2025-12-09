@@ -14,26 +14,26 @@ qfetch it's a clone of [envfetch](https://github.com/locomiadev/envfetch)(or jus
 
 ## qfetch supports:
 __Linux distros__:
-    + EndeavourOS
-    + Void Linux
-    + Ubuntu
-    + Debian
-    + Arch Linux
-    + Linux Mint
-    + NixOS
-    + Alpine Linux
-    + Fedora Linux
-    + PostmarketOS
-    + CRUX
-    + openSUSE
-    + [Locoware GNU/Linux](https://locomia.xyz/os)
-    + Artix
-    + Slackware
-    + Devuan GNU/Linux
-    + Gentoo
-    + Android(Termux)
++ EndeavourOS
++ Void Linux
++ Ubuntu
++ Debian
++ Arch Linux
++ Linux Mint
++ NixOS
++ Alpine Linux
++ Fedora Linux
++ PostmarketOS
++ CRUX
++ openSUSE
++ [Locoware GNU/Linux](https://locomia.xyz/os)
++ Artix
++ Slackware
++ Devuan GNU/Linux
++ Gentoo
++ Android(Termux)
 __BSD distros__:
-    + FreeBSD
++ FreeBSD
 
 ## how to install it, you need execute:
 
