@@ -6,8 +6,9 @@ qfetch it's a clone of [envfetch](https://github.com/locomiadev/envfetch)(or jus
 2. qfetch works in one file
 3. qfetch has better color support(colorful logos)
 4. termux pkg support
+5. FreeBSD RAM support
 ## disadvantages
-1. less distros/OS support(BSD, HaikuOS doesn't work properly)
+1. less distros/OS support
 2. no config file
 3. android cpu may not work
 4. some logos maybe broken
@@ -55,7 +56,6 @@ change shebang in qfetch file from '#!/bin/sh' to '#!/system/bin/sh'
 `su -c 'cp qfetch /u-sr/local/bin`
 
 ## Work In Progress:
-+ FreeBSD RAM support
 + CachyOS
 + Other BSD systems
 + Darwin support
