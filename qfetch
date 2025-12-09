@@ -103,7 +103,7 @@ env() {
     elif pgrep -x lxsession >/dev/null 2>&1; then echo "lxde"
     elif pgrep -x mate-session >/dev/null 2>&1; then echo "mate"
     elif pgrep -x sway >/dev/null 2>&1; then
-        if sway --version | grep -q "swayfx"; then
+        if sway --version 2>/dev/null | grep -q 'swayfx'; then
             echo "swayfx"
         else
             echo "sway"
