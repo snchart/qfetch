@@ -9,7 +9,6 @@ c6="\033[1;34m" # blue
 c7="\033[1;35m" # purple
 c8="\033[1;36m" # aqua
 c9="\033[1;37m" # gray or white
-version="beta"
 userg=$(id -un) # username
 host=$(uname -n) # hostname
 shell=$(basename $SHELL)
@@ -143,6 +142,14 @@ cpug(){
         cat /proc/cpuinfo | grep -i 'hardware' | awk -F': ' '{print $2}'
     else
         grep -m 1 'model name' /proc/cpuinfo | cut -d ':' -f2 | sed 's/^ //'
+    fi
+}
+
+disk(){
+    if command -v getprop >/dev/null 2>&1; then
+        df -h /data | awk 'NR==2 {print $3 " / " $2}'
+    else
+        df -h / | awk 'NR==2 {print $3 " / " $2}' 
     fi
 }
 
@@ -387,5 +394,5 @@ printf "%s$ascid $res ${color}ram:${res}    $(ramd)\n"
 printf "%s$ascie $res ${color}cpu:${res}    $(cpug)\n"
 printf "%s$ascif $res ${color}sh:${res}     $shell\n"
 printf "%s$ascig $res ${color}de/wm:${res}  $(env)\n"
-printf "%s$ascih $res ${color}ver:${res}    ${version}\n"
+printf "%s$ascih $res ${color}disk:${res}   $(disk)\n"
 printf "%s$ascij\n"
