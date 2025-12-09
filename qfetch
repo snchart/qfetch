@@ -133,7 +133,7 @@ cpug(){
     if [ "$(uname -s)" = "FreeBSD" ]; then 
         sysctl -n hw.model 2>/dev/null
     elif command -v getprop >/dev/null 2>&1; then
-        cat /poc/cpuinfo | grep -i 'hardware' | awk -F':''{print $2}'
+        cat /proc/cpuinfo | grep -i 'hardware' | awk -F': ' '{print $2}'
     else
         grep -m 1 'model name' /proc/cpuinfo | cut -d ':' -f2 | sed 's/^ //'
     fi
