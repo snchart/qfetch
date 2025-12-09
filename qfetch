@@ -10,38 +10,21 @@ c7="\033[1;35m" # purple
 c8="\033[1;36m" # aqua
 c9="\033[1;37m" # gray or white
 version="beta"
+userg=$(id -un) # username
+host=$(uname -n) # hostname
+shell=$(basename $SHELL)
 
-if [ "$(uname -s)" = Linux ]; then
-    user="$(id -un)"
-    host="$(uname -n)"
-    distro="$(cat /etc/os-release | grep PRETTY_NAME | awk -F '=' '{print $2}' | tr -d '"')"
-    ram="$(free | awk 'NR==2 {print int($3 / 1024)"MiB" " / " int($2 / 1024)"MiB"}')"
-    cpu="$(grep -m 1 'model name' /proc/cpuinfo | cut -d ':' -f2 | sed 's/^ //')"
-    shell="$(echo $SHELL)"
-elif [ "$(uname -s)" = FreeBSD ]; then
-    user="$(id -un)"
-    host="$(uname -n)"
-    distro="FreeBSD"
-    ram="$(echo wip)"
-    cpu="$(sysctl -n hw.model 2>/dev/null)"
-    shell="$(echo $SHELL)"
-elif command -v getprop >/dev/null 2>&1; then
-    if pgrep -x "/data/data/com.termux/files/usr/bin/bash" >/dev/null 2>&1; then
-        termux="yes"
-        distro="Android $(getprop ro.build.version.release)"
-        ram="$(free | awk 'NR==2 {print int($3 / 1024)"MiB" " / " int($2 / 1024)"MiB"}')"
-        cpu="$(echo wip)"
-        shell="$(basename $SHELL)"
+distrog(){
+    if [ "$(uname -s)" = "FreeBSD" ]; then
+        echo "FreeBSD"
+    elif command -v getprop >/dev/null 2>&1; then
+        echo "Android $(getprop ro.build.version.release)"
     else
-        distro="Android $(getprop ro.build.version.release)"
-        android="yes"
-        ram="$(free | awk 'NR==2 {print int($3 / 1024)"MiB" " / " int($2 / 1024)"MiB"}')"
-        cpu="$(echo wip)"
-        shell="$(basename $SHELL)"
+        cat /etc/os-release | grep PRETTY_NAME | awk -F '=' '{print $2}' | tr -d '"'
     fi
-fi
+}
 
-case "$distro" in
+case "$(distrog)" in
         "EndeavourOS"*) ascii="endeavour"; color="$c7" ;;
         "Void Linux"*) ascii="void"; color="$c4" ;;
         "Ubuntu"*) ascii="ubuntu"; color="$c2" ;;
@@ -60,18 +43,21 @@ case "$distro" in
         "Devuan GNU/Linux"*) ascii="devuan"; color="$3" ;;
         "FreeBSD"*) ascii="freebsd"; color="$c1" ;;
         "Gentoo"*) ascii="gentoo"; color="$c7" ;;
+        "Android"*) ascii="android"; color="$c4" ;;
+        "CachyOS"*) ascii="cachy"; color="$c8" ;;
         *) ascii="crux" ;;
 esac
 
+# if you wanna add your custom(working ofc) pkg manager, then type:
+# elif command -v <pkg manager> >/dev/null 2>&1; then
+#   echo "<pkg manager> [$(<command to count packages>)]"
+# elif
+# ...
 pkgm(){
     if command -v pacman >/dev/null 2>&1; then
         echo "pacman [$(pacman -Qq | wc -l)]"
     elif command -v apt >/dev/null 2>&1; then
-        if [ "$termux" = "yes" ]; then
-            echo "pkg [$(dpkg --get-selections | grep -v deinstall | wc -l)]"
-        else
-            echo "apt [$(dpkg --get-selections | grep -v deinstall | wc -l)]"
-        fi
+        echo "apt [$(dpkg --get-selections | grep -v deinstall | wc -l)]"
     elif command -v dnf >/dev/null 2>&1; then
         echo "dnf [$(rmp -qa | wc -l)]"
     elif command -v zypper >/dev/null 2>&1; then
@@ -85,8 +71,6 @@ pkgm(){
             echo "pkg [$(pkg query -a '%n' | wc -l | tr -d ' ')]"
         elif [ "$(uname -s)" = "Darwin" ]; then
             echo "pkg [$(pkg list | wc -l | tr -d ' ')]"
-        elif [ "$termux" = "yes" ]; then
-            echo "pkg [$(dpkg --get-selections | grep -v deinstall | wc -l)]"
         fi
     elif command -v nix >/dev/null 2>&1; then
         echo "nix"
@@ -102,14 +86,15 @@ pkgm(){
         echo "prt-get [$(pkginfo -i | wc -l)]"
     elif command -v scratch >/dev/null 2>&1; then
         echo "scratchpkg [$(scratch list-installed | wc -l)]"
-    elif [ "$android" = "yes" ]; then
-        echo "Google Play"
     else
         echo "unknown"
     fi
 }
 
-environmentingoment() {
+# to add your unsupported environment, add this:
+# elif pgrep -x <env process> >/dev/null 2>&1; then echo "<env name>"
+# elif ...
+env() {
     if [ -n "$XDG_CURRENT_DESKTOP" ]; then echo "$XDG_CURRENT_DESKTOP"
     elif [ -n "$DESKTOP_SESSION" ]; then echo "$DESKTOP_SESSION"
     elif pgrep -x xfce4-session >/dev/null 2>&1; then echo "xfce"
@@ -117,15 +102,39 @@ environmentingoment() {
     elif pgrep -x kdeinit5 >/dev/null 2>&1; then echo "kde"
     elif pgrep -x lxsession >/dev/null 2>&1; then echo "lxde"
     elif pgrep -x mate-session >/dev/null 2>&1; then echo "mate"
-    elif pgrep -x sway >/dev/null 2>&1; then echo "sway"
+    elif pgrep -x sway >/dev/null 2>&1; then
+        if sway --version | grep -q "swayfx"; then
+            echo "swayfx"
+        else
+            echo "sway"
+        fi
     elif pgrep -x hyprland >/dev/null 2>&1; then echo "hyprland"
     elif pgrep -x dwm >/dev/null 2>&1; then echo "dwm"
     elif pgrep -x twm >/dev/null 2>&1; then echo "twm"
     elif pgrep -x i3 >/dev/null 2>&1; then echo "i3"
     elif pgrep -x bspwm >/dev/null 2>&1; then echo "bspwm"
+    elif pgrep -x herbstluftwm >/dev/null 2>&1; then echo "herbstluftwm"
     elif pgrep -x xmonad >/dev/null 2>&1; then echo "xmonad"
-    elif [ "$android" = "yes" || "$termux" = "yes" ]; then echo "SurfaceFlinger"
+    elif command -v getprop >/dev/null 2>&1; then echo "surfaceflinger"
     else echo "Unknown"
+    fi
+}
+
+ramd(){
+    if [ "$(uname -s)" = "FreeBSD" ]; then
+        echo wip
+    else
+        free | awk 'NR==2 {print int($3 / 1024)"MiB" " / " int($2 / 1024)"MiB"}'
+    fi
+}
+
+cpug(){
+    if [ "$(uname -s)" = "FreeBSD" ]; then 
+        sysctl -n hw.model 2>/dev/null
+    elif command -v getprop >/dev/null 2>&1; then
+        echo wip
+    else
+        grep -m 1 'model name' /proc/cpuinfo | cut -d ':' -f2 | sed 's/^ //'
     fi
 }
 
@@ -209,25 +218,25 @@ case "$ascii" in
         ;;
     debian*)
         ascia="          "
-        ascib="          "
-        ascic="${c1}   _____   "
-        ascid="${c1}  /  __ \\  "
-        ascie="${c1} |  /    | "
-        ascif="${c1} |  \\___-  " 
-        ascig="${c1} -_        "
-        ascih="${c1}   --_     "
+        ascib="${c1}   _____   "
+        ascic="${c1}  /  __ \\  "
+        ascid="${c1} |  /    | "
+        ascie="${c1} |  \\___-  " 
+        ascif="${c1} -_        "
+        ascig="${c1}   --_     "
+        ascih="          "
         ascij="          "
         ;;
     alpine*)
-        ascia=""
-        ascib="${c5}     /\ /\     "
-        ascic="${c5}    // \  \    "
-        ascid="${c5}   //   \  \   "
-        ascie="${c5}  //     \  \  "
-        ascif="${c5} //       \  \ "
-        ascig="${c5}           \  \\"
-        ascih="${c5}            \  "
-        ascij="               "
+        ascia="${c5}     /\ /\      "
+        ascib="${c5}    // \  \     "
+        ascic="${c5}   //   \  \    "
+        ascid="${c5}  //     \  \   "
+        ascie="${c5} //       \  \  "
+        ascif="${c5}           \  \\ "
+        ascig="${c5}            \   "
+        ascih="                "
+        ascij="                "
         ;;
     fedora*)
         ascia="${c5}         ,'''''.  "
@@ -242,13 +251,13 @@ case "$ascii" in
         ;;
     pmos*)
         ascia="             "
-        ascib="             "
-        ascic="${c4}      /\      "
-        ascid="${c4}     /  \     "
-        ascie="${c4}     \_  \    "
-        ascif="${c4}   /\_ \/ _   "
-        ascig="${c4}  /  / __/ \  "
-        ascih="${c4} /___\ \____\ "
+        ascib="${c4}      /\      "
+        ascic="${c4}     /  \     "
+        ascid="${c4}     \\_  \    "
+        ascie="${c4}   /\\_ \/ _   "
+        ascif="${c4}  /  / __/ \  "
+        ascig="${c4} /___\ \\____\ "
+        ascih="             "
         ascij="             "
         ;;
     crux*)
@@ -275,17 +284,16 @@ case "$ascii" in
         ;;
     locoware*)
         ascia="              "
-        ascib="              "
-        ascic="${c3}       dMP    "
-        ascid="${c3}      dMP     "
-        ascie="${c3}     dMP      "
-        ascif="${c3}    dMP       "
-        ascig="${c3}   dMMMMMMP   "
+        ascib="${c3}       dMP    "
+        ascic="${c3}      dMP     "
+        ascid="${c3}     dMP      "
+        ascie="${c3}    dMP       "
+        ascif="${c3}   dMMMMMMP   "
+        ascig="              "
         ascih="              "
         ascij="              "
         ;;
     artix*)
-        ascia="                "
         ascia="${c5}       /\       "
         ascib="${c5}      /  \      "
         ascic="${c5}     /\`'.,\     "
@@ -297,46 +305,57 @@ case "$ascii" in
         ascij="                "
         ;;
     devuan*)
-        ascia="               "
-        ascib="${c3}  ..:::.       "
-        ascic="${c3}     ..-==-    "
-        ascid="${c3}         .+#:  "
-        ascie="${c3}          =@@  "
-        ascif="${c3}       :+%@#:  "
-        ascig="${c3} .:=+#@@%*:    "
-        ascih="${c3} #@@@#=:       "
+        ascia="${c3}  ..:::.       "
+        ascib="${c3}     ..-==-    "
+        ascic="${c3}         .+#:  "
+        ascid="${c3}          =@@  "
+        ascie="${c3}       :+%@#:  "
+        ascif="${c3} .:=+#@@%*:    "
+        ascig="${c3} #@@@#=:       "
+        ascih="               "
         ascij="               "
         ;;
     freebsd*)
         ascia="                "
-        ascib="                "
-        ascic="${c1} /\,-'''''-,/\  "
-        ascid="${c1} \_)       (_/  "
+        ascib="${c1} /\,-'''''-,/\  "
+        ascic="${c1} \_)       (_/  "
+        ascid="${c1} |           |  "
         ascie="${c1} |           |  "
-        ascif="${c1} |           |  "
-        ascig="${c1}  ;         ;   "
-        ascih="${c1}   '-_____-'    "
+        ascif="${c1}  ;         ;   "
+        ascig="${c1}   '-_____-'    "
+        ascih="                "
         ascij="                "
         ;;
     gentoo*)
-        ascia="              "
-        ascib="${c7}  _-----_     "
-        ascic="${c7} (       \    "
-        ascid="${c7} \    0   \   "
-        ascie="${res}  \        )  "
-        ascif="${res}  /      _/   "
-        ascig="${res} (     _-     "
-        ascih="${res} \____-       "
+        ascia="${c7}  _-----_     "
+        ascib="${c7} (       \    "
+        ascic="${c7} \    0   \   "
+        ascid="${res}  \        )  "
+        ascie="${res}  /      _/   "
+        ascif="${res} (     _-     "
+        ascig="${res} \\____-       "
+        ascih="              "
         ascij="              "
+        ;;
+    android*)
+        ascia="                     "
+        ascib="${c4}   ;,           ,;   "
+        ascic="${c4}    ';,.-----.,;'    "
+        ascid="${c4}   ,'           ',   "
+        ascie="${c4}  /    O     O    \  "
+        ascif="${c4} |                 | "
+        ascig="${c4} '-----------------' "
+        ascih="                     "
+        ascij="                     "
         ;;
 esac
 
-echo -e "$ascia" "$res" "${color}$user${res}@${color}$host${res}"
-echo -e "$ascib" "$res" "${color}os:${res}    " "$distro"
-echo -e "$ascic" "$res" "${color}pkg:${res}   " "$(pkgm)"
-echo -e "$ascid" "$res" "${color}ram:${res}   " "$ram"
-echo -e "$ascie" "$res" "${color}cpu:${res}   " "$cpu"
-echo -e "$ascif" "$res" "${color}sh:${res}    " "$shell"
-echo -e "$ascig" "$res" "${color}de/wm:${res} " "$(environmentingoment)"
-echo -e "$ascih" "$res" "${color}ver:${res}   " "${version}" 
-echo -e "$ascij" "" ""
+printf "%s$ascia $res ${color}$userg${res}@${color}$host${res} \n"
+printf "%s$ascib $res ${color}os:${res}     $(distrog)\n"
+printf "%s$ascic $res ${color}pkg:${res}    $(pkgm)\n"
+printf "%s$ascid $res ${color}ram:${res}    $(ramd)\n"
+printf "%s$ascie $res ${color}cpu:${res}    $(cpug)\n"
+printf "%s$ascif $res ${color}sh:${res}     $shell\n"
+printf "%s$ascig $res ${color}de/wm:${res}  $(env)\n"
+printf "%s$ascih $res ${color}ver:${res}    ${version}\n"
+printf "%s$ascij\n"
