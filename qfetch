@@ -317,8 +317,8 @@ case "$ascii" in
         ;;
     freebsd*)
         ascia="                "
-        ascib="${c1} /\,-'''''-,/\  "
-        ascic="${c1} \_)       (_/  "
+        ascib="${c1} /\\,-'''''-,/\  "
+        ascic="${c1} \\_)       (_/  "
         ascid="${c1} |           |  "
         ascie="${c1} |           |  "
         ascif="${c1}  ;         ;   "
