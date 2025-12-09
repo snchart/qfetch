@@ -45,6 +45,7 @@ case "$(distrog)" in
         "Gentoo"*) ascii="gentoo"; color="$c7" ;;
         "Android"*) ascii="android"; color="$c4" ;;
         "CachyOS"*) ascii="cachy"; color="$c8" ;;
+        "Pop!_OS"*) ascii="pop"; color="$c8" ;;
         *) ascii="crux" ;;
 esac
 
@@ -312,9 +313,9 @@ case "$ascii" in
         ascij="                "
         ;;
     devuan*)
-        ascia="${c3}  ..:::.       "
-        ascib="${c3}     ..-==-    "
-        ascic="${c3}         .+#:  "
+        ascia="${c3}  ..::.        "
+        ascib="${c3}     ''===-    "
+        ascic="${c3}         '+#:  "
         ascid="${c3}          =@@  "
         ascie="${c3}       :+%@#:  "
         ascif="${c3} .:=+#@@%*:    "
@@ -354,6 +355,28 @@ case "$ascii" in
         ascig="${c4} '-----------------' "
         ascih="                     "
         ascij="                     "
+        ;;
+    cachy*)
+        ascia="${c8}    .::::::::::::'    "
+        ascib="${c8}   .::::::::::::'     "
+        ascic="${c8}  .::::::'            "
+        ascid="${c8} .::::::'             "
+        ascie="${c8} '::::::.             "
+        ascif="${c8}  '::::::.            "
+        ascig="${c8}   '::::::::::::::::' "
+        ascih="${c8}    '::::::::::::::'  "
+        ascij="                     "
+        ;;
+    pop*)
+        ascia="${c8}  ______             "
+        ascib="${c8}  \   _ \        __  "
+        ascic="${c8}   \ \ \ \      / /  "
+        ascid="${c8}    \ \\_\ \    / /   "
+        ascie="${c8}     \  ___\  /_/    "
+        ascif="${c8}      \ \    _       " 
+        ascig="${c8}     __\ \\__(_)_     "
+        ascih="${c8}    (___________)    "
+        ascij="                   "
         ;;
 esac
 

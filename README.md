@@ -8,7 +8,7 @@ qfetch it's a clone of [envfetch](https://github.com/locomiadev/envfetch)(or jus
 4. termux pkg support
 5. FreeBSD RAM support
 ## disadvantages
-1. less distros/OS support
+1. less OS support(no Haiku and other UNIX)
 2. no config file
 3. android cpu may not work
 4. some logos maybe broken
@@ -33,6 +33,8 @@ __Linux distros__:
 + Devuan GNU/Linux
 + Gentoo
 + Android(Termux)
++ Pop! OS
++ CachyOS
 
 __BSD distros__:
 + FreeBSD
@@ -53,11 +55,11 @@ change shebang in qfetch file from '#!/bin/sh' to '#!/system/bin/sh'
 
 `chmod 755 qfetch`
 
-`su -c 'cp qfetch /u-sr/local/bin`
+`su -c 'cp qfetch /usr/local/bin`
 
 ## Work In Progress:
-+ CachyOS
-+ Other BSD systems
++ Other UNIX support
++ Other Linux support
 + Darwin support
 
 ## Credit
