@@ -144,10 +144,10 @@ ramd(){
         echo "${usedm}MiB / ${physm}MiB"
     elif [ "$(uname -s)" = "OpenBSD" ]; then
         pagesi="$(sysctl -n hw.pagesize)"
-        wiredm="$(($(vmstat -s | grep "pages wired" | awk '{print $1}') * pagesi / 1024 / 1024))"
-        activm=$(($(vmstat -s | grep "pages active" | awk '{print $1}') * pagesi / 1024 / 1024))
-        inactm=$(($(vmstat -s | grep "pages inactive" | awk '{print $1}') * pagesi / 1024 / 1024))
-        usedm=$((wiredm + activm + inactm))
+        wiredm="$(vmstat -s | grep "pages wired" | awk '{print $1}')"
+        activm=$(vmstat -s | grep "pages active" | awk '{print $1}')
+        inactm=$(vmstat -s | grep "pages inactive" | awk '{print $1}')
+        usedm=$(((wiredm + activm) * pagesi / 1024 / 1024))
         physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         echo "${usedm}MiB / ${physm}MiB"
     else
