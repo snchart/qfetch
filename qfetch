@@ -129,6 +129,7 @@ env() {
     elif pgrep -x herbstluftwm >/dev/null 2>&1; then echo "herbstluftwm"
     elif pgrep -x xmonad >/dev/null 2>&1; then echo "xmonad"
     elif command -v getprop >/dev/null 2>&1; then echo "surfaceflinger"
+    elif tty -s; then echo "tty"
     else echo "Unknown"
     fi
 }

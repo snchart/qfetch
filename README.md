@@ -7,6 +7,7 @@ qfetch it's a clone of [envfetch](https://github.com/locomiadev/envfetch)(or jus
 3. qfetch has better color support(colorful logos)
 4. termux pkg support
 5. FreeBSD RAM support
+6. tty support
 ## disadvantages
 1. less OS support(no Haiku and other UNIX)
 2. no config file
