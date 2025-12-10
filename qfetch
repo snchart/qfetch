@@ -41,13 +41,13 @@ case "$(distrog)" in
         "Locoware GNU/Linux"*) ascii="locoware"; color="$c3" ;;
         "Artix"*) ascii="artix"; color="$c5" ;;
         "Slackware"*) ascii="slackware"; color="$c6" ;;
-        "Devuan GNU/Linux"*) ascii="devuan"; color="$3" ;;
+        "Devuan GNU/Linux"*) ascii="devuan"; color="$c3" ;;
         "FreeBSD"*) ascii="freebsd"; color="$c1" ;;
         "Gentoo"*) ascii="gentoo"; color="$c7" ;;
         "Android"*) ascii="android"; color="$c4" ;;
         "CachyOS"*) ascii="cachy"; color="$c8" ;;
         "Pop!_OS"*) ascii="pop"; color="$c8" ;;
-        "OpenBSD"*) ascii="openbsd"; color="$3" ;;
+        "OpenBSD"*) ascii="openbsd"; color="$c3" ;;
         *) ascii="crux" ;;
 esac
 
@@ -97,7 +97,7 @@ pkgm(){
     elif command -v scratch >/dev/null 2>&1; then
         echo "scratchpkg [$(scratch list-installed | wc -l)]"
     elif command -v pkg_add >/dev/null 2>&1; then
-        echo "pkg_add [$(pkg_info | wc -l)]"
+        echo "pkg_add [$(pkg_info | wc -l | awk '{print $1}')]"
     else
         echo "unknown"
     fi
@@ -143,6 +143,7 @@ ramd(){
         physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         echo "${usedm}MiB / ${physm}MiB"
     elif [ "$(uname -s)" = "OpenBSD" ]; then
+        # i dont know how to make it work T_T
         pagesi="$(sysctl -n hw.pagesize)"
         wiredm="$(vmstat -s | grep "pages wired" | awk '{print $1}')"
         activm=$(vmstat -s | grep "pages active" | awk '{print $1}')

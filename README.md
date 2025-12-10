@@ -12,6 +12,7 @@ qfetch it's a clone of [envfetch](https://github.com/locomiadev/envfetch)(or jus
 2. no config file
 3. android cpu may not work
 4. some logos maybe broken
+5. OpenBSD ram and disk is broken
 
 ## qfetch supports:
 __Linux distros__:
@@ -38,6 +39,7 @@ __Linux distros__:
 
 __BSD distros__:
 + FreeBSD
++ OpenBSD
 
 ## how to install it, you need execute:
 
