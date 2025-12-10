@@ -48,7 +48,8 @@ case "$(distrog)" in
         "CachyOS"*) ascii="cachy"; color="$c8" ;;
         "Pop!_OS"*) ascii="pop"; color="$c8" ;;
         "OpenBSD"*) ascii="openbsd"; color="$c3" ;;
-        *) ascii="crux" ;;
+        "CentOS"*) ascii="centos"; color="$c4" ;;
+        *) ascii="crux" ;;  
 esac
 
 # thanks to locomia
@@ -419,6 +420,17 @@ case "$ascii" in
         ascig="${c3}      /-_____-\\\    "
         ascih="${c3}                   "
         ascij="                  "
+        ;;
+    centos*)
+        ascia="               "
+        ascib="   ${c4}____${c3}^${c7}____   "
+        ascic="   ${c4}|\  ${c3}|${c7}  /|   "
+        ascid="   ${c4}| \ ${c3}|${c7} / |   "
+        ascie="  ${c7}<---- ${c5}---->  "
+        ascif="   ${c5}| / ${c4}|${c3} \ |   "
+        ascig="   ${c5}|/__${c4}|${c3}__\|   "
+        ascih="       ${c4}v       "
+        ascij="               "
         ;;
 esac
 
