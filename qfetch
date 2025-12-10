@@ -409,12 +409,12 @@ case "$ascii" in
         ;;
     openbsd*)
         ascia="${c3}        _____      "
-        ascib="${c3}      \-     -/    "
-        ascic="${c3}   \_/         \   "
+        ascib="${c3}      \\-     -/    "
+        ascic="${c3}   \\_/         \\   "
         ascid="${c3}   |        ${res}O O${c3} |  "
         ascie="${c3}   |_  <   )  3 )  "
-        ascif="${c3}   / \         /   "
-        ascig="${c3}      /-_____-\    "
+        ascif="${c3}   / \\         /   "
+        ascig="${c3}      /-_____-\\    "
         ascih="${c3}                   "
         ascij="                  "
         ;;
