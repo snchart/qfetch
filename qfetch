@@ -56,6 +56,23 @@ esac
 for arg in "$@"; do
     case "$arg" in
         --ascii=*) ascii=$(echo "$arg" | cut -d= -f2) ;;
+        --nocol=*)
+            if [ "$(echo $arg | cut -d= -f2)" = "true" ]; then
+                reset=""
+                c1=""
+                c2=""
+                c3=""
+                c4=""
+                c5=""
+                c6=""
+                c7=""
+                c8=""
+                c9=""
+                color=""
+            else
+                echo
+            fi
+            ;;
     esac
 done
 
@@ -229,13 +246,13 @@ case "$ascii" in
         ;;
     nixos*)
         ascia="                "
-        ascib="${c5}   \\\\\  \\\\\ //    "
-        ascic=" ${c5} ==\\\\\__\\\\\/ //  "
-        ascid="${c5}    //   \\\\\//   "
-        ascie="${c5} ==//     //==  "
-        ascif="${c5}  //\\\\\___//     "
-        ascig="${c5} // /\\\\\  \\\\\==   "
-        ascih="${c5}   // \\\\\  \\\\\    " 
+        ascib="${c5}    \\\\\  \\\\\ //    "
+        ascic=" ${c5}  ==\\\\\__\\\\\/ //  "
+        ascid="${c5}     //   \\\\\//   "
+        ascie="${c5}  ==//     //==  "
+        ascif="${c5}   //\\\\\___//     "
+        ascig="${c5}  // /\\\\\  \\\\\==   "
+        ascih="${c5}    // \\\\\  \\\\\    " 
         ascij="                "
         ;;
     void*)
