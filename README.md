@@ -8,6 +8,7 @@ qfetch it's a clone of [envfetch](https://github.com/locomiadev/envfetch)(or jus
 4. termux pkg support
 5. FreeBSD RAM support
 6. tty support
+7. NetBSD support
 ## disadvantages
 1. less OS support(no Haiku and other UNIX)
 2. no config file
@@ -41,6 +42,7 @@ __Linux distros__:
 __BSD distros__:
 + FreeBSD
 + OpenBSD
++ NetBSD
 
 ## how to install it, you need execute:
 
