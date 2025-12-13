@@ -18,6 +18,8 @@ distrog(){
         echo "FreeBSD"
     elif [ "$(uname -s)" = "OpenBSD" ]; then
         echo "OpenBSD"
+    elif [ "$(uname -s)" = "NetBSD" ]; then
+        echo "NetBSD"
     elif command -v getprop >/dev/null 2>&1; then
         echo "Android $(getprop ro.build.version.release)"
     else
@@ -48,6 +50,7 @@ case "$(distrog)" in
         "CachyOS"*) ascii="cachy"; color="$c8" ;;
         "Pop!_OS"*) ascii="pop"; color="$c8" ;;
         "OpenBSD"*) ascii="openbsd"; color="$c3" ;;
+        "NetBSD"*) ascii="netbsd"; color="$c1" ;;
         "CentOS"*) ascii="centos"; color="$c4" ;;
         *) ascii="crux" ;;  
 esac
@@ -161,7 +164,7 @@ ramd(){
         usedm=$((wiredm + activm + inactm))
         physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         echo "${usedm}MiB / ${physm}MiB"
-    elif [ "$(uname -s)" = "OpenBSD" ]; then
+    elif [ "$(uname -s)" = "OpenBSD" ] || [ "$(uname -s)" = "NetBSD" ]; then
         # i dont know how to make it work T_T
         pagesi="$(sysctl -n hw.pagesize)"
         wiredm="$(vmstat -s | grep "pages wired" | awk '{print $1}')"
@@ -183,7 +186,7 @@ ramd(){
 cpug(){
     if [ "$(uname -s)" = "FreeBSD" ]; then 
         sysctl -n hw.model 2>/dev/null
-    elif [ "$(uname -s)" = "OpenBSD" ]; then 
+    elif [ "$(uname -s)" = "OpenBSD" ] || [ "$(uname -s)" = "NetBSD" ]; then 
         sysctl -n hw.model 2>/dev/null
     elif command -v getprop >/dev/null 2>&1; then
         cat /proc/cpuinfo | grep -i 'hardware' | awk -F': ' '{print $2}'
@@ -453,6 +456,17 @@ case "$ascii" in
         ascig="   ${c5}|/__${c4}|${c3}__\|   "
         ascih="       ${c4}v       "
         ascij="               "
+        ;;
+    netbsd*)
+        ascia="  \\\\\\\\${c1}\`-______,----__    "
+        ascib="   \\\\\ ${c1}       __,---\`_  "
+        ascic="    \\\\\ ${c1}      \`.____    "
+        ascid="     \\\\\\\\${c1}-______,----\`-  "
+        ascie="      \\\\\               "
+        ascif="       \\\\\              "
+        ascig="        \\\\\             "
+        ascih="         \\\\\            "
+        ascij="                     "
         ;;
 esac
 
