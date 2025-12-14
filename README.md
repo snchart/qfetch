@@ -10,7 +10,7 @@ qfetch it's a clone of [envfetch](https://github.com/locomiadev/envfetch)(or jus
 6. tty support
 7. NetBSD support
 ## disadvantages
-1. less OS support(no Haiku and other UNIX)
+1. less OS support(no illumos)
 2. no config file
 3. android cpu may not work
 4. some logos maybe broken
@@ -43,6 +43,9 @@ __BSD distros__:
 + FreeBSD
 + OpenBSD
 + NetBSD
+
+__Other UNIX__
++ HaikuOS
 
 ## how to install it, you need execute:
 
