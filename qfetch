@@ -159,7 +159,7 @@ env() {
     elif pgrep -x bspwm >/dev/null 2>&1; then echo "bspwm"
     elif pgrep -x herbstluftwm >/dev/null 2>&1; then echo "herbstluftwm"
     elif pgrep -x xmonad >/dev/null 2>&1; then echo "xmonad"
-    elif [ pgrep -x niri >/dev/null 2>&1 ] || [ pgrep -x niri-session 2>&1]; then echo "niri"
+    elif [ pgrep -x niri >/dev/null 2>&1 ] || [ pgrep -x niri-session >/dev/null 2>&1 ]; then echo "niri"
     elif command -v getprop >/dev/null 2>&1; then echo "surfaceflinger"
     elif [ "$(uname -s)" = "Haiku" ]; then echo "Tracker"
     elif tty -s; then echo "tty"
@@ -217,8 +217,8 @@ disk(){
     if command -v getprop >/dev/null 2>&1; then
         df -h /data | awk 'NR==2 {print $3 " / " $2}'
     elif [ "$(uname -s)" = "Haiku" ]; then
-        disktotal="$(df /boot | grep "Total Blocks" | awk '{print $3}')"
-        diskused="$(((disktotal - $(df /boot | grep "Free Blocks" | awk '{print $3}'))))"
+        disktotal="$(df /boot | grep "Total Blocks" | awk '{print int($3)}')"
+        diskused="$(((disktotal - $(df /boot | grep "Free Blocks" | awk '{print int($3)}'))))"
         echo "${diskused}GiB / ${disktotal}GiB"
     else
         df -h / | awk 'NR==2 {print $3 " / " $2}' 
