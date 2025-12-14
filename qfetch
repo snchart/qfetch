@@ -207,7 +207,7 @@ cpug(){
     elif command -v getprop >/dev/null 2>&1; then
         cat /proc/cpuinfo | grep -i 'hardware' | awk -F': ' '{print $2}'
     elif [ "$(uname -s)" = "Haiku" ]; then
-        echo "wip"
+        sysinfo -cpu | awk -F '\"' '/CPU #0/ {print $2}'
     else
         grep -m 1 'model name' /proc/cpuinfo | cut -d ':' -f2 | sed 's/^ //'
     fi
