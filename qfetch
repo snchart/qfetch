@@ -186,8 +186,8 @@ ramd(){
         physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         echo "${usedm}MiB / ${physm}MiB"
     elif [ "$(uname -s)" = "Haiku" ]; then
-        totalmem="$(($(vmstat | grep "max memory" | awk '{print $3 / 1024 / 1024}')))"
-        usedmem="$(((totalmem - $(vmstat | grep "free memory" | awk '{print $3 / 1024 / 1024}'))))"
+        totalmem="$(($(vmstat | grep "max memory" | awk '{print int($3 / 1024 / 1024)}')))"
+        usedmem="$(((totalmem - $(vmstat | grep "free memory" | awk '{print int($3 / 1024 / 1024)}'))))"
         echo "${usedmem}MiB / ${totalmem}MiB"
     else
         # i made it cuz environmentingonment bot doesn't have free command
