@@ -9,8 +9,8 @@ c6="\033[1;34m" # blue
 c7="\033[1;35m" # purple
 c8="\033[1;36m" # aqua
 c9="\033[1;37m" # gray or white
-userg=$(id -un) # username
-host=$(uname -n) # hostname
+userg=$(id -un) 
+host=$(uname -n)  
 shell=$(basename $SHELL)
 
 distrog(){
@@ -22,6 +22,8 @@ distrog(){
         echo "NetBSD"
     elif command -v getprop >/dev/null 2>&1; then
         echo "Android $(getprop ro.build.version.release)"
+    elif [ "$(uname -s)" = "Haiku" ]; then
+        echo "HaikuOS"
     else
         cat /etc/os-release | grep PRETTY_NAME | awk -F '=' '{print $2}' | tr -d '"'
     fi
@@ -52,6 +54,7 @@ case "$(distrog)" in
         "OpenBSD"*) ascii="openbsd"; color="$c3" ;;
         "NetBSD"*) ascii="netbsd"; color="$c1" ;;
         "CentOS"*) ascii="centos"; color="$c4" ;;
+        "Haiku"*) ascii="haiku"; color="$c4" ;;
         *) ascii="crux" ;;  
 esac
 
@@ -118,7 +121,13 @@ pkgm(){
     elif command -v scratch >/dev/null 2>&1; then
         echo "scratchpkg [$(scratch list-installed | wc -l)]"
     elif command -v pkg_add >/dev/null 2>&1; then
-        echo "pkg_add [$(pkg_info | wc -l | awk '{print $1}')]"
+        if [ "$(uname -s)" = "OpenBSD" ]; then
+            echo "pkg_add [$(pkg_info | wc -l | awk '{print $1}')]"
+        elif [ "$(uname -s)" = "NetBSD" ]; then
+            echo "pkgin/pkg_add [$(pkg_info | wc -l | awk '{print $1}')]"
+        fi
+    elif command -v pkgman >/dev/null 2>&1; then
+        echo "pkgman [$(find /boot/system/packages /boot/home/config/packages -name "*.hpkg" | wc -l)]"
     else
         echo "unknown"
     fi
@@ -144,12 +153,15 @@ env() {
         fi
     elif pgrep -x hyprland >/dev/null 2>&1; then echo "hyprland"
     elif pgrep -x dwm >/dev/null 2>&1; then echo "dwm"
+    elif pgrep -x dwl >/dev/null 2>&1; then echo "dwl"
     elif pgrep -x twm >/dev/null 2>&1; then echo "twm"
     elif pgrep -x i3 >/dev/null 2>&1; then echo "i3"
     elif pgrep -x bspwm >/dev/null 2>&1; then echo "bspwm"
     elif pgrep -x herbstluftwm >/dev/null 2>&1; then echo "herbstluftwm"
     elif pgrep -x xmonad >/dev/null 2>&1; then echo "xmonad"
+    elif [ pgrep -x niri >/dev/null 2>&1 ] || [ pgrep -x niri-session 2>&1]; then echo "niri"
     elif command -v getprop >/dev/null 2>&1; then echo "surfaceflinger"
+    elif [ "$(uname -s)" = "Haiku" ]; then echo "Tracker"
     elif tty -s; then echo "tty"
     else echo "Unknown"
     fi
@@ -173,6 +185,10 @@ ramd(){
         usedm=$(((wiredm + activm) * pagesi / 1024 / 1024))
         physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         echo "${usedm}MiB / ${physm}MiB"
+    elif [ "$(uname -s)" = "Haiku" ]; then
+        totalmem="$(($(vmstat | grep "max memory" | awk '{print $3}')))"
+        usedmem="$(((totalmem - $(vmstat | grep "free memory" | awk '{print $3}')) / 1024 / 1024))"
+        echo "${usedmem}MiB / ${totalmem}MiB"
     else
         # i made it cuz environmentingonment bot doesn't have free command
         memtot="$(($(cat /proc/meminfo | awk 'NR==1 {print $2}') / 1024))"
@@ -190,6 +206,8 @@ cpug(){
         sysctl -n hw.model 2>/dev/null
     elif command -v getprop >/dev/null 2>&1; then
         cat /proc/cpuinfo | grep -i 'hardware' | awk -F': ' '{print $2}'
+    elif [ "$(uname -s)" = "Haiku" ]; then
+        echo "wip"
     else
         grep -m 1 'model name' /proc/cpuinfo | cut -d ':' -f2 | sed 's/^ //'
     fi
@@ -198,13 +216,17 @@ cpug(){
 disk(){
     if command -v getprop >/dev/null 2>&1; then
         df -h /data | awk 'NR==2 {print $3 " / " $2}'
+    elif [ "$(uname -s)" = "Haiku" ]; then
+        disktotal="$(df /boot | grep "Total Blocks" | awk '{print $3}')"
+        diskused="$(((disktotal - $(df /boot | grep "Free Blocks" | awk '{print $3}'))))"
+        echo "${diskused}GiB / ${disktotal}GiB"
     else
         df -h / | awk 'NR==2 {print $3 " / " $2}' 
     fi
 }
 
 case "$ascii" in
-    endeavouros*)
+    endeavouros)
         ascia="${res}                       "
         ascib="${c1}           /${c7}o${c6}.         "
         ascic="${c1}         /${c7}sssso${c6}-       "
@@ -215,29 +237,29 @@ case "$ascii" in
         ascih="${c6}  \`+++++++++++++++-\`   "
         ascij="                       "
         ;;
-    mint*)
-        ascia="                 "
-        ascib="${c4}  ___________    "
-        ascic="${c4} |_          \\\   "
-        ascid="${c4}   | |${res} _____${c4} |   "
-        ascie="${c4}   |${res} | | | | ${c4}|   "
-        ascif="${c4}   |${res} | | | | ${c4}|   "
-        ascig=" ${c4}  |${res} \\\_____/ ${res}${c4}|   "
-        ascih="${c4}   \\\_________/   "
-        ascij="                 "
+    mint|linuxmint)
+        ascia="${c4}  ___________   "
+        ascib="${c4} |_          \\\  "
+        ascic="${c4}   | ${res}| _____${c4} |  "
+        ascid="${c4}   |${res} | | | | ${c4}|  "
+        ascie="${c4}   |${res} | | | | ${c4}|  "
+        ascif=" ${c4}  |${res} \\\_____/ ${res}${c4}|  "
+        ascig="${c4}   \\\_________/  "
+        ascih="                "
+        ascij="                "
         ;;
-    slackware*)
-        ascia="               "
-        ascib="${c6}    ________   "
-        ascic="${c6}   /  ______|  "
-        ascid="${c6}   | |______   "
-        ascie="${c6}   \\\______  \\\  "
-        ascif="${c6}    ______| |  "
-        ascig="${c6} | |________/  "
-        ascih="${c6} |____________ "
+    slackware|шлака)
+        ascia="${c6}    ________   "
+        ascib="${c6}   /  ______|  "
+        ascic="${c6}   | |______   "
+        ascid="${c6}   \\\______  \\\  "
+        ascie="${c6}    ______| |  "
+        ascif="${c6} | |________/  "
+        ascig="${c6} |____________ "
+        ascih="               "
         ascij="               "
         ;;
-    arch*)
+    arch)
         ascia="                 " 
         ascib="${c5}       /\\\        "
         ascic="${c5}      /  \\\       "
@@ -248,8 +270,8 @@ case "$ascii" in
         ascih="${c5} /_-''    ''-_\\\  "
         ascij="                 "
         ;;
-    nixos*)
-        ascia="                "
+    nixos|nix)
+        ascia="                 "
         ascib="${c5}    \\\\\\\  \\\\\\\ //    "
         ascic=" ${c5}  ==\\\\\\\__\\\\\\\/ //  "
         ascid="${c5}     //   \\\\\\\//   "
@@ -259,7 +281,7 @@ case "$ascii" in
         ascih="${c5}    // \\\\\\\  \\\\\\\    " 
         ascij="                "
         ;;
-    void*)
+    void|voidlinux)
         ascia="${c4}    ________    "
         ascib="${c4}  _ \\\______ \\\   "
         ascic="${c4} | \\\  ___  \\\ |  "
@@ -270,7 +292,7 @@ case "$ascii" in
         ascih="                "
         ascij="                "
         ;;
-    ubuntu*)
+    ubuntu)
         ascia="              "
         ascib="${c2}          _   "
         ascic="${c2}      ---(_)  "  
@@ -281,18 +303,18 @@ case "$ascii" in
         ascih="              "
         ascij="              "
         ;;
-    debian*)
-        ascia="           "
-        ascib="${c1}   _____   "
-        ascic="${c1}  /  __ \\\  "
-        ascid="${c1} |  /    | "
-        ascie="${c1} |  \\\___-  " 
-        ascif="${c1} -_        "
-        ascig="${c1}   --_     "
-        ascih="           "
-        ascij="           "
+    debian)
+        ascia="            "
+        ascib="${c1}    _____   "
+        ascic="${c1}   /  __ \\\  "
+        ascid="${c1}  |  /    | "
+        ascie="${c1}  |  \\\___-  " 
+        ascif="${c1}  '.        "
+        ascig="${c1}    '-_     "
+        ascih="            "
+        ascij="            "
         ;;
-    alpine*)
+    alpine|debianlinux)
         ascia="${c5}     /\\\ /\\\      "
         ascib="${c5}    // \\\  \\\     "
         ascic="${c5}   //   \\\  \\\    "
@@ -303,7 +325,7 @@ case "$ascii" in
         ascih="                "
         ascij="                "
         ;;
-    fedora*)
+    fedora)
         ascia="${c5}         ,'''''.  "
         ascib="${c5}        |   ,. |  "
         ascic="${c5}        |  |  ''  "
@@ -314,7 +336,7 @@ case "$ascii" in
         ascih="${c5} '.       ,'      "
         ascij="${c5}   '''''''        "
         ;;
-    pmos*)
+    pmos|postmarketos)
         ascia="              "
         ascib="${c4}      /\\\      "
         ascic="${c4}     /  \\\     "
@@ -325,18 +347,18 @@ case "$ascii" in
         ascih="              "
         ascij="              "
         ;;
-    crux*)
-        ascia="             "
-        ascib="${c5}     ___     "
-        ascic="${c5}    (.· |    "
-        ascid="${c5}    (<> |    "
-        ascie="${c5}   / __  \\\   "
-        ascif="${c5}  ( /  \\\ /|  "
-        ascig="${c5} _/\\\ __)/_)  "
-        ascih="${c5} \\\/-____\\\/   "
-        ascij="            "
+    crux|CRUX)
+        ascia="${c6}     ___     "
+        ascib="${c6}    (.. |    "
+        ascic="${c6}    (<> |    "
+        ascid="${c6}   / __  \\\   "
+        ascie="${c6}  ( /  \\\ /|  "
+        ascif="${c6} _/\\\ __)/_)  "
+        ascig="${c6} \\\/-____\\\/   "
+        ascih="             "
+        ascij="             "
         ;;
-    opensuse*)
+    opensuse)
         ascia="${c4}   .oooo.           "
         ascib="${c4}  o   o  o          "
         ascic="${c4}  ooooo  oo         "
@@ -347,18 +369,18 @@ case "$ascii" in
         ascih="${c4}          o  o   o  "
         ascij="${c4}           'oooo'   "
         ;;
-    locoware*)
+    locoware)
         ascia="              "
-        ascib="${c3}       dMP    "
-        ascic="${c3}      dMP     "
-        ascid="${c3}     dMP      "
-        ascie="${c3}    dMP       "
-        ascif="${c3}   dMMMMMMP   "
-        ascig="              "
+        ascib="              "
+        ascic="${c3}       dMP    "
+        ascid="${c3}      dMP     "
+        ascie="${c3}     dMP      "
+        ascif="${c3}    dMP       "
+        ascig="${c3}   dMMMMMMP   "
         ascih="              "
         ascij="              "
         ;;
-    artix*)
+    artix)
         ascia="                "
         ascib="${c5}       /\\\       "
         ascic="${c5}      /  \\\      "
@@ -369,7 +391,7 @@ case "$ascii" in
         ascih="${c5} /.,'\`     \`'.\\\ "
         ascij="                "
         ;;
-    devuan*)
+    devuan)
         ascia="               "
         ascib="${c3}  ..::.        "
         ascic="${c3}     ''===-    "
@@ -380,7 +402,7 @@ case "$ascii" in
         ascih="${c3} '####='       "
         ascij="               "
         ;;
-    freebsd*)
+    freebsd)
         ascia="                "
         ascib="${c1} /\\\,-'''''-,/\\\  "
         ascic="${c1} \\\_)       (_/  "
@@ -391,7 +413,7 @@ case "$ascii" in
         ascih="                "
         ascij="                "
         ;;
-    gentoo*)
+    gentoo)
         ascia="${c7}   _-----_     "
         ascib="${c7}  (       \\\    "
         ascic="${c7}  \\\    0   \\\   "
@@ -402,7 +424,7 @@ case "$ascii" in
         ascih="               "
         ascij="               "
         ;;
-    android*)
+    android)
         ascia="                     "
         ascib="${c4}   ;,           ,;   "
         ascic="${c4}    ';,.-----.,;'    "
@@ -413,7 +435,7 @@ case "$ascii" in
         ascih="                     "
         ascij="                     "
         ;;
-    cachy*)
+    cachy|cachyos)
         ascia="${c8}    .::::::::::::'    "
         ascib="${c8}   .::::::::::::'     "
         ascic="${c8}  .::::::'            "
@@ -424,7 +446,7 @@ case "$ascii" in
         ascih="${c8}    '::::::::::::::'  "
         ascij="                     "
         ;;
-    pop*)
+    pop|popos)
         ascia="${c8}  ______             "
         ascib="${c8}  \\\   _ \\\        __  "
         ascic="${c8}   \\\ \ \\\ \\\      / /  "
@@ -435,7 +457,7 @@ case "$ascii" in
         ascih="${c8}    (___________)    "
         ascij="                   "
         ;;
-    openbsd*)
+    openbsd)
         ascia="${c3}        _____      "
         ascib="${c3}      \\\-     -/    "
         ascic="${c3}   \\\_/         \\\   "
@@ -446,7 +468,7 @@ case "$ascii" in
         ascih="${c3}                   "
         ascij="                  "
         ;;
-    centos*)
+    centos)
         ascia="               "
         ascib="   ${c4}____${c3}^${c7}____   "
         ascic="   ${c4}|\\\  ${c3}|${c7}  /|   "
@@ -457,7 +479,7 @@ case "$ascii" in
         ascih="       ${c4}v       "
         ascij="               "
         ;;
-    netbsd*)
+    netbsd)
         ascia="  \\\\\\\\${c1}\`-______,----__    "
         ascib="   \\\\\\\ ${c1}       __,---\`_  "
         ascic="    \\\\\\\ ${c1}      \`.____    "
@@ -468,6 +490,28 @@ case "$ascii" in
         ascih="         \\\\\\\            "
         ascij="                     "
         ;;
+    haiku|haikuos)
+        ascia="${c4}         ,^,         "
+        ascib="${c4}        /   \\\        "
+        ascic="${c4}  *--_ ;     ; _--*  "
+        ascid="${c4}  \\\   '\"     \"'   /  "
+        ascie="${c4}   '.           .'   "
+        ascif="${c4}  .-'\"         \"'-.  "
+        ascig="${c4}   '-.__.   .__.-'   "
+        ascih="${c4}         |_|         "
+        ascij="                     "
+        ;;
+    *)
+        ascia="     ___     "
+        ascib="    (.. |    "
+        ascic="    (<> |    "
+        ascid="   / __  \\\   "
+        ascie="  ( /  \\\ /|  "
+        ascif=" _/\\\ __)/_)  "
+        ascig=" \\\/-____\\\/   "
+        ascih="             "
+        ascij="             "
+        ;;
 esac
 
 printf "\n"
@@ -477,6 +521,6 @@ printf "%s$ascic $res ${color}pkg:${res}    $(pkgm)\n"
 printf "%s$ascid $res ${color}ram:${res}    $(ramd)\n"
 printf "%s$ascie $res ${color}cpu:${res}    $(cpug)\n"
 printf "%s$ascif $res ${color}sh:${res}     $shell\n"
-printf "%s$ascig $res ${color}de/wm:${res}  $(env)\n"
+printf "%s$ascig $res ${color}env:${res}    $(env)\n"
 printf "%s$ascih $res ${color}disk:${res}   $(disk)\n"
 printf "%s$ascij\n"
