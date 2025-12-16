@@ -43,6 +43,7 @@ __BSD distros__:
 + FreeBSD
 + OpenBSD
 + NetBSD
++ Hellosystem
 
 __Other UNIX__
 + HaikuOS

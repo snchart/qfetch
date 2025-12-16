@@ -165,7 +165,8 @@ env() {
     elif pgrep -x xmonad >/dev/null 2>&1; then echo "xmonad"
     elif [ pgrep -x niri >/dev/null 2>&1 ] || [ pgrep -x niri-session >/dev/null 2>&1 ]; then echo "niri"
     elif command -v getprop >/dev/null 2>&1; then echo "surfaceflinger"
-    elif [ "$(uname -s)" = "Haiku" ]; then echo "Tracker"
+    elif [ "$(uname -s)" = "Haiku" ]; then echo "tracker"
+    elif pgrep -x kwin_x11 >/dev/null 2>&1; then echo "kwin"
     elif tty -s; then echo "tty"
     else echo "Unknown"
     fi
