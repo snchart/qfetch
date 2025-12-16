@@ -15,7 +15,11 @@ shell=$(basename $SHELL)
 
 distrog(){
     if [ "$(uname -s)" = "FreeBSD" ]; then
-        echo "FreeBSD"
+        if [ -d /System ]; then
+            echo "Hellosystem"
+        else
+            echo "FreeBSD"
+        fi
     elif [ "$(uname -s)" = "OpenBSD" ]; then
         echo "OpenBSD"
     elif [ "$(uname -s)" = "NetBSD" ]; then
@@ -46,7 +50,7 @@ case "$(distrog)" in
         "Artix"*) ascii="artix"; color="$c5" ;;
         "Slackware"*) ascii="slackware"; color="$c6" ;;
         "Devuan GNU/Linux"*) ascii="devuan"; color="$c3" ;;
-        "FreeBSD"*) ascii="freebsd"; color="$c1" ;;
+        FreeBSD|Hellosystem*) ascii="freebsd"; color="$c1" ;;
         "Gentoo"*) ascii="gentoo"; color="$c7" ;;
         "Android"*) ascii="android"; color="$c4" ;;
         "CachyOS"*) ascii="cachy"; color="$c8" ;;
@@ -402,16 +406,16 @@ case "$ascii" in
         ascih="${c3} '####='       "
         ascij="               "
         ;;
-    freebsd)
-        ascia="                "
-        ascib="${c1} /\\\,-'''''-,/\\\  "
-        ascic="${c1} \\\_)       (_/  "
-        ascid="${c1} |           |  "
-        ascie="${c1} |           |  "
-        ascif="${c1}  ;         ;   "
-        ascig="${c1}   '-_____-'    "
-        ascih="                "
-        ascij="                "
+    freebsd|hellosystem)
+        ascia="                 "
+        ascib="${c1}  /\\\,-'''''-,/\\\  "
+        ascic="${c1}  \\\_)       (_/  "
+        ascid="${c1}  |           |  "
+        ascie="${c1}  |           |  "
+        ascif="${c1}   ;         ;   "
+        ascig="${c1}    '-_____-'    "
+        ascih="                 "
+        ascij="                 "
         ;;
     gentoo)
         ascia="${c7}   _-----_     "
