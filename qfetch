@@ -59,7 +59,7 @@ case "$(distrog)" in
         "NetBSD"*) ascii="netbsd"; color="$c1" ;;
         "CentOS"*) ascii="centos"; color="$c4" ;;
         "Haiku"*) ascii="haiku"; color="$c4" ;;
-        *) ascii="crux" ;;  
+        *) ascii="unknown" ;;  
 esac
 
 # thanks to locomia
@@ -319,7 +319,7 @@ case "$ascii" in
         ascih="            "
         ascij="            "
         ;;
-    alpine|debianlinux)
+    alpine|alpinelinux)
         ascia="${c5}     /\\\ /\\\      "
         ascib="${c5}    // \\\  \\\     "
         ascic="${c5}   //   \\\  \\\    "
@@ -354,12 +354,12 @@ case "$ascii" in
         ;;
     crux|CRUX)
         ascia="${c6}     ___     "
-        ascib="${c6}    (.. |    "
-        ascic="${c6}    (<> |    "
-        ascid="${c6}   / __  \\\   "
-        ascie="${c6}  ( /  \\\ /|  "
-        ascif="${c6} _/\\\ __)/_)  "
-        ascig="${c6} \\\/-____\\\/   "
+        ascib="${c6}    (${res}..${c6} |    "
+        ascic="${c6}    (${c7}<>${c6} |    "
+        ascid="${c6}   / ${res}__${c6}  \\\   "
+        ascie="${c6}  ( ${res}/  \\\\${c6} /|  "
+        ascif="${c6} ${c7}_${c6}/\\\\${res} __)${c6}/${c7}_${c6})  "
+        ascig="${c6} ${c7}\\\/${c6}-____${c7}\\\/   "
         ascih="             "
         ascij="             "
         ;;
@@ -398,7 +398,7 @@ case "$ascii" in
         ;;
     devuan)
         ascia="               "
-        ascib="${c3}  ..::.        "
+        ascib="${c3}  ..:::.        "
         ascic="${c3}     ''===-    "
         ascid="${c3}         '+#;  "
         ascie="${c3}          =##  "
