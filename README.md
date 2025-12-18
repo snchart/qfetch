@@ -38,6 +38,8 @@ __Linux distros__:
 + Android(Termux)
 + Pop! OS
 + CachyOS
++ CentOS
++ Venom Linux
 
 __BSD distros__:
 + FreeBSD

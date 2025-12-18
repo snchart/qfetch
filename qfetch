@@ -8,7 +8,7 @@ c5="\033[1;96m" # light blue
 c6="\033[1;34m" # blue
 c7="\033[1;35m" # purple
 c8="\033[1;36m" # aqua
-c9="\033[1;37m" # gray or white
+c9="\033[38;2;106;106;106m" # gray
 userg=$(id -un) 
 host=$(uname -n)  
 shell=$(basename $SHELL)
@@ -59,6 +59,7 @@ case "$(distrog)" in
         "NetBSD"*) ascii="netbsd"; color="$c1" ;;
         "CentOS"*) ascii="centos"; color="$c4" ;;
         "Haiku"*) ascii="haiku"; color="$c4" ;;
+        "Venom GNU/Linux"*) ascii="venom"; color="$c9" ;;
         *) ascii="unknown" ;;  
 esac
 
@@ -123,7 +124,7 @@ pkgm(){
     elif command -v prt-get >/dev/null 2>&1; then
         echo "prt-get [$(pkginfo -i | wc -l)]"
     elif command -v scratch >/dev/null 2>&1; then
-        echo "scratchpkg [$(scratch list-installed | wc -l)]"
+        echo "scratch [$(scratch installed | wc -l)]"
     elif command -v pkg_add >/dev/null 2>&1; then
         if [ "$(uname -s)" = "OpenBSD" ]; then
             echo "pkg_add [$(pkg_info | wc -l | awk '{print $1}')]"
@@ -505,6 +506,17 @@ case "$ascii" in
         ascig="${c4}   '-.__.   .__.-'   "
         ascih="${c4}         |_|         "
         ascij="                     "
+        ;;
+    venom|venomlinux)
+        ascia="${c9}  ,__   _,.,_       "
+        ascib="${c9}  ':###:\"'\`'\"#:.    "
+        ascic="${c9}    :#####.   '#:   "
+        ascid="${c9}   :#: '####.  :#:  "
+        ascie="${c9}    :#.   '###.#:   "
+        ascif="${c9}     '#:,,_,,:###:  "
+        ascig="${c9}       \`''=''\` '^:  "
+        ascih="                    "
+        ascij="                   "
         ;;
     *)
         ascia="     ___     "
