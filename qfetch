@@ -1,14 +1,14 @@
 #!/bin/sh
-res="\033[0m"
-c1="\033[1;31m" # red
-c2="\x1b[38;2;255;106;0m" # orange
-c3="\033[1;33m" # yellow
-c4="\033[1;32m" # green
-c5="\033[1;96m" # light blue
-c6="\033[1;34m" # blue
-c7="\033[1;35m" # purple
-c8="\033[1;36m" # aqua
-c9="\033[38;2;106;106;106m" # gray
+reset="\033[0m"
+red="\033[1;31m" # red
+orange="\x1b[38;2;255;106;0m" # orange
+yellow="\033[1;33m" # yellow
+green="\033[1;32m" # green
+lblue="\033[1;96m" # light blue
+blue="\033[1;34m" # blue
+purple="\033[1;35m" # purple
+aqua="\033[1;36m" # aqua
+gray="\033[38;2;106;106;106m" # gray
 userg=$(id -un) 
 host=$(uname -n)  
 shell=$(basename $SHELL)
@@ -34,32 +34,32 @@ distrog(){
 }
 
 case "$(distrog)" in
-        "EndeavourOS"*) ascii="endeavouros"; color="$c7" ;;
-        "Void Linux"*) ascii="void"; color="$c4" ;;
-        "Ubuntu"*) ascii="ubuntu"; color="$c2" ;;
-        "Debian"*) ascii="debian"; color="$c1" ;;
-        "Arch Linux"*) ascii="arch"; color="$c5" ;;
-        "Linux Mint"*) ascii="mint"; color="$c4" ;;
-        "NixOS"*) ascii="nixos"; color="$c5" ;;
-        "Alpine Linux"*) ascii="alpine"; color="$c5" ;;
-        "Fedora Linux"*) ascii="fedora"; color="$c6" ;;
-        "PostmarketOS"*) ascii="pmos"; color="$c4" ;;
-        "CRUX"*) ascii="crux"; color="$c6" ;;
-        "openSUSE"*) ascii="opensuse"; color="$c4" ;;
-        "Locoware GNU/Linux"*) ascii="locoware"; color="$c3" ;;
-        "Artix"*) ascii="artix"; color="$c5" ;;
-        "Slackware"*) ascii="slackware"; color="$c6" ;;
-        "Devuan GNU/Linux"*) ascii="devuan"; color="$c3" ;;
-        FreeBSD|Hellosystem*) ascii="freebsd"; color="$c1" ;;
-        "Gentoo"*) ascii="gentoo"; color="$c7" ;;
-        "Android"*) ascii="android"; color="$c4" ;;
-        "CachyOS"*) ascii="cachy"; color="$c8" ;;
-        "Pop!_OS"*) ascii="pop"; color="$c8" ;;
-        "OpenBSD"*) ascii="openbsd"; color="$c3" ;;
-        "NetBSD"*) ascii="netbsd"; color="$c1" ;;
-        "CentOS"*) ascii="centos"; color="$c4" ;;
-        "Haiku"*) ascii="haiku"; color="$c4" ;;
-        "Venom GNU/Linux"*) ascii="venom"; color="$c9" ;;
+        "EndeavourOS"*) ascii="endeavouros" ;;
+        "Void Linux"*) ascii="void" ;;
+        "Ubuntu"*) ascii="ubuntu" ;;
+        "Debian"*) ascii="debian" ;;
+        "Arch Linux"*) ascii="arch" ;;
+        "Linux Mint"*) ascii="mint" ;;
+        "NixOS"*) ascii="nixos" ;;
+        "Alpine Linux"*) ascii="alpine" ;;
+        "Fedora Linux"*) ascii="fedora" ;;
+        "PostmarketOS"*) ascii="pmos" ;;
+        "CRUX"*) ascii="crux" ;;
+        "openSUSE"*) ascii="opensuse" ;;
+        "Locoware GNU/Linux"*) ascii="locoware" ;;
+        "Artix"*) ascii="artix" ;;
+        "Slackware"*) ascii="slackware" ;;
+        "Devuan GNU/Linux"*) ascii="devuan" ;;
+        FreeBSD|Hellosystem*) ascii="freebsd" ;;
+        "Gentoo"*) ascii="gentoo" ;;
+        "Android"*) ascii="android" ;;
+        "CachyOS"*) ascii="cachy" ;;
+        "Pop!_OS"*) ascii="pop" ;;
+        "OpenBSD"*) ascii="openbsd" ;;
+        "NetBSD"*) ascii="netbsd" ;;
+        "CentOS"*) ascii="centos" ;;
+        "Haiku"*) ascii="haiku" ;;
+        "Venom GNU/Linux"*) ascii="venom" ;;
         *) ascii="unknown" ;;  
 esac
 
@@ -69,16 +69,16 @@ for arg in "$@"; do
         --ascii=*) ascii=$(echo "$arg" | cut -d= -f2) ;;
         --nocol=*)
             if [ "$(echo $arg | cut -d= -f2)" = "true" ]; then
-                res=""
-                c1=""
-                c2=""
-                c3=""
-                c4=""
-                c5=""
-                c6=""
-                c7=""
-                c8=""
-                c9=""
+                reset=""
+                red=""
+                orange=""
+                yellow=""
+                green=""
+                lblue=""
+                blue=""
+                purple=""
+                aqua=""
+                gray=""
                 color=""
             else
                 echo
@@ -233,290 +233,317 @@ disk(){
 
 case "$ascii" in
     endeavouros)
-        ascia="${res}                       "
-        ascib="${c1}           /${c7}o${c6}.         "
-        ascic="${c1}         /${c7}sssso${c6}-       "
-        ascid="${c1}       /${c7}ossssssso${c6}:     "
-        ascie="${c1}     /${c7}ssssssssssso${c6}+    "
-        ascif="${c1}   /${c7}ssssssssssssssso${c6}+  "
-        ascig="${c1} //${c7}osssssssssssssso${c6}+-  "
-        ascih="${c6}  \`+++++++++++++++-\`   "
+        ascia="${reset}                       "
+        ascib="${red}           /${purple}o${blue}.         "
+        ascic="${red}         /${purple}sssso${blue}-       "
+        ascid="${red}       /${purple}ossssssso${blue}:     "
+        ascie="${red}     /${purple}ssssssssssso${blue}+    "
+        ascif="${red}   /${purple}ssssssssssssssso${blue}+  "
+        ascig="${red} //${purple}osssssssssssssso${blue}+-  "
+        ascih="${blue}  \`+++++++++++++++-\`   "
         ascij="                       "
+        color="$purple"
         ;;
     mint|linuxmint)
-        ascia="${c4}  ___________   "
-        ascib="${c4} |_          \\\  "
-        ascic="${c4}   | ${res}| _____${c4} |  "
-        ascid="${c4}   |${res} | | | | ${c4}|  "
-        ascie="${c4}   |${res} | | | | ${c4}|  "
-        ascif=" ${c4}  |${res} \\\_____/ ${res}${c4}|  "
-        ascig="${c4}   \\\_________/  "
+        ascia="${green}  ___________   "
+        ascib="${green} |_          \\\  "
+        ascic="${green}   | ${reset}| _____${green} |  "
+        ascid="${green}   |${reset} | | | | ${green}|  "
+        ascie="${green}   |${reset} | | | | ${green}|  "
+        ascif=" ${green}  |${reset} \\\_____/ ${reset}${green}|  "
+        ascig="${green}   \\\_________/  "
         ascih="                "
         ascij="                "
+        color="$green"
         ;;
     slackware|шлака)
-        ascia="${c6}    ________   "
-        ascib="${c6}   /  ______|  "
-        ascic="${c6}   | |______   "
-        ascid="${c6}   \\\______  \\\  "
-        ascie="${c6}    ______| |  "
-        ascif="${c6} | |________/  "
-        ascig="${c6} |____________ "
+        ascia="${blue}    ________   "
+        ascib="${blue}   /  ______|  "
+        ascic="${blue}   | |______   "
+        ascid="${blue}   \\\______  \\\  "
+        ascie="${blue}    ______| |  "
+        ascif="${blue} | |________/  "
+        ascig="${blue} |____________ "
         ascih="               "
         ascij="               "
+        color="$blue"
         ;;
     arch)
         ascia="                 " 
-        ascib="${c5}       /\\\        "
-        ascic="${c5}      /  \\\       "
-        ascid="${c5}     /    \\\      "
-        ascie="${c5}    /      \\\     "
-        ascif="${c5}   /   ,,   \\\    "
-        ascig="${c5}  /   |  |   \\\   "
-        ascih="${c5} /_-''    ''-_\\\  "
+        ascib="${lblue}       /\\\        "
+        ascic="${lblue}      /  \\\       "
+        ascid="${lblue}     /.   \\\      "
+        ascie="${lblue}    /      \\\     "
+        ascif="${lblue}   /   ,,   \\\    "
+        ascig="${lblue}  /   |  |  '\\\   "
+        ascih="${lblue} /_-''    ''-_\\\  "
         ascij="                 "
+        color="$lblue"
         ;;
     nixos|nix)
         ascia="                 "
-        ascib="${c5}    \\\\\\\  \\\\\\\ //    "
-        ascic=" ${c5}  ==\\\\\\\__\\\\\\\/ //  "
-        ascid="${c5}     //   \\\\\\\//   "
-        ascie="${c5}  ==//     //==  "
-        ascif="${c5}   //\\\\\\\___//     "
-        ascig="${c5}  // /\\\\\\\  \\\\\\\==   "
-        ascih="${c5}    // \\\\\\\  \\\\\\\    " 
+        ascib="${lblue}    \\\\\\\  \\\\\\\ //    "
+        ascic=" ${lblue}  ==\\\\\\\__\\\\\\\/ //  "
+        ascid="${lblue}     //   \\\\\\\//   "
+        ascie="${lblue}  ==//     //==  "
+        ascif="${lblue}   //\\\\\\\___//     "
+        ascig="${lblue}  // /\\\\\\\  \\\\\\\==   "
+        ascih="${lblue}    // \\\\\\\  \\\\\\\    " 
         ascij="                "
+        color="$lblue"
         ;;
     void|voidlinux)
-        ascia="${c4}    ________    "
-        ascib="${c4}  _ \\\______ \\\   "
-        ascic="${c4} | \\\  ___  \\\ |  "
-        ascid="${c4} | | /   \\\ | |  " 
-        ascie="${c4} | | \\\___/ | |  " 
-        ascif="${c4} | \\\______ \\\_|  "
-        ascig="${c4}  \\\_______\\\     "
-        ascih="                "
-        ascij="                "
+        ascia="${green}       _,.,_       "
+        ascib="${green}      \`\"'\`'\"::.    "
+        ascic="${green}   :.   ...  '#:   " 
+        ascid="${green}  :#:  :###:  :#:  " 
+        ascie="${green}   :#.  \"\"\"    \"   "
+        ascif="${green}    '#:,,_,,.,     "
+        ascig="${green}      \`''a''\`      "
+        ascih="${green}                   "
+        ascij="${green}                   "
+        color="$green"
         ;;
     ubuntu)
         ascia="              "
-        ascib="${c2}          _   "
-        ascic="${c2}      ---(_)  "  
-        ascid="${c2}  _/  ---  \\\  "
-        ascie="${c2} (_) |   |    "
-        ascif="${c2}   \\\  --- _/  "
-        ascig="${c2}      ---(_)  "
+        ascib="${orange}          _   "
+        ascic="${orange}      ---(_)  "  
+        ascid="${orange}  _/  ---  \\\  "
+        ascie="${orange} (_) |   |    "
+        ascif="${orange}   \\\  --- _/  "
+        ascig="${orange}      ---(_)  "
         ascih="              "
         ascij="              "
+        color="$orange"
         ;;
     debian)
-        ascia="            "
-        ascib="${c1}    _____   "
-        ascic="${c1}   /  __ \\\  "
-        ascid="${c1}  |  /    | "
-        ascie="${c1}  |  \\\___-  " 
-        ascif="${c1}  '.        "
-        ascig="${c1}    '-_     "
-        ascih="            "
-        ascij="            "
+        # i made this ascii by myself
+        ascia="${red}      _,_     "
+        ascib="${red}   .:'\`\`\`':.  "
+        ascic="${red}  ::   _  ':  " 
+        ascid="${red}  ::  :   .:  "
+        ascie="${red}  ':   \`\"'\`   " 
+        ascif="${red}   \`:,        "
+        ascig="${red}     \`\":,     "
+        ascih="${red}              "
+        ascij="${red}              "
+        color="$red"
         ;;
     alpine|alpinelinux)
-        ascia="${c5}     /\\\ /\\\      "
-        ascib="${c5}    // \\\  \\\     "
-        ascic="${c5}   //   \\\  \\\    "
-        ascid="${c5}  //     \\\  \\\   "
-        ascie="${c5} //       \\\  \\\  "
-        ascif="${c5}           \\\  \\ "
-        ascig="${c5}            \\\   "
-        ascih="                "
+        ascia="                "
+        ascib="${blue}     /\\\ /\\\      "
+        ascic="${blue}    // \\\  \\\     "
+        ascid="${blue}   //   \\\  \\\    "
+        ascie="${blue}  //     \\\  \\\   "
+        ascif="${blue} //       \\\  \\\  "
+        ascig="${blue}           \\\  \\ "
+        ascih="${blue}            \\\   "
         ascij="                "
+        color="$blue"
         ;;
     fedora)
-        ascia="${c5}         ,'''''.  "
-        ascib="${c5}        |   ,. |  "
-        ascic="${c5}        |  |  ''  "
-        ascid="${c5}   ,....|  |..    "
-        ascie="${c5} .'  ,_;|   ..'   "
-        ascif="${c5} |  |   |  |      "
-        ascig="${c5} |  ',_,'  |      "
-        ascih="${c5} '.       ,'      "
-        ascij="${c5}   '''''''        "
+        ascia="${blue}                 "
+        ascib="${blue}         .###.   "
+        ascic="${blue}        #'   '#  "
+        ascid="${blue}        W     '  "
+        ascie="${blue}   .w##A&##'     "
+        ascif="${blue}  #'    M        "
+        ascig="${blue}  #,   ,#        "
+        ascih="${blue}  \`*###*'        "
+        ascij="${blue}                 "
+        color="$blue"
         ;;
     pmos|postmarketos)
         ascia="              "
-        ascib="${c4}      /\\\      "
-        ascic="${c4}     /  \\\     "
-        ascid="${c4}     \\\_  \\\    "
-        ascie="${c4}   /\\\_ \\\/ _   "
-        ascif="${c4}  /  / __/ \\\  "
-        ascig="${c4} /___\\\ \\\____\\\ "
+        ascib="${green}      /\\\      "
+        ascic="${green}     /  \\\     "
+        ascid="${green}     \\\_  \\\    "
+        ascie="${green}   /\\\_ \\\/ _   "
+        ascif="${green}  /  / __/ \\\  "
+        ascig="${green} /___\\\ \\\____\\\ "
         ascih="              "
         ascij="              "
+        color="$green"
         ;;
     crux|CRUX)
-        ascia="${c6}     ___     "
-        ascib="${c6}    (${res}..${c6} |    "
-        ascic="${c6}    (${c7}<>${c6} |    "
-        ascid="${c6}   / ${res}__${c6}  \\\   "
-        ascie="${c6}  ( ${res}/  \\\\${c6} /|  "
-        ascif="${c6} ${c7}_${c6}/\\\\${res} __)${c6}/${c7}_${c6})  "
-        ascig="${c6} ${c7}\\\/${c6}-____${c7}\\\/   "
+        ascia="${blue}     ___     "
+        ascib="${blue}    (${reset}..${blue} |    "
+        ascic="${blue}    (${purple}<>${blue} |    "
+        ascid="${blue}   / ${reset}__${blue}  \\\   "
+        ascie="${blue}  ( ${reset}/  \\\\${blue} /|  "
+        ascif="${blue} ${purple}_${blue}/\\\\${reset} __)${blue}/${purple}_${blue})  "
+        ascig="${blue} ${purple}\\\/${blue}-____${purple}\\\/   "
         ascih="             "
         ascij="             "
+        color="$blue"
         ;;
     opensuse)
-        ascia="${c4}   .oooo.           "
-        ascib="${c4}  o   o  o          "
-        ascic="${c4}  ooooo  oo         "
-        ascid="${c4}  o      oo         "
-        ascie="${c4}   'oooooooooooo.   "
-        ascif="${c4}         oo      o  "
-        ascig="${c4}         oo  ooooo  "
-        ascih="${c4}          o  o   o  "
-        ascij="${c4}           'oooo'   "
+        ascia="${green}     _______    "
+        ascib="${green}  __|    __ \\\   "
+        ascic="${green} |      / .\\\ \\\  "
+        ascid="${green} |      \\\__/ |  "
+        ascie="${green} |    _______|  "
+        ascif="${green} |    \\\_______  "
+        ascig="${green} |___________/  "
+        ascih="${green}                "
+        ascij="${green}               "
+        color="$green"
         ;;
     locoware)
         ascia="              "
         ascib="              "
-        ascic="${c3}       dMP    "
-        ascid="${c3}      dMP     "
-        ascie="${c3}     dMP      "
-        ascif="${c3}    dMP       "
-        ascig="${c3}   dMMMMMMP   "
+        ascic="${yellow}       dMP    "
+        ascid="${yellow}      dMP     "
+        ascie="${yellow}     dMP      "
+        ascif="${yellow}    dMP       "
+        ascig="${yellow}   dMMMMMMP   "
         ascih="              "
         ascij="              "
+        color="$yellow"
         ;;
     artix)
         ascia="                "
-        ascib="${c5}       /\\\       "
-        ascic="${c5}      /  \\\      "
-        ascid="${c5}     /\`'.,\\\     "
-        ascie="${c5}    /     ',    "
-        ascif="${c5}   /      ,\`\\\   "
-        ascig="${c5}  /   ,.'\`.  \\\  "
-        ascih="${c5} /.,'\`     \`'.\\\ "
+        ascib="${lblue}       /\\\       "
+        ascic="${lblue}      /  \\\      "
+        ascid="${lblue}     /\`'.,\\\     "
+        ascie="${lblue}    /     ',    "
+        ascif="${lblue}   /      ,\`\\\   "
+        ascig="${lblue}  /   ,.'\`.  \\\  "
+        ascih="${lblue} /.,'\`     \`'.\\\ "
         ascij="                "
+        color="$lblue"
         ;;
     devuan)
-        ascia="               "
-        ascib="${c3}  ..:::.        "
-        ascic="${c3}     ''===-    "
-        ascid="${c3}         '+#;  "
-        ascie="${c3}          =##  "
-        ascif="${c3}      .+:##;   "
-        ascig="${c3} .:=+###:*'    "
-        ascih="${c3} '####='       "
-        ascij="               "
+        ascia="                "
+        ascib="${yellow}   ..:::.       "
+        ascic="${yellow}      ''===-    "
+        ascid="${yellow}          '+#;  "
+        ascie="${yellow}           =##  "
+        ascif="${yellow}       .+:##;   "
+        ascig="${yellow}  .:=+###:*'    "
+        ascih="${yellow}  '####='       "
+        ascij="                "
+        color="$yellow"
         ;;
     freebsd|hellosystem)
         ascia="                 "
-        ascib="${c1}  /\\\,-'''''-,/\\\  "
-        ascic="${c1}  \\\_)       (_/  "
-        ascid="${c1}  |           |  "
-        ascie="${c1}  |           |  "
-        ascif="${c1}   ;         ;   "
-        ascig="${c1}    '-_____-'    "
+        ascib="${red}  /\\\,-'''''-,/\\\  "
+        ascic="${red}  \\\_)       (_/  "
+        ascid="${red}  |           |  "
+        ascie="${red}  |           |  "
+        ascif="${red}   ;         ;   "
+        ascig="${red}    '-_____-'    "
         ascih="                 "
         ascij="                 "
+        color="$red"
         ;;
     gentoo)
-        ascia="${c7}   _-----_     "
-        ascib="${c7}  (       \\\    "
-        ascic="${c7}  \\\    0   \\\   "
-        ascid="${res}   \\\        )  "
-        ascie="${res}   /      _/   "
-        ascif="${res}  (     _-     "
-        ascig="${res}  \\\____-       "
+        ascia="${purple}   _-----_     "
+        ascib="${purple}  (       \\\    "
+        ascic="${purple}  \\\    0   \\\   "
+        ascid="${reset}   \\\        )  "
+        ascie="${reset}   /      _/   "
+        ascif="${reset}  (     _-     "
+        ascig="${reset}  \\\____-       "
         ascih="               "
         ascij="               "
+        color="$purple"
         ;;
     android)
         ascia="                     "
-        ascib="${c4}   ;,           ,;   "
-        ascic="${c4}    ';,.-----.,;'    "
-        ascid="${c4}   ,'           ',   "
-        ascie="${c4}  /    O     O    \\\  "
-        ascif="${c4} |                 | "
-        ascig="${c4} '-----------------' "
+        ascib="${green}   ;,           ,;   "
+        ascic="${green}    ';,.-----.,;'    "
+        ascid="${green}   ,'           ',   "
+        ascie="${green}  /    O     O    \\\  "
+        ascif="${green} |                 | "
+        ascig="${green} '-----------------' "
         ascih="                     "
         ascij="                     "
+        color="$green"
         ;;
     cachy|cachyos)
-        ascia="${c8}    .::::::::::::'    "
-        ascib="${c8}   .::::::::::::'     "
-        ascic="${c8}  .::::::'            "
-        ascid="${c8} .::::::'             "
-        ascie="${c8} '::::::.             "
-        ascif="${c8}  '::::::.            "
-        ascig="${c8}   '::::::::::::::::' "
-        ascih="${c8}    '::::::::::::::'  "
+        ascia="${aqua}    .::::::::::::'    "
+        ascib="${aqua}   .::::::::::::'     "
+        ascic="${aqua}  .::::::'            "
+        ascid="${aqua} .::::::'             "
+        ascie="${aqua} '::::::.             "
+        ascif="${aqua}  '::::::.            "
+        ascig="${aqua}   '::::::::::::::::' "
+        ascih="${aqua}    '::::::::::::::'  "
         ascij="                     "
+        color="$aqua"
         ;;
     pop|popos)
-        ascia="${c8}  ______             "
-        ascib="${c8}  \\\   _ \\\        __  "
-        ascic="${c8}   \\\ \ \\\ \\\      / /  "
-        ascid="${c8}    \\\ \\\_\\\ \\\    / /   "
-        ascie="${c8}     \\\  ___\\\  /_/    "
-        ascif="${c8}      \\\ \\\    _       " 
-        ascig="${c8}     __\\\ \\\__(_)_     "
-        ascih="${c8}    (___________)    "
+        ascia="${aqua}  ______             "
+        ascib="${aqua}  \\\   _ \\\        __  "
+        ascic="${aqua}   \\\ \ \\\ \\\      / /  "
+        ascid="${aqua}    \\\ \\\_\\\ \\\    / /   "
+        ascie="${aqua}     \\\  ___\\\  /_/    "
+        ascif="${aqua}      \\\ \\\    _       " 
+        ascig="${aqua}     __\\\ \\\__(_)_     "
+        ascih="${aqua}    (___________)    "
         ascij="                   "
+        color="$aqua"
         ;;
     openbsd)
-        ascia="${c3}        _____      "
-        ascib="${c3}      \\\-     -/    "
-        ascic="${c3}   \\\_/         \\\   "
-        ascid="${c3}   |        ${res}O O${c3} |  "
-        ascie="${c3}   |_  <   )  3 )  "
-        ascif="${c3}   / \\\         /   "
-        ascig="${c3}      /-_____-\\\    "
-        ascih="${c3}                   "
+        ascia="${yellow}        _____      "
+        ascib="${yellow}      \\\-     -/    "
+        ascic="${yellow}   \\\_/         \\\   "
+        ascid="${yellow}   |        ${reset}O O${yellow} |  "
+        ascie="${yellow}   |_  <   )  3 )  "
+        ascif="${yellow}   / \\\         /   "
+        ascig="${yellow}      /-_____-\\\    "
+        ascih="${yellow}                   "
         ascij="                  "
+        color="$yellow"
         ;;
     centos)
         ascia="               "
-        ascib="   ${c4}____${c3}^${c7}____   "
-        ascic="   ${c4}|\\\  ${c3}|${c7}  /|   "
-        ascid="   ${c4}| \\\ ${c3}|${c7} / |   "
-        ascie="  ${c7}<---- ${c5}---->  "
-        ascif="   ${c5}| / ${c4}|${c3} \\\ |   "
-        ascig="   ${c5}|/__${c4}|${c3}__\\\|   "
-        ascih="       ${c4}v       "
+        ascib="   ${green}____${yellow}^${purple}____   "
+        ascic="   ${green}|\\\  ${yellow}|${purple}  /|   "
+        ascid="   ${green}| \\\ ${yellow}|${purple} / |   "
+        ascie="  ${purple}<---- ${lblue}---->  "
+        ascif="   ${lblue}| / ${green}|${yellow} \\\ |   "
+        ascig="   ${lblue}|/__${green}|${yellow}__\\\|   "
+        ascih="       ${green}v       "
         ascij="               "
+        color="$green"
         ;;
     netbsd)
-        ascia="  \\\\\\\\${c1}\`-______,----__    "
-        ascib="   \\\\\\\ ${c1}       __,---\`_  "
-        ascic="    \\\\\\\ ${c1}      \`.____    "
-        ascid="     \\\\\\\\${c1}-______,----\`-  "
+        ascia="  \\\\\\\\${red}\`-______,----__    "
+        ascib="   \\\\\\\ ${red}       __,---\`_  "
+        ascic="    \\\\\\\ ${red}      \`.____    "
+        ascid="     \\\\\\\\${red}-______,----\`-  "
         ascie="      \\\\\\\               "
         ascif="       \\\\\\\              "
         ascig="        \\\\\\\             "
         ascih="         \\\\\\\            "
         ascij="                     "
+        color="$red"
         ;;
     haiku|haikuos)
-        ascia="${c4}         ,^,         "
-        ascib="${c4}        /   \\\        "
-        ascic="${c4}  *--_ ;     ; _--*  "
-        ascid="${c4}  \\\   '\"     \"'   /  "
-        ascie="${c4}   '.           .'   "
-        ascif="${c4}  .-'\"         \"'-.  "
-        ascig="${c4}   '-.__.   .__.-'   "
-        ascih="${c4}         |_|         "
+        ascia="${green}         ,^,         "
+        ascib="${green}        /   \\\        "
+        ascic="${green}  *--_ ;     ; _--*  "
+        ascid="${green}  \\\   '\"     \"'   /  "
+        ascie="${green}   '.           .'   "
+        ascif="${green}  .-'\"         \"'-.  "
+        ascig="${green}   '-.__.   .__.-'   "
+        ascih="${green}         |_|         "
         ascij="                     "
+        color="$green"
         ;;
     venom|venomlinux)
-        ascia="${c9}  ,__   _,.,_       "
-        ascib="${c9}  ':###:\"'\`'\"#:.    "
-        ascic="${c9}    :#####.   '#:   "
-        ascid="${c9}   :#: '####.  :#:  "
-        ascie="${c9}    :#.   '###.#:   "
-        ascif="${c9}     '#:,,_,,:###:  "
-        ascig="${c9}       \`''=''\` '^:  "
+        ascia="${gray}  ,__   _,.,_       "
+        ascib="${gray}  ':###:\"'\`'\"#:.    "
+        ascic="${gray}    :####.    '#:   "
+        ascid="${gray}   :#: '####.  :#:  "
+        ascie="${gray}    :#.   '###.#:   "
+        ascif="${gray}     '#:,,_,,:###:  "
+        ascig="${gray}       \`''=''\` '^:  "
         ascih="                    "
         ascij="                   "
+        color="$gray"
         ;;
     *)
         ascia="     ___     "
@@ -532,12 +559,12 @@ case "$ascii" in
 esac
 
 printf "\n"
-printf "%s$ascia $res ${color}$userg${res}@${color}$host${res} \n"
-printf "%s$ascib $res ${color}os:${res}     $(distrog)\n"
-printf "%s$ascic $res ${color}pkg:${res}    $(pkgm)\n"
-printf "%s$ascid $res ${color}ram:${res}    $(ramd)\n"
-printf "%s$ascie $res ${color}cpu:${res}    $(cpug)\n"
-printf "%s$ascif $res ${color}sh:${res}     $shell\n"
-printf "%s$ascig $res ${color}env:${res}    $(env)\n"
-printf "%s$ascih $res ${color}disk:${res}   $(disk)\n"
+printf "%s$ascia $reset ${color}$userg${reset}@${color}$host${reset} \n"
+printf "%s$ascib $reset ${color}os:${reset}     $(distrog)\n"
+printf "%s$ascic $reset ${color}pkg:${reset}    $(pkgm)\n"
+printf "%s$ascid $reset ${color}ram:${reset}    $(ramd)\n"
+printf "%s$ascie $reset ${color}cpu:${reset}    $(cpug)\n"
+printf "%s$ascif $reset ${color}sh:${reset}     $shell\n"
+printf "%s$ascig $reset ${color}env:${reset}    $(env)\n"
+printf "%s$ascih $reset ${color}disk:${reset}   $(disk)\n"
 printf "%s$ascij\n"
