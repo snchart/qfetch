@@ -124,7 +124,7 @@ pkgm(){
     elif command -v prt-get >/dev/null 2>&1; then
         echo "prt-get [$(pkginfo -i | wc -l)]"
     elif command -v scratch >/dev/null 2>&1; then
-        echo "scratch [$(scratch installed | wc -l)]"
+        echo "scratch [$(ls /var/lib/scratchpkg/db/ | wc -l)]"
     elif command -v pkg_add >/dev/null 2>&1; then
         if [ "$(uname -s)" = "OpenBSD" ]; then
             echo "pkg_add [$(pkg_info | wc -l | awk '{print $1}')]"
