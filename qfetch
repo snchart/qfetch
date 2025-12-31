@@ -9,7 +9,7 @@ blue="\033[1;34m" # blue
 purple="\033[1;35m" # purple
 aqua="\033[1;36m" # aqua
 gray="\033[38;2;106;106;106m" # gray
-userg=$(id -un) 
+userg=$(whoami) 
 host=$(uname -n)  
 shell=$(basename $SHELL)
 
@@ -44,7 +44,7 @@ case "$(distrog)" in
         "Alpine Linux"*) ascii="alpine" ;;
         "Fedora Linux"*) ascii="fedora" ;;
         "PostmarketOS"*) ascii="pmos" ;;
-        "CRUX"*) ascii="crux" ;;
+        "CRUX"|"KISS"*) ascii="crux" ;;
         "openSUSE"*) ascii="opensuse" ;;
         "Locoware GNU/Linux"*) ascii="locoware" ;;
         "Artix"*) ascii="artix" ;;
@@ -67,7 +67,7 @@ esac
 for arg in "$@"; do
     case "$arg" in
         --ascii=*) ascii=$(echo "$arg" | cut -d= -f2) ;;
-        --nocol=*)
+        --nocol*)
             if [ "$(echo $arg | cut -d= -f2)" = "true" ]; then
                 reset=""
                 red=""
@@ -83,6 +83,10 @@ for arg in "$@"; do
             else
                 echo
             fi
+            ;;
+        --help*) 
+            echo "--ascii <ascii> sets ascii"
+            echo "--nocol removes color"
             ;;
     esac
 done
@@ -129,10 +133,12 @@ pkgm(){
         if [ "$(uname -s)" = "OpenBSD" ]; then
             echo "pkg_add [$(pkg_info | wc -l | awk '{print $1}')]"
         elif [ "$(uname -s)" = "NetBSD" ]; then
-            echo "pkgin/pkg_add [$(pkg_info | wc -l | awk '{print $1}')]"
+            echo "pkg_add [$(pkg_info | wc -l | awk '{print $1}')]"
         fi
     elif command -v pkgman >/dev/null 2>&1; then
         echo "pkgman [$(find /boot/system/packages /boot/home/config/packages -name "*.hpkg" | wc -l)]"
+    elif command -v kiss >/dev/null 2>&1; then
+        echo "kiss [$(ls /var/db/kiss/installed | wc -l)]"
     else
         echo "unknown"
     fi
@@ -221,7 +227,7 @@ cpug(){
 
 disk(){
     if command -v getprop >/dev/null 2>&1; then
-        df -h /data | awk 'NR==2 {print $3 " / " $2}'
+        df /data | awk 'NR==2 {print $3 " / " $2}'
     elif [ "$(uname -s)" = "Haiku" ]; then
         disktotal="$(df /boot | grep "Total Blocks" | awk '{print int($3)}')"
         diskused="$(((disktotal - $(df /boot | grep "Free Blocks" | awk '{print int($3)}'))))"
@@ -293,15 +299,15 @@ case "$ascii" in
         color="$lblue"
         ;;
     void|voidlinux)
-        ascia="${green}       _,.,_       "
-        ascib="${green}      \`\"'\`'\"::.    "
-        ascic="${green}   :.   ...  '#:   " 
-        ascid="${green}  :#:  :###:  :#:  " 
-        ascie="${green}   :#.  \"\"\"    \"   "
-        ascif="${green}    '#:,,_,,.,     "
-        ascig="${green}      \`''a''\`      "
-        ascih="${green}                   "
-        ascij="${green}                   "
+        ascia="${green}     ________    "
+        ascib="${green}   _ \\\_____  \`.  " 
+        ascic="${green}  | \\\  ___ \`. |  " 
+        ascid="${green}  | | /   \\\ | |  "
+        ascie="${green}  | | \\\___/ | |  "
+        ascif="${green}  | '._____ \\\_|  "
+        ascig="${green}  '._______\\\     "
+        ascih="${green}                 "
+        ascij="${green}                 "
         color="$green"
         ;;
     ubuntu)
@@ -365,7 +371,7 @@ case "$ascii" in
         ascij="              "
         color="$green"
         ;;
-    crux|CRUX)
+    crux|CRUX|kiss|KISS)
         ascia="${blue}     ___     "
         ascib="${blue}    (${reset}..${blue} |    "
         ascic="${blue}    (${purple}<>${blue} |    "
