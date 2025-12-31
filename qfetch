@@ -372,15 +372,15 @@ case "$ascii" in
         color="$green"
         ;;
     crux|CRUX|kiss|KISS)
-        ascia="${blue}     ___     "
-        ascib="${blue}    (${reset}..${blue} |    "
-        ascic="${blue}    (${purple}<>${blue} |    "
-        ascid="${blue}   / ${reset}__${blue}  \\\   "
-        ascie="${blue}  ( ${reset}/  \\\\${blue} /|  "
-        ascif="${blue} ${purple}_${blue}/\\\\${reset} __)${blue}/${purple}_${blue})  "
-        ascig="${blue} ${purple}\\\/${blue}-____${purple}\\\/   "
-        ascih="             "
-        ascij="             "
+        ascia="${blue}      ___     "
+        ascib="${blue}     (${reset}..${blue} |    "
+        ascic="${blue}     (${purple}<>${blue} |    "
+        ascid="${blue}    / ${reset}__${blue}  \\\   "
+        ascie="${blue}   ( ${reset}/  \\\\${blue} /|  "
+        ascif="${blue}  ${purple}_${blue}/\\\\${reset} __)${blue}/${purple}_${blue})  "
+        ascig="${blue}  ${purple}\\\/${blue}-____${purple}\\\/   "
+        ascih="              "
+        ascij="              "
         color="$blue"
         ;;
     opensuse)
