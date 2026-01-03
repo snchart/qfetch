@@ -11,7 +11,7 @@ aqua="\033[1;36m" # aqua
 gray="\033[38;2;106;106;106m" # gray
 userg=$(whoami) 
 host=$(uname -n)  
-shell=$(basename $SHELL)
+shell=$(basename $0)
 
 distrog(){
     if [ "$(uname -s)" = "FreeBSD" ]; then
@@ -225,7 +225,7 @@ cpug(){
 
 disk(){
     if command -v getprop >/dev/null 2>&1; then
-        df /data -k | awk 'NR==2 {print $3/1024 " / " $2/1024}'
+        df /data -h | awk 'NR==2 {print $3 " / " $2}'
     elif [ "$(uname -s)" = "Haiku" ]; then
         disktotal="$(df /boot | grep "Total Blocks" | awk '{print int($3)}')"
         diskused="$(((disktotal - $(df /boot | grep "Free Blocks" | awk '{print int($3)}'))))"
