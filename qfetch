@@ -11,7 +11,7 @@ aqua="\033[1;36m" # aqua
 gray="\033[38;2;106;106;106m" # gray
 userg=$(whoami) 
 host=$(uname -n)  
-shell=$(basename $0)
+shell=$(basename "$SHELL")
 
 distrog(){
     if [ "$(uname -s)" = "FreeBSD" ]; then
@@ -26,6 +26,8 @@ distrog(){
         echo "NetBSD"
     elif [ -f "/etc/os-release" ]; then
         cat /etc/os-release | grep PRETTY_NAME | awk -F '=' '{print $2}' | tr -d '"'
+    elif [ "$(uname -s)" = "Minix" ]; then
+        echo "Minix"
     elif command -v getprop >/dev/null 2>&1; then
         echo "Android $(getprop ro.build.version.release)"
     elif [ "$(uname -s)" = "Haiku" ]; then
@@ -127,12 +129,10 @@ pkgm(){
         echo "prt-get [$(pkginfo -i | wc -l)]"
     elif command -v scratch >/dev/null 2>&1; then
         echo "scratch [$(ls /var/lib/scratchpkg/db/ | wc -l)]"
+    elif command -v pkgin >/dev/null 2>&1; then
+        echo "pkgin [$(pkgin list | wc -l | awk '{print $1}')]"
     elif command -v pkg_add >/dev/null 2>&1; then
-        if [ "$(uname -s)" = "OpenBSD" ]; then
             echo "pkg_add [$(pkg_info | wc -l | awk '{print $1}')]"
-        elif [ "$(uname -s)" = "NetBSD" ]; then
-            echo "pkg_add [$(pkg_info | wc -l | awk '{print $1}')]"
-        fi
     elif command -v pkgman >/dev/null 2>&1; then
         echo "pkgman [$(find /boot/system/packages /boot/home/config/packages -name "*.hpkg" | wc -l)]"
     elif command -v kiss >/dev/null 2>&1; then
@@ -214,6 +214,8 @@ cpug(){
         sysctl -n hw.model 2>/dev/null
     elif [ "$(uname -s)" = "OpenBSD" ] || [ "$(uname -s)" = "NetBSD" ]; then 
         sysctl -n hw.model 2>/dev/null
+    elif [ "$(uname -s)" = "Minix" ]; then
+        grep 'model name' /proc/cpuinfo | awk '{print $3}'
     elif command -v getprop >/dev/null 2>&1; then
         cat /proc/cpuinfo | grep -i 'hardware' | awk -F': ' '{print $2}'
     elif [ "$(uname -s)" = "Haiku" ]; then
@@ -569,6 +571,6 @@ printf "%s$ascic $reset ${color}pkg:${reset}    $(pkgm)\n"
 printf "%s$ascid $reset ${color}ram:${reset}    $(ramd)\n"
 printf "%s$ascie $reset ${color}cpu:${reset}    $(cpug)\n"
 printf "%s$ascif $reset ${color}sh:${reset}     $shell\n"
-printf "%s$ascig $reset ${color}env:${reset}    $(env)\n"
+printf "%s$ascig $reset ${color}env:${reset}    $(env)\n" 2>/dev/null
 printf "%s$ascih $reset ${color}disk:${reset}   $(disk)\n"
 printf "%s$ascij\n"
