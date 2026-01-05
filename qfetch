@@ -11,7 +11,13 @@ aqua="\033[1;36m" # aqua
 gray="\033[38;2;106;106;106m" # gray
 userg=$(whoami) 
 host=$(uname -n)  
-shell=$(basename "$SHELL")
+get_shell(){
+    if basename "$SHELL" >/dev/null 2>&1; then
+        basename "$SHELL"
+    elif [ "$(readlink -f "$(which sh)")" = "/bin/busybox" ]; then
+        echo "busybox"
+    fi
+}
 
 distrog(){
     if [ "$(uname -s)" = "FreeBSD" ]; then
@@ -599,7 +605,7 @@ printf "%s$ascib $reset ${color}os:${reset}     $(distrog)\n"
 printf "%s$ascic $reset ${color}pkg:${reset}    $(pkgm)\n"
 printf "%s$ascid $reset ${color}ram:${reset}    $(ramd)\n"
 printf "%s$ascie $reset ${color}cpu:${reset}    $(cpug)\n"
-printf "%s$ascif $reset ${color}sh:${reset}     $shell\n"
+printf "%s$ascif $reset ${color}sh:${reset}     $(get_shell)\n"
 printf "%s$ascig $reset ${color}env:${reset}    $(env)\n" 2>/dev/null
 printf "%s$ascih $reset ${color}disk:${reset}   $(disk)\n"
 printf "%s$ascij\n"
