@@ -142,36 +142,37 @@ pkgm(){
     fi
 }
 
-# to add your unsupported environment, add this:
-# elif pgrep -x <env process> >/dev/null 2>&1; then echo "<env name>"
-# elif ...
+proch(){
+    ps -e | awk '{print $4}' | grep -qi "^$1$" >/dev/null 2>&1
+}
+
 env() {
     if [ -n "$XDG_CURRENT_DESKTOP" ]; then echo "$XDG_CURRENT_DESKTOP"
     elif [ -n "$DESKTOP_SESSION" ]; then echo "$DESKTOP_SESSION"
-    elif pgrep -x xfce4-session >/dev/null 2>&1; then echo "xfce"
-    elif pgrep -x gnome-session >/dev/null 2>&1; then echo "gnome"
-    elif pgrep -x kdeinit5 >/dev/null 2>&1; then echo "kde"
-    elif pgrep -x lxsession >/dev/null 2>&1; then echo "lxde"
-    elif pgrep -x mate-session >/dev/null 2>&1; then echo "mate"
-    elif pgrep -x sway >/dev/null 2>&1; then
+    elif proch "xfce-session"; then echo "xfce"
+    elif proch "kdeinit5"; then echo "kde"
+    elif proch "gnome-session"; then echo "gnome"
+    elif proch "lxsession"; then echo "lxqt"
+    elif proch "mate-session"; then echo "mate"
+    elif proch "sway"; then
     # i did it cuz one sway user asked me to do this
         if sway --version 2>/dev/null | grep -q 'swayfx'; then
             echo "swayfx"
         else
             echo "sway"
         fi
-    elif pgrep -x hyprland >/dev/null 2>&1; then echo "hyprland"
-    elif pgrep -x dwm >/dev/null 2>&1; then echo "dwm"
-    elif pgrep -x dwl >/dev/null 2>&1; then echo "dwl"
-    elif pgrep -x twm >/dev/null 2>&1; then echo "twm"
-    elif pgrep -x i3 >/dev/null 2>&1; then echo "i3"
-    elif pgrep -x bspwm >/dev/null 2>&1; then echo "bspwm"
-    elif pgrep -x herbstluftwm >/dev/null 2>&1; then echo "herbstluftwm"
-    elif pgrep -x xmonad >/dev/null 2>&1; then echo "xmonad"
-    elif [ pgrep -x niri >/dev/null 2>&1 ] || [ pgrep -x niri-session >/dev/null 2>&1 ]; then echo "niri"
+    elif proch "hyprland"; then echo "hyprland"
+    elif proch "dwm"; then echo "dwm"
+    elif proch "dwl"; then echo "dwl"
+    elif proch "twm"; then echo "twm"
+    elif proch "i3"; then echo "i3"
+    elif proch "bspwm" ; then echo "bspwm"
+    elif proch "herbstluftwm"; then echo "herbstluftwm"
+    elif proch "xmonad"; then echo "xmonad"
+    elif [ proch "niri" ] || [ proch "niri-session" ]; then echo "niri"
     elif command -v getprop >/dev/null 2>&1; then echo "surfaceflinger"
     elif [ "$(uname -s)" = "Haiku" ]; then echo "tracker"
-    elif pgrep -x kwin_x11 >/dev/null 2>&1; then echo "kwin"
+    elif proch "kwin_x11" >/dev/null 2>&1; then echo "kwin"
     elif tty -s; then echo "tty"
     else echo "Unknown"
     fi
