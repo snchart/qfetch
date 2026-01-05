@@ -159,8 +159,8 @@ pkgm(){
     if command -v flatpak >/dev/null 2>&1; then
         pkgc="${pkgc}flatpak [$(flatpak list | wc -l)], "
     fi
-    if command -v qpkg >/dev/null 2>&1; then
-        pkgc="${pkgc}qpkg [$(ls /var/lib/qpkg/installed/ | wc -l)], " 2>/dev/null 2>&1
+    if command -v snprt >/dev/null 2>&1; then
+        pkgc="${pkgc}snprt [$(ls /var/db/snprt/list/ | wc -l)], "
     fi
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
