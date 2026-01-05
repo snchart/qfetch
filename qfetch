@@ -178,7 +178,7 @@ env() {
             else echo "Unknown"
             fi
         ;;
-    /dev/tty*) echo "$(tty)"
+    *) basename "$(tty)"
     esac
 }
 
