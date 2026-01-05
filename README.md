@@ -41,6 +41,8 @@ __Linux distros__:
 + CachyOS
 + CentOS
 + Venom Linux
++ Chimera Linux
++ KISS Linux
 
 __BSD distros__:
 + FreeBSD

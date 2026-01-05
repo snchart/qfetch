@@ -176,7 +176,7 @@ env() {
         /dev/pts/*)
             if [ -n "$XDG_CURRENT_DESKTOP" ]; then echo "$XDG_CURRENT_DESKTOP"
             elif [ -n "$DESKTOP_SESSION" ]; then echo "$DESKTOP_SESSION"
-            elif proch "xfce-session"; then echo "xfce"
+            elif proch "xfce4-session"; then echo "xfce"
             elif proch "kdeinit5"; then echo "kde"
             elif proch "gnome-session"; then echo "gnome"
             elif proch "lxsession"; then echo "lxqt"
@@ -583,7 +583,7 @@ case "$ascii" in
         color="$gray"
         ;;
     chimera*)
-        ascia="${blue}  ,_____,${red} ,        "
+        ascia="${blue}  ,.....,${red} ,        "
         ascib="${blue}  |     |${red} |        "
         ascic="${blue}  |   ,-'${red} |        "
         ascid="${blue}  '---\`${red}.'\`\` _____  "
