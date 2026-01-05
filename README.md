@@ -9,6 +9,7 @@ qfetch it's a clone of [envfetch](https://github.com/locomiadev/envfetch)(or jus
 5. FreeBSD RAM support
 6. tty support
 7. NetBSD support
+8. Displays all available pkg managers
 ## disadvantages
 1. less OS support(no illumos)
 2. no config file

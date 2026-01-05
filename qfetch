@@ -202,7 +202,8 @@ env() {
             else echo "Unknown"
             fi
         ;;
-    *) tty
+    /proc*) echo "Termux" ;;
+    *) tty ;;
     esac
 }
 
