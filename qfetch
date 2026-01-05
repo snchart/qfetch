@@ -169,7 +169,7 @@ env() {
     elif proch "bspwm" ; then echo "bspwm"
     elif proch "herbstluftwm"; then echo "herbstluftwm"
     elif proch "xmonad"; then echo "xmonad"
-    elif [ proch "niri" ] || [ proch "niri-session" ]; then echo "niri"
+    elif proch "niri-session"; then echo "niri"
     elif command -v getprop >/dev/null 2>&1; then echo "surfaceflinger"
     elif [ "$(uname -s)" = "Haiku" ]; then echo "tracker"
     elif proch "kwin_x11" >/dev/null 2>&1; then echo "kwin"
