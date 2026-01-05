@@ -64,6 +64,7 @@ case "$(distrog)" in
         "CentOS"*) ascii="centos" ;;
         "Haiku"*) ascii="haiku" ;;
         "Venom GNU/Linux"*) ascii="venom" ;;
+        "Chimera Linux"*) ascii="chimera" ;;
         *) ascii="unknown" ;;  
 esac
 
@@ -581,6 +582,18 @@ case "$ascii" in
         ascij="                   "
         color="$gray"
         ;;
+    chimera*)
+        ascia="${blue}  ,_____,${red} ,        "
+        ascib="${blue}  |     |${red} |        "
+        ascic="${blue}  |   ,-'${red} |        "
+        ascid="${blue}  '---\`${red}.'\`\` _____  "
+        ascie="${purple}  .---,${red}'._.',---.  "
+        ascif="${purple}  |   \`-,${red} ,-\`   |  "
+        ascig="${purple}  |     | ${red}|     |  "
+        ascih="${purple}  '\"\"\"\"\"'${red} '\"\"\"\"\"'  "
+        ascij="                   "
+        color="$purple"
+        ;;
     *)
         ascia="     ___     "
         ascib="    (.. |    "
@@ -603,4 +616,4 @@ printf "%s$ascie $reset ${color}cpu:${reset}    $(cpug)\n"
 printf "%s$ascif $reset ${color}sh:${reset}     $shell\n"
 printf "%s$ascig $reset ${color}env:${reset}    $(env)\n" 2>/dev/null
 printf "%s$ascih $reset ${color}disk:${reset}   $(disk)\n"
-printf "%s$ascij\n"
+printf "%s$ascij$reset\n"
