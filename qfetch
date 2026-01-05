@@ -160,7 +160,7 @@ pkgm(){
         pkgc="${pkgc}flatpak [$(flatpak list | wc -l)], "
     fi
     if command -v qpkg >/dev/null 2>&1; then
-        pkgc="${pkgc}qpkg [$(ls /var/lib/qpkg/installed/ | wc -l)], "
+        pkgc="${pkgc}qpkg [$(ls /var/lib/qpkg/installed/ | wc -l)], " 2>/dev/null 2>&1
     fi
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
