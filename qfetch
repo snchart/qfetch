@@ -97,49 +97,73 @@ done
 # elif
 # ...
 pkgm(){
+    local pkgc=""
     if command -v pacman >/dev/null 2>&1; then
-        echo "pacman [$(pacman -Qq | wc -l)]"
-    elif command -v dpkg >/dev/null 2>&1; then
-        echo "apt [$(dpkg --get-selections | grep -v deinstall | wc -l)]"
-    elif command -v dnf >/dev/null 2>&1; then
-        echo "dnf [$(rmp -qa | wc -l)]"
-    elif command -v zypper >/dev/null 2>&1; then
-        echo "zypper [$(rpm -qa | wc -l)]"
-    elif command -v apk >/dev/null 2>&1; then
-        echo "apk [$(grep -c '^P:' /lib/apk/db/installed)]"
-    elif command -v xbps-install >/dev/null 2>&1; then
-        echo "xbps [$(xbps-query -l | wc -l)]"
-    elif command -v pkg >/dev/null 2>&1; then
-        if [ "$(uname -o)" = "FreeBSD" ]; then
-            echo "pkg [$(pkg query -a '%n' | wc -l | tr -d ' ')]"
-        elif [ "$(uname -s)" = "Darwin" ]; then
-            echo "pkg [$(pkg list | wc -l | tr -d ' ')]"
-        fi
-    elif command -v nix >/dev/null 2>&1; then
-        echo "nix"
-    elif command -v scoop >/dev/null 2>&1; then
-        echo "scoop"
-    elif command -v pkgtool >/dev/null 2>&1; then
-        echo "pkgtool [$(ls /var/log/packages | wc -l)]"
-    elif command -v yum >/dev/null 2>&1; then
-        echo "yum [$(rpm -qa | wc -l)]"
-    elif command -v emerge >/dev/null 2>&1; then
-        echo "emerge [$(qlist -I | wc -l)]"
-    elif command -v prt-get >/dev/null 2>&1; then
-        echo "prt-get [$(pkginfo -i | wc -l)]"
-    elif command -v scratch >/dev/null 2>&1; then
-        echo "scratch [$(ls /var/lib/scratchpkg/db/ | wc -l)]"
-    elif command -v pkgin >/dev/null 2>&1; then
-        echo "pkgin [$(pkg_info | wc -l | awk '{print $1}')]"
-    elif command -v pkg_add >/dev/null 2>&1; then
-            echo "pkg_add [$(pkg_info | wc -l | awk '{print $1}')]"
-    elif command -v pkgman >/dev/null 2>&1; then
-        echo "pkgman [$(find /boot/system/packages /boot/home/config/packages -name "*.hpkg" | wc -l)]"
-    elif command -v kiss >/dev/null 2>&1; then
-        echo "kiss [$(ls /var/db/kiss/installed | wc -l)]"
-    else
-        echo "unknown"
+        pkgc="${pkgc}pacman [$(pacman -Qq | wc -l)], "
     fi
+    if command -v dpkg >/dev/null 2>&1; then
+        pkgc="${pkgc}apt [$(dpkg --get-selections | grep -v deinstall | wc -l)], "
+    fi
+    if command -v dnf >/dev/null 2>&1; then
+        pkgc="${pkgc}dnf [$(rmp -qa | wc -l)], " 
+    fi
+    if command -v zypper >/dev/null 2>&1; then
+        pkgc="${pkgc}zypper [$(rpm -qa | wc -l)], "
+    fi
+    if command -v apk >/dev/null 2>&1; then
+        pkgc="${pkgc}apk [$(grep -c '^P:' /lib/apk/db/installed)], "
+    fi
+    if command -v xbps-install >/dev/null 2>&1; then
+        pkgc="${pkgc}xbps [$(xbps-query -l | wc -l)], "
+    fi
+    if command -v pkg >/dev/null 2>&1; then
+        if [ "$(uname -o)" = "FreeBSD" ]; then
+            pkgc="${pkgc}pkg [$(pkg query -a '%n' | wc -l | tr -d ' ')], "
+        elif [ "$(uname -s)" = "Darwin" ]; then
+            pkgc="${pkgc}pkg [$(pkg list | wc -l | tr -d ' ')], "
+        fi
+    fi
+    if command -v nix >/dev/null 2>&1; then
+        pkgc="${pkgc}nix, "
+    fi
+    if command -v scoop >/dev/null 2>&1; then
+        pkgc="${pkgc}scoop, "
+    fi
+    if command -v pkgtool >/dev/null 2>&1; then
+        pkgc="${pkgc}pkgtool [$(ls /var/log/packages | wc -l)], "
+    fi
+    if command -v yum >/dev/null 2>&1; then
+        pkgc="${pkgc}yum [$(rpm -qa | wc -l)], "
+    fi
+    if command -v emerge >/dev/null 2>&1; then
+        pkgc="${pkgc}emerge [$(qlist -I | wc -l)], "
+    fi
+    if command -v prt-get >/dev/null 2>&1; then
+        pkgc="${pkgc}prt-get [$(pkginfo -i | wc -l)], "
+    fi
+    if command -v scratch >/dev/null 2>&1; then
+        pkgc="${pkgc}scratch [$(ls /var/lib/scratchpkg/db/ | wc -l)], "
+    fi
+    if command -v pkgin >/dev/null 2>&1; then
+        pkgc="${pkgc}pkgin [$(pkg_info | wc -l | awk '{print $1}')], "
+    fi
+    if command -v pkg_add >/dev/null 2>&1; then
+        pkgc="${pkgc}pkg_add [$(pkg_info | wc -l | awk '{print $1}')], "
+    fi
+    if command -v pkgman >/dev/null 2>&1; then
+        pkgc="${pkgc}pkgman [$(find /boot/system/packages /boot/home/config/packages -name "*.hpkg" | wc -l)], "
+    fi
+    if command -v kiss >/dev/null 2>&1; then
+        pkgc="${pkgc}kiss [$(ls /var/db/kiss/installed | wc -l)], "
+    fi
+    if command -v flatpak >/dev/null 2>&1; then
+        pkgc="${pkgc}flatpak [$(flatpak list | wc -l)], "
+    fi
+    if command -v qpkg >/dev/null 2>&1; then
+        pkgc="${pkgc}qpkg [$(ls /var/lib/qpkg/installed/ | wc -l)], "
+    fi
+    [ -n "$pkgc" ] && pkgc=${pkgc%??}
+    echo "$pkgc"
 }
 
 proch(){
