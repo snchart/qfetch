@@ -171,7 +171,7 @@ pkgm(){
     if command -v snprt >/dev/null 2>&1; then
         pkgc="${pkgc}snprt [$(ls /var/db/snprt/list/ | wc -l)], "
     fi
-    if
+    if command -v cave >/dev/null 2>&1; then
         pkgc="${pkgc}paludis [$(ls /var/db/paludis/repositories/installed/data/ | wc -l)], "
     fi
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
