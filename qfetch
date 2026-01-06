@@ -8,10 +8,17 @@ lblue="\033[1;96m" # light blue
 blue="\033[1;34m" # blue
 purple="\033[1;35m" # purple
 aqua="\033[1;36m" # aqua
-gray="\033[38;2;106;106;106m" # gray
-userg=$(whoami) 
+gray="\033[38;2;106;106;106m" # gray 
 host=$(uname -n)  
 shell=$(basename "$SHELL")
+
+userg(){
+    if command -v whoami >/dev/null 2>&1; then
+        whoami
+    else
+        id -un
+    fi
+}
 
 distrog(){
     if [ "$(uname -s)" = "FreeBSD" ]; then
@@ -612,7 +619,7 @@ case "$ascii" in
 esac
 
 printf "\n"
-printf "%s$ascia $reset ${color}$userg${reset}@${color}$host${reset} \n"
+printf "%s$ascia $reset ${color}$(userg)${reset}@${color}$host${reset} \n"
 printf "%s$ascib $reset ${color}os:${reset}     $(distrog)\n"
 printf "%s$ascic $reset ${color}pkg:${reset}    $(pkgm)\n"
 printf "%s$ascid $reset ${color}ram:${reset}    $(ramd)\n"
