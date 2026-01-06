@@ -238,7 +238,10 @@ ramd(){
         usedmem="$(((totalmem - $(vmstat | grep "free memory" | awk '{print int($3 / 1024 / 1024)}'))))"
         echo "${usedmem}MiB / ${totalmem}MiB"
     elif [ "$(distrog)" = "OpenIndiana" ]; then
-        echo "no info"
+        memtot="$(prtconf | grep Memory | awk '{print $3}')"
+        memavb="$(vmstat | awk 'NR==3 {print int($5 / 1024}')"
+        memusd="$((memtot - memavb))"
+        echo "${memusd}MiB / ${memtot}MiB"
     else
         # i made it cuz environmentingonment bot doesn't have free command
         memtot="$(($(cat /proc/meminfo | awk 'NR==1 {print $2}') / 1024))"
