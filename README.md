@@ -53,6 +53,7 @@ __BSD distros__:
 __Other UNIX__
 + HaikuOS
 + MINIX(without logo)
++ OpenIndiana
 
 ## how to install it, you need execute:
 

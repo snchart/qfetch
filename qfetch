@@ -596,7 +596,7 @@ case "$ascii" in
         ascij="                   "
         color="$gray"
         ;;
-    chimera*)
+    chimera)
         ascia="${blue}  ,.....,${red} ,        "
         ascib="${blue}  |     |${red} |        "
         ascic="${blue}  |   ,-'${red} |        "
@@ -607,6 +607,17 @@ case "$ascii" in
         ascih="${purple}  '\"\"\"\"\"'${red} '\"\"\"\"\"'  "
         ascij="                   "
         color="$purple"
+        ;;
+    opendiana|openindiana)
+        ascia="                  "
+        ascib="          *       "
+        ascic="${blue}    .-\`-.${reset} |       "
+        ascid="${blue}    |   | ${reset}|-'-.   "
+        ascie="${blue}    \\\   / ${reset}|  .'   "
+        ascif="  .' ${blue}\`\"\` ${reset}_.-\`     "
+        ascig="  '-..-'\`         "
+        ascih="                  "
+        ascij="                  "
         ;;
     *)
         ascia="     ___     "
