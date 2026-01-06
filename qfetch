@@ -81,6 +81,7 @@ case "$(distrog)" in
         "OpenIndiana"*) ascii="opendiana" ;;
         "Exherbo"*) ascii="exherbo" ;;
         "Obarun"*) ascii="obarun" ;;
+        "Bedrock"*) ascii="bedrock" ;;
         *) ascii="unknown" ;;  
 esac
 
@@ -113,7 +114,7 @@ pkgm(){
     if command -v pacman >/dev/null 2>&1; then
         pkgc="${pkgc}pacman [$(pacman -Qq | wc -l)], "
     fi
-    if command -v dpkg >/dev/null 2>&1; then
+    if [ command -v dpkg >/dev/null 2>&1 ] && [ command -v apt >/dev/null 2>&1]; then
         pkgc="${pkgc}apt [$(dpkg --get-selections | grep -v deinstall | wc -l)], "
     fi
     if command -v dnf >/dev/null 2>&1; then
