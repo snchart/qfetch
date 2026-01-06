@@ -626,8 +626,8 @@ case "$ascii" in
     exherbo*)
         ascia=" .'.  ,_....,__.._  "
         ascib="  \\\ |'        \`'. | "
-        ascic="  /'   _   .${blue}w${reset}.   \\\. "
-        ascid=" :    :${blue}#${reset}:  \\\\${blue}#${reset}/    : "
+        ascic="  /'   _   /${blue}w${reset}\\\   \\\. "
+        ascid=" :    |${blue}#${reset}|  \\\\${blue}#${reset}/    : "
         ascie=" :   ${red}.-*\"\"\"=-_    ${reset}| "
         ascif="  \\\ ${red}|${reset}  +    B ${red}':${reset} /  "
         ascig="   '.${red}'._____.-'${reset} /   "
