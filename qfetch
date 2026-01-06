@@ -128,7 +128,7 @@ pkgm(){
         elif [ "$(uname -s)" = "Darwin" ]; then
             pkgc="${pkgc}pkg [$(pkg list | wc -l | tr -d ' ')], "
         elif [ "$(distrog)" = "OpenIndiana" ]; then
-            pkgc="${pkgc}pkg [$(pkginfo | wc -l | awk '{print $1}')]"
+            pkgc="${pkgc}pkg [$(pkginfo | wc -l | awk '{print $1}')], "
         fi
     fi
     if command -v nix >/dev/null 2>&1; then
