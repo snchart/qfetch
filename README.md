@@ -43,6 +43,9 @@ __Linux distros__:
 + Venom Linux
 + Chimera Linux
 + KISS Linux
++ Exherbo Linux
++ Bedrock Linux
++ Obarun Linux
 
 __BSD distros__:
 + FreeBSD
