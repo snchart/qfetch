@@ -32,7 +32,11 @@ distrog(){
     elif [ "$(uname -s)" = "NetBSD" ]; then
         echo "NetBSD"
     elif [ -f "/etc/os-release" ]; then
-        cat /etc/os-release | grep PRETTY_NAME | awk -F '=' '{print $2}' | tr -d '"'
+        if [ -d /bedrock ]; then
+            echo "Bedrock"
+        else
+            cat /etc/os-release | grep PRETTY_NAME | awk -F '=' '{print $2}' | tr -d '"'
+        fi
     elif [ "$(uname -s)" = "Minix" ]; then
         echo "Minix"
     elif command -v getprop >/dev/null 2>&1; then
@@ -76,6 +80,7 @@ case "$(distrog)" in
         "Chimera Linux"*) ascii="chimera" ;;
         "OpenIndiana"*) ascii="opendiana" ;;
         "Exherbo"*) ascii="exherbo" ;;
+        "Obarun"*) ascii="obarun" ;;
         *) ascii="unknown" ;;  
 esac
 
@@ -635,6 +640,30 @@ case "$ascii" in
         ascij="                    "
         color="$blue"
         ;;
+    obarun)
+        ascia="${blue}       __.     "
+        ascib="${blue}    .W'        "
+        ascic="${blue}   //    .ww.  "
+        ascid="${blue}  ||    WWWW*  "
+        ascie="${blue}  ||    www/   "
+        ascif="${blue}  \\\|._  ,//    "
+        ascig="${blue}   '^4WP^'     "
+        ascih="               "
+        ascih="               "
+        color="$blue"
+        ;;
+    bedrock*)
+        ascia="               "
+        ascib="${gray}   _________   "
+        ascic="${gray}  | ${reset}__      ${gray}|  "
+        ascid="${gray}  | ${reset}\\\ \\\___  ${gray}|  "
+        ascie="${gray}  |  ${reset}\\\  _ \\\ ${gray}|  "
+        ascif="${gray}  |   ${reset}\\\___/${gray} |  "
+        ascig="${gray}  |_________|  "
+        ascih="               "
+        ascij="               "
+        color="$gray"
+        ;;
     *)
         ascia="     ___     "
         ascib="    (.. |    "
@@ -655,6 +684,6 @@ printf "%s$ascic $reset ${color}pkg:${reset}    $(pkgm)\n"
 printf "%s$ascid $reset ${color}ram:${reset}    $(ramd)\n"
 printf "%s$ascie $reset ${color}cpu:${reset}    $(cpug)\n"
 printf "%s$ascif $reset ${color}sh:${reset}     $shell\n"
-printf "%s$ascig $reset ${color}env:${reset}    $(env)\n" 2>/dev/null
+printf "%s$ascig $reset ${color}env:${reset}    $(env)\n"
 printf "%s$ascih $reset ${color}disk:${reset}   $(disk)\n"
 printf "%s$ascij$reset\n"
