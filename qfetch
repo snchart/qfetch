@@ -75,6 +75,7 @@ case "$(distrog)" in
         "Venom GNU/Linux"*) ascii="venom" ;;
         "Chimera Linux"*) ascii="chimera" ;;
         "OpenIndiana"*) ascii="opendiana" ;;
+        "Exherbo"*) ascii="exherbo" ;;
         *) ascii="unknown" ;;  
 esac
 
@@ -169,6 +170,9 @@ pkgm(){
     fi
     if command -v snprt >/dev/null 2>&1; then
         pkgc="${pkgc}snprt [$(ls /var/db/snprt/list/ | wc -l)], "
+    fi
+    if
+        pkgc="${pkgc}paludis [$(ls /var/db/paludis/repositories/installed/data/ | wc -l)], "
     fi
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
@@ -618,6 +622,18 @@ case "$ascii" in
         ascig="  '-..-'\`         "
         ascih="                  "
         ascij="                  "
+        ;;
+    exherbo*)
+        ascia=" .'.  ,_....,__.._  "
+        ascib="  \\\ |'        \`'. | "
+        ascic="  /'   _   .${blue}w${reset}.   \\\. "
+        ascid=" :    :${blue}#${reset}:  \\\\${blue}#${reset}/    : "
+        ascie=" :   ${red}.-*\"\"\"=-_    ${reset}| "
+        ascif="  \\\ ${red}|${reset}  +    B ${red}':${reset} /  "
+        ascig="   '.${red}'._____.-'${reset} /   "
+        ascih="     ${reset}'=.,,,,,.='    "
+        ascij="                    "
+        color="$blue"
         ;;
     *)
         ascia="     ___     "
