@@ -102,84 +102,52 @@ for arg in "$@"; do
                 gray=""
                 color=""
             ;;
-        --help*) 
-            echo "--ascii <ascii> sets ascii"
-            echo "--nocol removes color"
-            ;;
     esac
 done
 
+pkgs(){
+    cmd=$1
+    echocmd=$2
+    estimator=$3
+    # Oh nooo... The estimator...
+    if command -v "$cmd" >/dev/null 2>&1; then
+        count=$(eval "$estimator")
+        if [ -n "$count" ] && [ "$count" -ne 0 ]; then
+            pkgc="${pkgc}${echocmd} [${count}], "
+        fi
+    fi
+}
+
 pkgm(){
     pkgc=""
-    if command -v pacman >/dev/null 2>&1; then
-        pkgc="${pkgc}pacman [$(pacman -Qq | wc -l)], "
-    fi
+    pkgs "pacman" "pacman" "pacman -Qq | wc -l"
     if [ command -v dpkg >/dev/null 2>&1 ] && [ command -v apt >/dev/null 2>&1]; then
         pkgc="${pkgc}apt [$(dpkg --get-selections | grep -v deinstall | wc -l)], "
     fi
-    if command -v dnf >/dev/null 2>&1; then
-        pkgc="${pkgc}dnf [$(rmp -qa | wc -l)], " 
-    fi
-    if command -v zypper >/dev/null 2>&1; then
-        pkgc="${pkgc}zypper [$(rpm -qa | wc -l)], "
-    fi
-    if command -v apk >/dev/null 2>&1; then
-        pkgc="${pkgc}apk [$(grep -c '^P:' /lib/apk/db/installed)], "
-    fi
-    if command -v xbps-install >/dev/null 2>&1; then
-        pkgc="${pkgc}xbps [$(xbps-query -l | wc -l)], "
-    fi
+    pkgs "dnf" "dnf" "rpm -qa | wc -l"
+    pkgs "zypper" "zypper" "rpm -qa | wc -l"
+    pkgs "apk" "apk" "grep -c '^P:' /lib/apk/db/installed"
+    pkgs "xbps-install" "xbps" "xbps-query -l | wc -l"
     if command -v pkg >/dev/null 2>&1; then
-        if [ "$(uname -o)" = "FreeBSD" ]; then
-            pkgc="${pkgc}pkg [$(pkg query -a '%n' | wc -l | tr -d ' ')], "
-        elif [ "$(uname -s)" = "Darwin" ]; then
-            pkgc="${pkgc}pkg [$(pkg list | wc -l | tr -d ' ')], "
-        elif [ "$(distrog)" = "OpenIndiana" ]; then
-            pkgc="${pkgc}pkg [$(pkginfo | wc -l | awk '{print $1}')], "
-        fi
+        case "$(uname -s)" in
+            "FreeBSD") pkgc="${pkgc}pkg [$(pkg query -a '%n' | wc -l | tr -d ' ')], " ;;
+            "Darwin") pkgc="${pkgc}pkg [$(pkg list | wc -l | tr -d ' ')], " ;;
+            *) pkgc="${pkgc}pkg [$(pkginfo | wc -l | awk '{print $1}')], " ;;
+        esac
     fi
-    if command -v nix >/dev/null 2>&1; then
-        pkgc="${pkgc}nix, "
-    fi
-    if command -v scoop >/dev/null 2>&1; then
-        pkgc="${pkgc}scoop, "
-    fi
-    if command -v pkgtool >/dev/null 2>&1; then
-        pkgc="${pkgc}pkgtool [$(ls /var/log/packages | wc -l)], "
-    fi
-    if command -v yum >/dev/null 2>&1; then
-        pkgc="${pkgc}yum [$(rpm -qa | wc -l)], "
-    fi
-    if command -v emerge >/dev/null 2>&1; then
-        pkgc="${pkgc}emerge [$(qlist -I | wc -l)], "
-    fi
-    if command -v prt-get >/dev/null 2>&1; then
-        pkgc="${pkgc}prt-get [$(pkginfo -i | wc -l)], "
-    fi
-    if command -v scratch >/dev/null 2>&1; then
-        pkgc="${pkgc}scratch [$(ls /var/lib/scratchpkg/db/ | wc -l)], "
-    fi
-    if command -v pkgin >/dev/null 2>&1; then
-        pkgc="${pkgc}pkgin [$(pkg_info | wc -l | awk '{print $1}')], "
-    fi
-    if command -v pkg_add >/dev/null 2>&1; then
-        pkgc="${pkgc}pkg_add [$(pkg_info | wc -l | awk '{print $1}')], "
-    fi
-    if command -v pkgman >/dev/null 2>&1; then
-        pkgc="${pkgc}pkgman [$(find /boot/system/packages /boot/home/config/packages -name "*.hpkg" | wc -l)], "
-    fi
-    if command -v kiss >/dev/null 2>&1; then
-        pkgc="${pkgc}kiss [$(ls /var/db/kiss/installed | wc -l)], "
-    fi
-    if command -v flatpak >/dev/null 2>&1; then
-        pkgc="${pkgc}flatpak [$(flatpak list | wc -l)], "
-    fi
-    if command -v snprt >/dev/null 2>&1; then
-        pkgc="${pkgc}snprt [$(ls /var/db/snprt/list/ | wc -l)], "
-    fi
-    if command -v cave >/dev/null 2>&1; then
-        pkgc="${pkgc}paludis [$(ls /var/db/paludis/repositories/installed/data/ | wc -l)], "
-    fi
+    pkgs "nix-store" "nix" "ls /nix/store | wc -l"
+    pkgs "pkgtool" "pkgtool" "ls /var/log/packages | wc -l"
+    pkgs "yum" "yum" "rpm -qa | wc -l"
+    pkgs "emerge" "emerge" "qlist -I | wc -l"
+    pkgs "prt-get" "prt-get" "pkginfo -i | wc -l"
+    pkgs "scratch" "scratch" "ls /var/lib/scratchpkg/db/ | wc -l"
+    pkgs "pkgin" "pkgin" "pkg_info | wc -l | awk '{print $1}'"
+    pkgs "pkg_add" "pkg_add" "pkg_info | wc -l | awk '{print $1}'"
+    pkgs "pkgman" "pkgman" "find /boot/system/packages /boot/home/config/packages -name \"*.hpkg\" | wc -l"
+    pkgs "kiss" "kiss" "ls /var/db/kiss/installed | wc -l"
+    pkgs "flatpak" "flatpak" "flatpak list | wc -l"
+    pkgs "snprt" "snprt" "ls /var/db/snprt/list/ | wc -l"
+    pkgs "cave" "paludis" "ls /var/db/paludis/repositories/installed/data | wc -l"
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
 }
@@ -523,14 +491,14 @@ case "$ascii" in
         color="$green"
         ;;
     cachy|cachyos)
-        ascia="${aqua}    .::::::::::::'    "
-        ascib="${aqua}   .::::::::::::'     "
-        ascic="${aqua}  .::::::'            "
-        ascid="${aqua} .::::::'             "
-        ascie="${aqua} '::::::.             "
-        ascif="${aqua}  '::::::.            "
-        ascig="${aqua}   '::::::::::::::::' "
-        ascih="${aqua}    '::::::::::::::'  "
+        ascia="${aqua}    /''''''''''''/    "
+        ascib="${aqua}   /      ______/     "
+        ascic="${aqua}  /      /            "
+        ascid="${aqua} /      /             "
+        ascie="${aqua} \      \             "
+        ascif="${aqua}  \      \___________ "
+        ascig="${aqua}   \                / "
+        ascih="${aqua}    '..............'  "
         ascij="                     "
         color="$aqua"
         ;;
