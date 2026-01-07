@@ -110,7 +110,7 @@ pkgs(){
     echocmd=$2
     estimator=$3
     # Oh nooo... The estimator...
-    if command -v "$cmd" >/dev/null 2>&1; then
+    if type -p "$cmd" >/dev/null 2>&1; then
         count=$(eval "$estimator")
         if [ -n "$count" ] && [ "$count" -ne 0 ]; then
             pkgc="${pkgc}${echocmd} [${count}], "
@@ -121,7 +121,7 @@ pkgs(){
 pkgm(){
     pkgc=""
     pkgs "pacman" "pacman" "pacman -Qq | wc -l"
-    pkgs "dpkg --get-selections" "dpkg" "dpkg --get-selections | grep -v deinstall | wc -l,"
+    pkgs "dpkg --get-selections" "dpkg" "dpkg --get-selections | grep -v deinstall | wc -l"
     pkgs "dnf" "dnf" "rpm -qa | wc -l"
     pkgs "zypper" "zypper" "rpm -qa | wc -l"
     #pkgs "apk" "apk" "grep -c '^P:' /lib/apk/db/installed"
