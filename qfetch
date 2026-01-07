@@ -121,9 +121,7 @@ pkgs(){
 pkgm(){
     pkgc=""
     pkgs "pacman" "pacman" "pacman -Qq | wc -l"
-    if [ command -v dpkg >/dev/null 2>&1 ] && [ command -v apt >/dev/null 2>&1]; then
-        pkgc="${pkgc}apt [$(dpkg --get-selections | grep -v deinstall | wc -l)], "
-    fi
+    pkgs "dpkg --get-selections" "dpkg" "dpkg --get-selections | grep -v deinstall | wc -l,"
     pkgs "dnf" "dnf" "rpm -qa | wc -l"
     pkgs "zypper" "zypper" "rpm -qa | wc -l"
     #pkgs "apk" "apk" "grep -c '^P:' /lib/apk/db/installed"
