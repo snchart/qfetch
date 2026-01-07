@@ -1,21 +1,15 @@
 # qfetch
 qfetch it's a clone of [envfetch](https://github.com/locomiadev/envfetch)(or just inspired by it)
 
-## advantages of qfetch
-1. qfetch have Makefile
-2. qfetch works in one file
-3. qfetch has better color support(colorful logos)
-4. termux pkg support
-5. FreeBSD RAM support
-6. tty support
-7. NetBSD support
-8. Displays all available pkg managers
-## disadvantages
-1. less OS support(no illumos)
-2. no config file
+## advantages
+1. qfetch have colorful logos
+2. qfetch supports more linux distros than envfetch
+3. it supports bedrock linux
+
+## issues
+1. apk package count works slowly due to bedrock unstability(yes i tried apk on bedrock strat)
+2. packages count works slowly
 3. android cpu may not work
-4. some logos maybe broken
-5. OpenBSD ram and disk is broken
 
 ## qfetch supports:
 __Linux distros__:
