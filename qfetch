@@ -110,7 +110,7 @@ pkgs(){
     echocmd=$2
     estimator=$3
     # Oh nooo... The estimator...
-    if type -p "$cmd" >/dev/null 2>&1; then
+    if command -v "$cmd" >/dev/null 2>&1; then
         count=$(eval "$estimator")
         if [ -n "$count" ] && [ "$count" -ne 0 ]; then
             pkgc="${pkgc}${echocmd} [${count}], "
