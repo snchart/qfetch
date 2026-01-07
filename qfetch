@@ -154,6 +154,7 @@ pkgm(){
     pkgs "flatpak" "flatpak" "flatpak list | wc -l"
     pkgs "snprt" "snprt" "ls /var/db/snprt/list/ | wc -l"
     pkgs "cave" "paludis" "ls /var/db/paludis/repositories/installed/data | wc -l"
+    pkgs "eopkg" "eopkg" "ls /var/lib/eopkg/package | wc -l"
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
 }
