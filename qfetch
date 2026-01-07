@@ -132,7 +132,7 @@ pkgm(){
     pkgs "dnf" "dnf" "rpm -qa | wc -l"
     pkgs "zypper" "zypper" "rpm -qa | wc -l"
     #pkgs "apk" "apk" "grep -c '^P:' /lib/apk/db/installed"
-    pkgs "apk" "apk" "grep -c '^P:' /lib/apk/db/installed || apk info | wc -l"
+    pkgs "apk" "apk" "grep -c '^P:' /lib/apk/db/installed 2>/dev/null || apk info | wc -l"
     pkgs "xbps-install" "xbps" "xbps-query -l | wc -l"
     if command -v pkg >/dev/null 2>&1; then
         case "$(uname -s)" in
