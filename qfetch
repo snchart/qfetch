@@ -11,11 +11,6 @@ aqua="\033[1;36m" # aqua
 gray="\033[38;2;106;106;106m" # gray 
 host=$(uname -n)  
 shell=$(basename "$SHELL")
-if [ -d /bedrock ]; then
-    FKR="/bedrock"
-else
-    FKR=""
-fi
 
 userg(){
     if command -v whoami >/dev/null 2>&1; then
@@ -87,6 +82,7 @@ case "$(distrog)" in
         "Exherbo"*) ascii="exherbo" ;;
         "Obarun"*) ascii="obarun" ;;
         "Bedrock"*) ascii="bedrock" ;;
+        "Solus"*) ascii="solus" ;;
         *) ascii="unknown" ;;  
 esac
 
@@ -502,9 +498,9 @@ case "$ascii" in
         ascib="${aqua}   /      ______/     "
         ascic="${aqua}  /      /            "
         ascid="${aqua} /      /             "
-        ascie="${aqua} \      \             "
-        ascif="${aqua}  \      \___________ "
-        ascig="${aqua}   \                / "
+        ascie="${aqua} \\\      \\\             "
+        ascif="${aqua}  \\\      \\\___________ "
+        ascig="${aqua}   \\\                / "
         ascih="${aqua}    '..............'  "
         ascij="                     "
         color="$aqua"
@@ -628,17 +624,29 @@ case "$ascii" in
         ascih="               "
         color="$blue"
         ;;
-    bedrock*)
-        ascia="               "
-        ascib="${gray}   _________   "
-        ascic="${gray}  | ${reset}__      ${gray}|  "
-        ascid="${gray}  | ${reset}\\\ \\\___  ${gray}|  "
-        ascie="${gray}  |  ${reset}\\\  _ \\\ ${gray}|  "
-        ascif="${gray}  |   ${reset}\\\___/${gray} |  "
-        ascig="${gray}  |_________|  "
+    bedrock)
+        ascia="${gray}   _________   "
+        ascib="${gray}  | ${reset}__      ${gray}|  "
+        ascic="${gray}  | ${reset}\\\ \\\___  ${gray}|  "
+        ascid="${gray}  |  ${reset}\\\  _ \\\ ${gray}|  "
+        ascie="${gray}  |   ${reset}\\\___/${gray} |  "
+        ascif="${gray}  |_________|  "
+        ascig="               "
         ascih="               "
         ascij="               "
         color="$gray"
+        ;;
+    solus)
+        ascia="  ${gray}    _${reset}/\\\\${gray}<^^>-._     "
+        ascib="  ${gray}  .'${reset}/  \\\ ${gray}     '.   "
+        ascic="  ${gray} / ${reset}/    \\\ ${gray}      \\\  "
+        ascid="  ${gray}:${reset} /      ||'.,_${gray}  : "
+        ascie="  ${reset}:/       |]_.\\\_\`:> "
+        ascif="  ${reset}<.-----^^''${blue}_,:-=${gray}/  "
+        ascig="  ${blue}  ':-=*^''\` ${blue}  .'   "
+        ascih="  ${blue}    \`^<.__.>^\`     "
+        ascij="                          "  
+        color="$blue"
         ;;
     *)
         ascia="     ___     "

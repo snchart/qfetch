@@ -40,6 +40,7 @@ __Linux distros__:
 + Exherbo Linux
 + Bedrock Linux
 + Obarun Linux
++ Solus Linux
 
 __BSD distros__:
 + FreeBSD
