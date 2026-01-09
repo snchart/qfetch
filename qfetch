@@ -81,6 +81,7 @@ case "$(distrog)" in
         "DragonFly"*) ascii="dragonfly" ;;
         "Gobo Linux"*) ascii="gobolinux" ;;
         "T2/Linux"*) ascii="t2" ;;
+        "Parabola"*) ascii="parabola" ;;
         *) ascii="unknown" ;;  
 esac
 
@@ -678,6 +679,18 @@ case "$ascii" in
         ascih="${blue}                "
         ascij="${blue}                "
         color="$blue"
+        ;;
+    parabola)
+        ascia="                  "
+        ascib="${purple}   __ __ __  _    "
+        ascic="${purple} .\`_//_//_/ / \`.  "
+        ascid="${purple}           /  .\`  "
+        ascie="${purple}          / .\`    "
+        ascif="${purple}         /.\`      "
+        ascig="${purple}        /\`        "
+        ascih="${purple}                  "
+        ascij="${purple}                  "
+        color="$purple"
         ;;
     *)
         ascia="     ___     "
