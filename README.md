@@ -1,5 +1,5 @@
 # qfetch
-qfetch it's a clone of [envfetch](https://github.com/locomiadev/envfetch)(or just inspired by it)
+qfetch it's a copy of [envfetch](https://github.com/locomiadev/envfetch) with another structure of code
 
 ## advantages
 1. qfetch have colorful logos
@@ -77,5 +77,5 @@ change shebang in qfetch file from '#!/bin/sh' to '#!/system/bin/sh'
 + Darwin support
 
 ## Credit
-thanks to [locomia](https://github.com/locomiadev) for inspiring me to create this, thanks for the logos etc.
+thanks to [locomia](https://github.com/locomiadev) for inspiring me to create this and thanks to [dylan araps](https://github.com/dylanaraps)
 
