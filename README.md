@@ -47,6 +47,7 @@ __BSD distros__:
 + OpenBSD
 + NetBSD
 + Hellosystem
++ DragonflyBSD
 
 __Other UNIX__
 + HaikuOS

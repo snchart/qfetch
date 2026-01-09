@@ -30,13 +30,15 @@ distrog(){
         DragonFly) echo "DragonFly" ;;
         Haiku) echo "Haiku" ;;
         SunOS) cat /etc/release | awk 'NR==1 {print $1}' ;;
-        Linux) 
+        Linux|GNU) 
             if [ -d /bedrock ]; then 
                 echo "Bedrock"
             elif [ -f /etc/os-release ]; then
                 cat /etc/os-release | grep PRETTY_NAME | awk -F '=' '{print $2}' | tr -d '"'
             elif command -v getprop >/dev/null 2>&1; then
                 echo "Android $(getprop ro.build.version.release)"
+            elif [ -f /etc/gobo ]; then
+                echo "Gobo Linux $(cat /etc/GoboLinuxVersion)"
             fi
         ;;
         *) echo "Unknown"
@@ -77,6 +79,7 @@ case "$(distrog)" in
         "Bedrock"*) ascii="bedrock" ;;
         "Solus"*) ascii="solus" ;;
         "DragonFly"*) ascii="dragonfly" ;;
+        "Gobo Linux"*) ascii="gobolinux" ;;
         *) ascii="unknown" ;;  
 esac
 
@@ -145,6 +148,7 @@ pkgm(){
     pkgs "snprt" "snprt" "ls /var/db/snprt/list/ | wc -l"
     pkgs "cave" "paludis" "ls /var/db/paludis/repositories/installed/data | wc -l"
     pkgs "eopkg" "eopkg" "ls /var/lib/eopkg/package | wc -l"
+    pkgs "Compile" "compile" "ls /Programs | wc -l"
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
 }
@@ -155,7 +159,7 @@ proch(){
 
 env() {
     case "$(tty)" in
-        /dev/pts/*)
+        pts*)
             if [ -n "$XDG_CURRENT_DESKTOP" ]; then echo "$XDG_CURRENT_DESKTOP"
             elif [ -n "$DESKTOP_SESSION" ]; then echo "$DESKTOP_SESSION"
             elif proch "xfce4-session"; then echo "xfce"
@@ -191,7 +195,7 @@ env() {
 }
 
 ramd(){
-    if [ "$(uname -s)" = "FreeBSD" ] || [ "$(distrog)" = "DragonFly" ]; then
+    if [ "$(uname -s)" = "FreeBSD" ] || [ "$(uname -s)" = "DragonFly" ]; then
         pagesi="$(sysctl -n hw.pagesize)"
         wiredm="$(($(sysctl -n vm.stats.vm.v_wire_count) * pagesi / 1024 / 1024))"
         activm=$(($(sysctl -n vm.stats.vm.v_active_count) * pagesi / 1024 / 1024))
@@ -199,7 +203,7 @@ ramd(){
         usedm=$((wiredm + activm + inactm))
         physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         echo "${usedm}MiB / ${physm}MiB"
-    elif [ "$(distrog)" = "OpenBSD" ] || [ "$(uname -s)" = "NetBSD" ]; then
+    elif [ "$(uname -s)" = "OpenBSD" ] || [ "$(uname -s)" = "NetBSD" ]; then
         # i dont know how to make it work T_T
         pagesi="$(sysctl -n hw.pagesize)"
         wiredm="$(vmstat -s | grep "pages wired" | awk '{print $1}')"
@@ -208,7 +212,7 @@ ramd(){
         usedm=$(((wiredm + activm) * pagesi / 1024 / 1024))
         physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         echo "${usedm}MiB / ${physm}MiB"
-    elif [ "$(distrog)" = "Haiku" ]; then
+    elif [ "$(uname -s)" = "Haiku" ]; then
         totalmem="$(($(vmstat | grep "max memory" | awk '{print int($3 / 1024 / 1024)}')))"
         usedmem="$(((totalmem - $(vmstat | grep "free memory" | awk '{print int($3 / 1024 / 1024)}'))))"
         echo "${usedmem}MiB / ${totalmem}MiB"
@@ -228,15 +232,15 @@ ramd(){
 }
 
 cpug(){
-    if [ "$(distrog)" = "FreeBSD" ] || [ "$(distrog)" = "DragonFly" ]; then 
+    if [ "$(uname -s)" = "FreeBSD" ] || [ "$(uname -s)" = "DragonFly" ]; then 
         sysctl -n hw.model
-    elif [ "$(distrog)" = "OpenBSD" ] || [ "$(distrog)" = "NetBSD" ]; then 
+    elif [ "$(uname -s)" = "OpenBSD" ] || [ "$(uname -s)" = "NetBSD" ]; then 
         sysctl -n hw.model 2>/dev/null
-    elif [ "$(distrog)" = "Minix" ]; then
+    elif [ "$(uname -s)" = "Minix" ]; then
         grep 'model name' /proc/cpuinfo | awk '{print $3}'
     elif command -v getprop >/dev/null 2>&1; then
         cat /proc/cpuinfo | grep -i 'hardware' | awk -F': ' '{print $2}'
-    elif [ "$(distrog)" = "Haiku" ]; then
+    elif [ "$(uname -s)" = "Haiku" ]; then
         sysinfo -cpu | awk -F '\"' '/CPU #0/ {print $2}'
     elif [ "$(distrog)" = "OpenIndiana" ]; then
         kstat -p cpu_info:0:*:brand | awk -F'\t' '{print $2}'
