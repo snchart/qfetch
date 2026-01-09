@@ -653,6 +653,18 @@ case "$ascii" in
         ascij=""
         color="$red"
         ;;
+    gobolinux|gobo)
+        ascia="${lblue}    _____   "
+        ascib="${lblue}   / ____|  "
+        ascic="${lblue}  | |  __   "
+        ascid="${lblue}  | | |_ |  "
+        ascie="${lblue}  | |__| |  "
+        ascif="${lblue}   \\\_____|  "
+        ascig="          "
+        ascih="          "
+        ascij="          "
+        color="$lblue"
+        ;;
     *)
         ascia="     ___     "
         ascib="    (.. |    "
