@@ -42,6 +42,7 @@ __Linux distros__:
 + Obarun Linux
 + Solus Linux
 + Gobo Linux(this shit ruined all my code)
++ T2 Linux SDE
 
 __BSD distros__:
 + FreeBSD
