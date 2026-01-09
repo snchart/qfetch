@@ -41,6 +41,7 @@ __Linux distros__:
 + Bedrock Linux
 + Obarun Linux
 + Solus Linux
++ Gobo Linux(this shit ruined all my code)
 
 __BSD distros__:
 + FreeBSD
@@ -53,6 +54,7 @@ __Other UNIX__
 + HaikuOS
 + MINIX(without logo)
 + OpenIndiana
++ Debian GNU/Hurd(maybe)
 
 ## how to install it, you need execute:
 
