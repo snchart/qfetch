@@ -82,6 +82,7 @@ case "$(distrog)" in
         "Gobo Linux"*) ascii="gobolinux" ;;
         "T2/Linux"*) ascii="t2" ;;
         "Parabola"*) ascii="parabola" ;;
+        "SulinOS"*) ascii="sulin" ;;
         *) ascii="unknown" ;;  
 esac
 
@@ -152,6 +153,7 @@ pkgm(){
     pkgs "eopkg" "eopkg" "ls /var/lib/eopkg/package | wc -l"
     pkgs "Compile" "compile" "ls /Programs | wc -l"
     pkgs "mine" "mine" "mine -q | wc -l"
+    pkgs "inary" "inary" "ls /var/lib/inary/package -1 | wc -l"
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
 }
@@ -691,6 +693,18 @@ case "$ascii" in
         ascih="${purple}                  "
         ascij="${purple}                  "
         color="$purple"
+        ;;
+    sulin)
+        ascia="    it's donkey  "
+        ascib="                 "
+        ascic="${gray} ^__^            "
+        ascid="${gray} (${reset}oo${gray})\\\_______    "
+        ascie="${gray} (__)\\\       )\\\  "
+        ascif="${gray}     ||-----||   "
+        ascig="${gray}     ||     ||   "
+        ascih="                 "
+        ascij="                 "
+        color="$gray"
         ;;
     *)
         ascia="     ___     "
