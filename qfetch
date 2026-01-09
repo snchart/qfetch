@@ -80,6 +80,7 @@ case "$(distrog)" in
         "Solus"*) ascii="solus" ;;
         "DragonFly"*) ascii="dragonfly" ;;
         "Gobo Linux"*) ascii="gobolinux" ;;
+        "T2/Linux"*) ascii="t2" ;;
         *) ascii="unknown" ;;  
 esac
 
@@ -149,6 +150,7 @@ pkgm(){
     pkgs "cave" "paludis" "ls /var/db/paludis/repositories/installed/data | wc -l"
     pkgs "eopkg" "eopkg" "ls /var/lib/eopkg/package | wc -l"
     pkgs "Compile" "compile" "ls /Programs | wc -l"
+    pkgs "mine" "mine" "mine -q | wc -l"
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
 }
@@ -664,6 +666,18 @@ case "$ascii" in
         ascih="            "
         ascij="            "
         color="$lblue"
+        ;;
+    t2|t2linux)
+        ascia="${blue}                "
+        ascib="${blue} TTTTTTTTTT     "
+        ascic="${blue}     tt${reset}   222   "
+        ascid="${blue}     tt${reset}  2   2  "
+        ascie="${blue}     tt${reset}     2   "
+        ascif="${blue}     tt${reset}    2    "
+        ascig="${blue}     tt${reset}  22222  "
+        ascih="${blue}                "
+        ascij="${blue}                "
+        color="$blue"
         ;;
     *)
         ascia="     ___     "
