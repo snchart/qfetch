@@ -1,7 +1,7 @@
 
 # qfetch
 
-<img width="796" height="367" alt="2026-01-10-202944_796x367_scrot" src="https://github.com/user-attachments/assets/491760b3-ad7d-4995-a257-8ae88f8be764" />
+<img width="794" height="363" alt="2026-01-10-203613_794x363_scrot" src="https://github.com/user-attachments/assets/225ebc02-f0b3-4261-a12d-11c223eaa919" />
 
 qfetch it's a copy of [envfetch](https://github.com/locomiadev/envfetch) with another structure of code
 
