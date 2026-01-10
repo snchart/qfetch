@@ -1,6 +1,8 @@
-<img width="796" height="367" alt="2026-01-10-202944_796x367_scrot" src="https://github.com/user-attachments/assets/faf50fa4-e693-491e-a0b1-89a0ab056504" />
 
 # qfetch
+
+<img width="796" height="367" alt="2026-01-10-202944_796x367_scrot" src="https://github.com/user-attachments/assets/491760b3-ad7d-4995-a257-8ae88f8be764" />
+
 qfetch it's a copy of [envfetch](https://github.com/locomiadev/envfetch) with another structure of code
 
 ## advantages
