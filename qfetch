@@ -233,25 +233,24 @@ ramd(){
         memusd="$(((memtot) - (memavb / 1024)))"
         echo "${memusd}MiB / ${memtot}MiB"
         #free | awk 'NR==2 {print int($3 / 1024)"MiB" " / " int($2 / 1024)"MiB"}'
+        ;;
     esac
 }
 
 cpug(){
-    if [ "$(uname -s)" = "FreeBSD" ] || [ "$(uname -s)" = "DragonFly" ]; then 
-        sysctl -n hw.model
-    elif [ "$(uname -s)" = "OpenBSD" ] || [ "$(uname -s)" = "NetBSD" ]; then 
-        sysctl -n hw.model 2>/dev/null
-    elif [ "$(uname -s)" = "Minix" ]; then
-        grep 'model name' /proc/cpuinfo | awk '{print $3}'
-    elif command -v getprop >/dev/null 2>&1; then
-        cat /proc/cpuinfo | grep -i 'hardware' | awk -F': ' '{print $2}'
-    elif [ "$(uname -s)" = "Haiku" ]; then
-        sysinfo -cpu | awk -F '\"' '/CPU #0/ {print $2}'
-    elif [ "$(distrog)" = "OpenIndiana" ]; then
-        kstat -p cpu_info:0:*:brand | awk -F'\t' '{print $2}'
-    else
-        grep -m 1 'model name' /proc/cpuinfo | cut -d ':' -f2 | sed 's/^ //'
-    fi
+    case "$UNAME" in
+        FreeBSD|Dragonfly) sysctl -n hw.model ;;
+        OpenBSD|NetBSD) sysctl -n hw.model 2>/dev/null ;;
+        Minix) grep 'model name' /proc/cpuinfo | awk '{print $3}' ;;
+        Haiku) sysinfo -cpu | awk -F '\"' '/CPU #0/ {print $2}' ;;
+        SunOS) kstat -p cpu_info:0:*:brand | awk -F'\t' '{print $2}' ;;
+        *) if command -v getprop >/dev/null 2>&1; then
+           #     cat /proc/cpuinfo | grep -i 'hardware' | awk -F ': ' '{print $2}'
+                getprop ro.hardware
+           else
+                grep -m 1 'model name' /proc/cpuinfo | cut -d ':' -f2 | sed 's/^ //'
+           fi
+    esac
 }
 
 disk(){
