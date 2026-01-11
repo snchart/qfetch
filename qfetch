@@ -240,7 +240,7 @@ ramd(){
 
 cpug(){
     case "$UNAME" in
-        FreeBSD|Dragonfly) sysctl -n hw.model ;;
+        FreeBSD|DragonFly) sysctl -n hw.model ;;
         OpenBSD|NetBSD) sysctl -n hw.model 2>/dev/null ;;
         Minix) grep 'model name' /proc/cpuinfo | awk '{print $3}' ;;
         Haiku) sysinfo -cpu | awk -F '\"' '/CPU #0/ {print $2}' ;;
@@ -497,7 +497,7 @@ case "$ascii" in
         color="$green"
         ;;
     cachy|cachyos)
-        ascia="${aqua}    /''''''''''''/    "
+        ascia="${aqua}    .''''''''''''/    "
         ascib="${aqua}   /      ______/     "
         ascic="${aqua}  /      /            "
         ascid="${aqua} /      /             "
