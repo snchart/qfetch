@@ -62,6 +62,7 @@ __Other UNIX__
 + MINIX(without logo)
 + OpenIndiana
 + Debian GNU/Hurd(maybe)
++ OmniOS(and other SunOS)
 
 ## how to install it, you need execute:
 
