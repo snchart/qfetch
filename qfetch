@@ -11,6 +11,7 @@ aqua="\033[1;36m" # aqua
 gray="\033[38;2;106;106;106m" # gray 
 host=$(uname -n)  
 shell=$(basename "$SHELL")
+UNAME="$(uname -s)"
 
 userg(){
     if command -v whoami >/dev/null 2>&1; then
@@ -21,7 +22,6 @@ userg(){
 }
 
 distrog(){
-    UNAME="$(uname -s)"
     case "$UNAME" in
         FreeBSD) [ -d /System ] && echo "Hellosystem" || echo "FreeBSD" ;;
         OpenBSD) echo "OpenBSD" ;;
@@ -195,7 +195,8 @@ env() {
 }
 
 ramd(){
-    if [ "$(uname -s)" = "FreeBSD" ] || [ "$(uname -s)" = "DragonFly" ]; then
+    case "$UNAME" in
+        FreeBSD|DragonFly)
         pagesi="$(sysctl -n hw.pagesize)"
         wiredm="$(($(sysctl -n vm.stats.vm.v_wire_count) * pagesi / 1024 / 1024))"
         activm=$(($(sysctl -n vm.stats.vm.v_active_count) * pagesi / 1024 / 1024))
@@ -203,7 +204,8 @@ ramd(){
         usedm=$((wiredm + activm + inactm))
         physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         echo "${usedm}MiB / ${physm}MiB"
-    elif [ "$(uname -s)" = "OpenBSD" ] || [ "$(uname -s)" = "NetBSD" ]; then
+        ;;
+        OpenBSD|NetBSD)
         # i dont know how to make it work T_T
         pagesi="$(sysctl -n hw.pagesize)"
         wiredm="$(vmstat -s | grep "pages wired" | awk '{print $1}')"
@@ -212,23 +214,26 @@ ramd(){
         usedm=$(((wiredm + activm) * pagesi / 1024 / 1024))
         physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         echo "${usedm}MiB / ${physm}MiB"
-    elif [ "$(uname -s)" = "Haiku" ]; then
+        ;;
+        Haiku)
         totalmem="$(($(vmstat | grep "max memory" | awk '{print int($3 / 1024 / 1024)}')))"
         usedmem="$(((totalmem - $(vmstat | grep "free memory" | awk '{print int($3 / 1024 / 1024)}'))))"
         echo "${usedmem}MiB / ${totalmem}MiB"
-    elif [ "$(distrog)" = "OpenIndiana" ]; then
+        ;;
+        SunOS)
         memtot="$(prtconf | grep Memory | awk '{print $3}')"
         memavb="$(vmstat | awk 'NR==3 {print int($5 / 1024)}')"
         memusd="$((memtot - memavb))"
         echo "${memusd}MiB / ${memtot}MiB"
-    else
+        ;;
+        *)
         # i made it cuz environmentingonment bot doesn't have free command
         memtot="$(($(cat /proc/meminfo | awk 'NR==1 {print $2}') / 1024))"
         memavb="$(cat /proc/meminfo | awk 'NR==3 {print $2}')"
         memusd="$(((memtot) - (memavb / 1024)))"
         echo "${memusd}MiB / ${memtot}MiB"
         #free | awk 'NR==2 {print int($3 / 1024)"MiB" " / " int($2 / 1024)"MiB"}'
-    fi
+    esac
 }
 
 cpug(){

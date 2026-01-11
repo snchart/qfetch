@@ -47,6 +47,8 @@ __Linux distros__:
 + Solus Linux
 + Gobo Linux(this shit ruined all my code)
 + T2 Linux SDE
++ SulinOS(maybe)
++ Parabola GNU/Linux-libre
 
 __BSD distros__:
 + FreeBSD
