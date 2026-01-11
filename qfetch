@@ -83,6 +83,7 @@ case "$(distrog)" in
         "T2/Linux"*) ascii="t2" ;;
         "Parabola"*) ascii="parabola" ;;
         "SulinOS"*) ascii="sulin" ;;
+        "OmniOS"*) ascii="omnios" ;;
         *) ascii="unknown" ;;  
 esac
 
@@ -709,6 +710,18 @@ case "$ascii" in
         ascih="                 "
         ascij="                 "
         color="$gray"
+        ;;
+    omnios)
+        ascia="${reset}    _____       "
+        ascib="${reset}   / ___ \\\      "
+        ascic="${reset}  | /  ${yellow}_${reset}\\\\${yellow}_${reset}|${yellow}_    "
+        ascid="${reset}  | \\\_${yellow}/ ___ \\\   "
+        ascie="${reset}   \\\_${yellow}| /${reset}_/${yellow} \\\ |  "
+        ascif="${yellow}     | \\\___/ |  "
+        ascig="${yellow}      \\\_____/   "
+        ascih="                "
+        ascij="                "
+        color="$yellow"
         ;;
     *)
         ascia="     ___     "
