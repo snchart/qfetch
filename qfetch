@@ -136,11 +136,7 @@ pkgm(){
             "FreeBSD"|"DragonFly") pkgc="${pkgc}pkg [$(pkg query -a '%n' | wc -l | tr -d ' ')], " ;;
             "Darwin") pkgc="${pkgc}pkg [$(pkg list | wc -l | tr -d ' ')], " ;;
             "SunOS") pkgc="${pkgc}pkg [$(pkginfo | wc -l | tr -d ' ')], " ;;
-            *) if command -v getprop >/dev/null 2>&1; then
-                pkgc="${pkgc}"
-            else
-                pkgc="${pkgc}pkg, "
-            fi
+            *) command -v getprop >/dev/null 2>&1 && pkgc="${pkgc}" || pkgc="${pkgc}pkg, " ;;
         esac
     fi
     pkgs "nix-store" "nix" "ls /nix/store | wc -l"
