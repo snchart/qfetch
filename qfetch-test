@@ -116,6 +116,7 @@ pkgm(){
     pkgs "Compile" "compile" "ls /Programs | wc -l"
     pkgs "mine" "mine" "mine -q | wc -l"
     pkgs "inary" "inary" "ls /var/lib/inary/package -1 | wc -l"
+    pkgs "tce" "tce" "tce-status -i | wc -l"
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
 }
@@ -150,8 +151,10 @@ env() {
     elif proch "niri-session"; then echo "niri"
     elif command -v getprop >/dev/null 2>&1; then echo "surfaceflinger"
     elif [ "$(uname -s)" = "Haiku" ]; then echo "tracker"
-    elif proch "kwin_x11" >/dev/null 2>&1; then echo "kwin"
-    elif proch "awesome" >/dev/null 2>&1; then echo "awesome"
+    elif proch "kwin_x11"; then echo "kwin"
+    elif proch "awesome"; then echo "awesome"
+    elif proch "fluxbox"; then echo "fluxbox"
+    elif proch "openbox"; then echo "openbox"
     else echo "$(tty)"
     fi
 }
@@ -683,6 +686,18 @@ case "$ascii" in
         ascih="                "
         ascij="                "
         color="$yellow"
+        ;;
+    [Tt]iny[Cc]ore*)
+        ascia="${gray}                "
+        ascib="${gray}    ,.-'''-.,   "
+        ascic="${gray}   /       .'\\\  "
+        ascid="${gray}  |      ,'   | "
+        ascie="${gray}  |    ,'     | "
+        ascif="${gray}   \\\.,'      /  "
+        ascig="${gray}    \`'-...-'\`   "
+        ascih="${gray}                "
+        ascij="${gray}                "
+        color="$gray"
         ;;
     *)
         ascia="     ___     "
