@@ -49,6 +49,7 @@ __Linux distros__:
 + T2 Linux SDE
 + SulinOS(maybe)
 + Parabola GNU/Linux-libre
++ Tiny Core Linux
 
 __BSD distros__:
 + FreeBSD

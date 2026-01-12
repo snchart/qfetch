@@ -45,47 +45,7 @@ distrog(){
     esac
 }
 
-case "$(distrog)" in
-        "EndeavourOS"*) ascii="endeavouros" ;;
-        "Void Linux"*) ascii="void" ;;
-        "Ubuntu"*) ascii="ubuntu" ;;
-        "Debian"*) ascii="debian" ;;
-        "Arch Linux"*) ascii="arch" ;;
-        "Linux Mint"*) ascii="mint" ;;
-        "NixOS"*) ascii="nixos" ;;
-        "Alpine Linux"*) ascii="alpine" ;;
-        "Fedora Linux"*) ascii="fedora" ;;
-        "PostmarketOS"*) ascii="pmos" ;;
-        "CRUX"|"KISS"*) ascii="crux" ;;
-        "openSUSE"*) ascii="opensuse" ;;
-        "Locoware GNU/Linux"*) ascii="locoware" ;;
-        "Artix"*) ascii="artix" ;;
-        "Slackware"*) ascii="slackware" ;;
-        "Devuan GNU/Linux"*) ascii="devuan" ;;
-        FreeBSD|Hellosystem*) ascii="freebsd" ;;
-        "Gentoo"*) ascii="gentoo" ;;
-        "Android"*) ascii="android" ;;
-        "CachyOS"*) ascii="cachy" ;;
-        "Pop!_OS"*) ascii="pop" ;;
-        "OpenBSD"*) ascii="openbsd" ;;
-        "NetBSD"*) ascii="netbsd" ;;
-        "CentOS"*) ascii="centos" ;;
-        "Haiku"*) ascii="haiku" ;;
-        "Venom GNU/Linux"*) ascii="venom" ;;
-        "Chimera Linux"*) ascii="chimera" ;;
-        "OpenIndiana"*) ascii="opendiana" ;;
-        "Exherbo"*) ascii="exherbo" ;;
-        "Obarun"*) ascii="obarun" ;;
-        "Bedrock"*) ascii="bedrock" ;;
-        "Solus"*) ascii="solus" ;;
-        "DragonFly"*) ascii="dragonfly" ;;
-        "Gobo Linux"*) ascii="gobolinux" ;;
-        "T2/Linux"*) ascii="t2" ;;
-        "Parabola"*) ascii="parabola" ;;
-        "SulinOS"*) ascii="sulin" ;;
-        "OmniOS"*) ascii="omnios" ;;
-        *) ascii="unknown" ;;  
-esac
+ascii=$(distrog)
 
 # thanks to locomia
 for arg in "$@"; do
@@ -156,6 +116,7 @@ pkgm(){
     pkgs "Compile" "compile" "ls /Programs | wc -l"
     pkgs "mine" "mine" "mine -q | wc -l"
     pkgs "inary" "inary" "ls /var/lib/inary/package -1 | wc -l"
+    pkgs "tce" "tce" "tce-status -i | wc -l"
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
 }
@@ -190,8 +151,10 @@ env() {
     elif proch "niri-session"; then echo "niri"
     elif command -v getprop >/dev/null 2>&1; then echo "surfaceflinger"
     elif [ "$(uname -s)" = "Haiku" ]; then echo "tracker"
-    elif proch "kwin_x11" >/dev/null 2>&1; then echo "kwin"
-    elif proch "awesome" >/dev/null 2>&1; then echo "awesome"
+    elif proch "kwin_x11"; then echo "kwin"
+    elif proch "awesome"; then echo "awesome"
+    elif proch "fluxbox"; then echo "fluxbox"
+    elif proch "openbox"; then echo "openbox"
     else echo "$(tty)"
     fi
 }
@@ -268,7 +231,7 @@ disk(){
 }
 
 case "$ascii" in
-    endeavouros)
+    [Ee]ndeavour[Oo][Ss]*)
         ascia="${reset}                       "
         ascib="${red}           /${purple}o${blue}.         "
         ascic="${red}         /${purple}sssso${blue}-       "
@@ -280,7 +243,7 @@ case "$ascii" in
         ascij="                       "
         color="$purple"
         ;;
-    mint|linuxmint)
+    [Mm]int*)
         ascia="${green}  ___________   "
         ascib="${green} |_          \\\  "
         ascic="${green}   | ${reset}| _____${green} |  "
@@ -292,7 +255,7 @@ case "$ascii" in
         ascij="                "
         color="$green"
         ;;
-    slackware|шлака)
+    [Ss]lackware*)
         ascia="${blue}    ________   "
         ascib="${blue}   /  ______|  "
         ascic="${blue}   | |______   "
@@ -304,7 +267,7 @@ case "$ascii" in
         ascij="               "
         color="$blue"
         ;;
-    arch)
+    [Aa]rch*)
         ascia="                 " 
         ascib="${lblue}       /\\\        "
         ascic="${lblue}      /  \\\       "
@@ -316,7 +279,7 @@ case "$ascii" in
         ascij="                 "
         color="$lblue"
         ;;
-    nixos|nix)
+    [Nn]ix[Oo][Ss]*)
         ascia="                 "
         ascib="${lblue}    \\\\\\\  \\\\\\\ //    "
         ascic=" ${lblue}  ==\\\\\\\__\\\\\\\/ //  "
@@ -328,7 +291,7 @@ case "$ascii" in
         ascij="                "
         color="$lblue"
         ;;
-    void|voidlinux)
+    [Vv]oid*)
         ascia="${green}     ________    "
         ascib="${green}   _ \\\_____  \`.  " 
         ascic="${green}  | \\\  ___ \`. |  " 
@@ -340,19 +303,19 @@ case "$ascii" in
         ascij="${green}                 "
         color="$green"
         ;;
-    ubuntu)
+    [Uu]buntu*)
         ascia="              "
-        ascib="${orange}          _   "
-        ascic="${orange}      ---(_)  "  
-        ascid="${orange}  _/  ---  \\\  "
-        ascie="${orange} (_) |   |    "
-        ascif="${orange}   \\\  --- _/  "
-        ascig="${orange}      ---(_)  "
+        ascib="${red}          _   "
+        ascic="${red}      ---(_)  "  
+        ascid="${red}  _/  ---  \\\  "
+        ascie="${red} (_) |   |    "
+        ascif="${red}   \\\  --- _/  "
+        ascig="${red}      ---(_)  "
         ascih="              "
         ascij="              "
-        color="$orange"
+        color="$red"
         ;;
-    debian)
+    [Dd]ebian*)
         # i made this ascii by myself
         ascia="${red}      _,_     "
         ascib="${red}   .:'\`\`\`':.  "
@@ -365,7 +328,7 @@ case "$ascii" in
         ascij="${red}              "
         color="$red"
         ;;
-    alpine|alpinelinux)
+    [Aa]lpine*)
         ascia="                "
         ascib="${blue}     /\\\ /\\\      "
         ascic="${blue}    // \\\  \\\     "
@@ -377,7 +340,7 @@ case "$ascii" in
         ascij="                "
         color="$blue"
         ;;
-    fedora)
+    [Ff]edora*)
         ascia="${blue}                 "
         ascib="${blue}         .###.   "
         ascic="${blue}        #'   '#  "
@@ -389,7 +352,7 @@ case "$ascii" in
         ascij="${blue}                 "
         color="$blue"
         ;;
-    pmos|postmarketos)
+    [Pp]ostmarket[Oo][Ss]*)
         ascia="              "
         ascib="${green}      /\\\      "
         ascic="${green}     /  \\\     "
@@ -401,7 +364,7 @@ case "$ascii" in
         ascij="              "
         color="$green"
         ;;
-    crux|CRUX|kiss|KISS)
+    [Cc][Rr][Uu][Xx]|[Kk][Ii][Ss][Ss]*)
         ascia="${blue}      ___     "
         ascib="${blue}     (${reset}..${blue} |    "
         ascic="${blue}     (${purple}<>${blue} |    "
@@ -413,7 +376,7 @@ case "$ascii" in
         ascij="              "
         color="$blue"
         ;;
-    opensuse)
+    [Oo]pen[Ss][Uu][Ss][Ee]*)
         ascia="${green}     _______    "
         ascib="${green}  __|    __ \\\   "
         ascic="${green} |      / .\\\ \\\  "
@@ -425,7 +388,7 @@ case "$ascii" in
         ascij="${green}               "
         color="$green"
         ;;
-    locoware)
+    [Ll]ocoware*)
         ascia="              "
         ascib="              "
         ascic="${yellow}       dMP    "
@@ -437,7 +400,7 @@ case "$ascii" in
         ascij="              "
         color="$yellow"
         ;;
-    artix)
+    [Aa]rtix*)
         ascia="                "
         ascib="${lblue}       /\\\       "
         ascic="${lblue}      /  \\\      "
@@ -449,7 +412,7 @@ case "$ascii" in
         ascij="                "
         color="$lblue"
         ;;
-    devuan)
+    [Dd]evuan*)
         ascia="                "
         ascib="${yellow}   ..:::.       "
         ascic="${yellow}      ''===-    "
@@ -461,7 +424,7 @@ case "$ascii" in
         ascij="                "
         color="$yellow"
         ;;
-    freebsd|hellosystem)
+    [Ff]ree[Bb][Ss][Dd]|[Hh]ellosystem*)
         ascia="                 "
         ascib="${red}  /\\\,-'''''-,/\\\  "
         ascic="${red}  \\\_)       (_/  "
@@ -473,7 +436,7 @@ case "$ascii" in
         ascij="                 "
         color="$red"
         ;;
-    gentoo)
+    [Gg]entoo*)
         ascia="${purple}   _-----_     "
         ascib="${purple}  (       \\\    "
         ascic="${purple}  \\\    0   \\\   "
@@ -485,7 +448,7 @@ case "$ascii" in
         ascij="               "
         color="$purple"
         ;;
-    android)
+    [Aa]ndroid*)
         ascia="                     "
         ascib="${green}   ;,           ,;   "
         ascic="${green}    ';,.-----.,;'    "
@@ -497,7 +460,7 @@ case "$ascii" in
         ascij="                     "
         color="$green"
         ;;
-    cachy|cachyos)
+    [Cc]achy[Oo][Ss]*)
         ascia="${aqua}    .''''''''''''/    "
         ascib="${aqua}   /      ______/     "
         ascic="${aqua}  /      /            "
@@ -509,7 +472,7 @@ case "$ascii" in
         ascij="                     "
         color="$aqua"
         ;;
-    pop|popos)
+    [Pp]op!_[Oo][Ss]|[Pp]op_[Oo][Ss]*)
         ascia="${aqua}  ______             "
         ascib="${aqua}  \\\   _ \\\        __  "
         ascic="${aqua}   \\\ \ \\\ \\\      / /  "
@@ -521,7 +484,7 @@ case "$ascii" in
         ascij="                   "
         color="$aqua"
         ;;
-    openbsd)
+    [Oo]pen[Bb][Ss][Dd]*)
         ascia="${yellow}        _____      "
         ascib="${yellow}      \\\-     -/    "
         ascic="${yellow}   \\\_/         \\\   "
@@ -533,7 +496,7 @@ case "$ascii" in
         ascij="                  "
         color="$yellow"
         ;;
-    centos)
+    [Cc]ent[Oo][Ss]*)
         ascia="               "
         ascib="   ${green}____${yellow}^${purple}____   "
         ascic="   ${green}|\\\  ${yellow}|${purple}  /|   "
@@ -545,7 +508,7 @@ case "$ascii" in
         ascij="               "
         color="$green"
         ;;
-    netbsd)
+    [Nn]et[Bb][Ss][Dd]*)
         ascia="  \\\\\\\\${red}\`-______,----__    "
         ascib="   \\\\\\\ ${red}       __,---\`_  "
         ascic="    \\\\\\\ ${red}      \`.____    "
@@ -557,7 +520,7 @@ case "$ascii" in
         ascij="                     "
         color="$red"
         ;;
-    haiku|haikuos)
+    [Hh]aiku*)
         ascia="${green}         ,^,         "
         ascib="${green}        /   \\\        "
         ascic="${green}  *--_ ;     ; _--*  "
@@ -569,7 +532,7 @@ case "$ascii" in
         ascij="                     "
         color="$green"
         ;;
-    venom|venomlinux)
+    [Vv]enom*)
         ascia="${gray}  ,__   _,.,_       "
         ascib="${gray}  ':###:\"'\`'\"#:.    "
         ascic="${gray}    :####.    '#:   "
@@ -581,7 +544,7 @@ case "$ascii" in
         ascij="                   "
         color="$gray"
         ;;
-    chimera)
+    [Cc]himera*)
         ascia="${blue}  ,.....,${red} ,        "
         ascib="${blue}  |     |${red} |        "
         ascic="${blue}  |   ,-'${red} |        "
@@ -593,7 +556,7 @@ case "$ascii" in
         ascij="                   "
         color="$purple"
         ;;
-    opendiana|openindiana)
+    [Oo]pen[Ii]ndiana*)
         ascia="                  "
         ascib="          *       "
         ascic="${blue}    .-\`-.${reset} |       "
@@ -604,7 +567,7 @@ case "$ascii" in
         ascih="                  "
         ascij="                  "
         ;;
-    exherbo*)
+    [Ee]xherbo*)
         ascia=" .'.  ,_....,__.._  "
         ascib="  \\\ |'        \`'. | "
         ascic="  /'   _   /${blue}w${reset}\\\   \\\. "
@@ -616,7 +579,7 @@ case "$ascii" in
         ascij="                    "
         color="$blue"
         ;;
-    obarun)
+    [Oo]barun*)
         ascia="${blue}       __.     "
         ascib="${blue}    .W'        "
         ascic="${blue}   //    .ww.  "
@@ -628,7 +591,7 @@ case "$ascii" in
         ascih="               "
         color="$blue"
         ;;
-    bedrock)
+    [Bb]edrock*)
         ascia="               "
         ascib="${gray}   _________   "
         ascic="${gray}  | ${reset}__      ${gray}|  "
@@ -640,7 +603,7 @@ case "$ascii" in
         ascij="               "
         color="$gray"
         ;;
-    solus)
+    [Ss]olus*)
         ascia="  ${gray}    _${reset}/\\\\${gray}<^^>-._     "
         ascib="  ${gray}  .'${reset}/  \\\ ${gray}     '.   "
         ascic="  ${gray} / ${reset}/    \\\ ${gray}      \\\  "
@@ -652,7 +615,7 @@ case "$ascii" in
         ascij="                          "  
         color="$blue"
         ;;
-    dragonfly)
+    [Dd]ragon[Ff]ly*)
         ascia="     ,${red}_${reset},     "
         ascib="  ('-_${red}|${reset}_-')  "
         ascic="   >--${red}|${reset}--<   "
@@ -664,7 +627,7 @@ case "$ascii" in
         ascij=""
         color="$red"
         ;;
-    gobolinux|gobo)
+    [Gg]obo*)
         ascia="            "
         ascib="${lblue}    _____   "
         ascic="${lblue}   / ____|  "
@@ -676,7 +639,7 @@ case "$ascii" in
         ascij="            "
         color="$lblue"
         ;;
-    t2|t2linux)
+    [Tt]2/[Ll]inux*)
         ascia="${blue}                "
         ascib="${blue} TTTTTTTTTT     "
         ascic="${blue}     tt${reset}   222   "
@@ -688,7 +651,7 @@ case "$ascii" in
         ascij="${blue}                "
         color="$blue"
         ;;
-    parabola)
+    [Pp]arabola*)
         ascia="                  "
         ascib="${purple}   __ __ __  _    "
         ascic="${purple} .\`_//_//_/ / \`.  "
@@ -700,7 +663,7 @@ case "$ascii" in
         ascij="${purple}                  "
         color="$purple"
         ;;
-    sulin)
+    [Ss]ulin[Oo][Ss]*)
         ascia="    it's donkey  "
         ascib="                 "
         ascic="${gray} ^__^            "
@@ -712,7 +675,7 @@ case "$ascii" in
         ascij="                 "
         color="$gray"
         ;;
-    omnios)
+    [Oo]mni[Oo][Ss]*)
         ascia="${reset}    _____       "
         ascib="${reset}   / ___ \\\      "
         ascic="${reset}  | /  ${yellow}_${reset}\\\\${yellow}_${reset}|${yellow}_    "
@@ -723,6 +686,18 @@ case "$ascii" in
         ascih="                "
         ascij="                "
         color="$yellow"
+        ;;
+    [Tt]iny[Cc]ore*)
+        ascia="${gray}                "
+        ascib="${gray}    ,.-'''-.,   "
+        ascic="${gray}   /       .'\\\  "
+        ascid="${gray}  |      ,'   | "
+        ascie="${gray}  |    ,'     | "
+        ascif="${gray}   \\\.,'      /  "
+        ascig="${gray}    \`'-...-'\`   "
+        ascih="${gray}                "
+        ascij="${gray}                "
+        color="$gray"
         ;;
     *)
         ascia="     ___     "
