@@ -30,6 +30,7 @@ distrog(){
         DragonFly) echo "DragonFly" ;;
         Haiku) echo "Haiku" ;;
         SunOS) cat /etc/release | awk 'NR==1 {print $1}' ;;
+        Darwin) echo "Darwin" ;;
         Linux|GNU) 
             if [ -d /bedrock ]; then 
                 brl version
@@ -63,6 +64,16 @@ for arg in "$@"; do
                 aqua=""
                 gray=""
                 color=""
+            ;;
+        --help*)
+            nooohelp="--nocol - removes color
+--ascii - sets logo + color. Available logos:
+EndeavourOS, Void, Ubuntu, Debian, Arch, Mint, NixOS, Alpine, Fedora, PostmarketOS, CRUX, openSUSE, Locoware, Artix
+Slackware, Devuan, Gentoo, Android, PopOS, CachyOS, CentOS, Venom, Chimera, KISS, Exherbo, Bedrock, Obarun, Solus
+Gobo, T2/Linux, SulinOS, Parabola, TinyCore, FreeBSD, OpenBSD, NetBSD, DragonflyBSD, HaikuOS, MINIX, OpenIndiana
+OmniOS"
+            echo -n "$nooohelp\n"
+            exit 0
             ;;
     esac
 done
@@ -110,7 +121,7 @@ pkgm(){
     pkgs "pkgman" "pkgman" "find /boot/system/packages /boot/home/config/packages -name \"*.hpkg\" | wc -l"
     pkgs "kiss" "kiss" "ls /var/db/kiss/installed | wc -l"
     pkgs "flatpak" "flatpak" "flatpak list | wc -l"
-    pkgs "snprt" "snprt" "ls /var/db/snprt/list/ | wc -l"
+#    pkgs "snprt" "snprt" "ls /var/db/snprt/list/ | wc -l"
     pkgs "cave" "paludis" "ls /var/db/paludis/repositories/installed/data | wc -l"
     pkgs "eopkg" "eopkg" "ls /var/lib/eopkg/package | wc -l"
     pkgs "Compile" "compile" "ls /Programs | wc -l"
@@ -156,6 +167,8 @@ env() {
     elif proch "fluxbox"; then echo "fluxbox"
     elif proch "openbox"; then echo "openbox"
     elif proch "icewm"; then echo "icewm"
+    elif proch "jwm"; then echo "jwm"
+    elif proch "fvwm"; then echo "fvwm"
     else echo "$(tty)"
     fi
 }
@@ -190,6 +203,9 @@ ramd(){
         memavb="$(vmstat | awk 'NR==3 {print int($5 / 1024)}')"
         memusd="$((memtot - memavb))"
         echo "${memusd}MiB / ${memtot}MiB"
+        ;;
+        Darwin)
+        echo "fuck puredarwin"
         ;;
         *)
         # i made it cuz environmentingonment bot doesn't have free command
@@ -329,15 +345,15 @@ case "$ascii" in
         color="$red"
         ;;
     [Aa]lpine*)
-        ascia="                "
-        ascib="${blue}     /\\\ /\\\      "
-        ascic="${blue}    // \\\  \\\     "
-        ascid="${blue}   //   \\\  \\\    "
-        ascie="${blue}  //     \\\  \\\   "
-        ascif="${blue} //       \\\  \\\  "
-        ascig="${blue}           \\\  \\ "
-        ascih="${blue}            \\\   "
-        ascij="                "
+        ascia="                 "
+        ascib="${blue}      /\\\ /\\\      "
+        ascic="${blue}     // \\\  \\\     "
+        ascid="${blue}    //   \\\  \\\    "
+        ascie="${blue}   //     \\\  \\\   "
+        ascif="${blue}  //       \\\  \\\  "
+        ascig="${blue}            \\\  \\ "
+        ascih="${blue}             \\\   "
+        ascij="                 "
         color="$blue"
         ;;
     [Ff]edora*)
@@ -700,15 +716,15 @@ case "$ascii" in
         color="$gray"
         ;;
     *)
-        ascia="     ___     "
-        ascib="    (.. |    "
-        ascic="    (<> |    "
-        ascid="   / __  \\\   "
-        ascie="  ( /  \\\ /|  "
-        ascif=" _/\\\ __)/_)  "
-        ascig=" \\\/-____\\\/   "
-        ascih="             "
-        ascij="             "
+        ascia="      ___     "
+        ascib="     (.. |    "
+        ascic="     (<> |    "
+        ascid="    / __  \\\   "
+        ascie="   ( /  \\\ /|  "
+        ascif="  _/\\\ __)/_)  "
+        ascig="  \\\/-____\\\/   "
+        ascih="              "
+        ascij="              "
         ;;
 esac
 
