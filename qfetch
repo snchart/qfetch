@@ -30,7 +30,12 @@ distrog(){
         DragonFly) echo "DragonFly" ;;
         Haiku) echo "Haiku" ;;
         SunOS) cat /etc/release | awk 'NR==1 {print $1}' ;;
-        Darwin) echo "Darwin" ;;
+        Darwin) 
+            case "$(uname -m)" in
+                *iPhone*) echo "iOS" ;;
+                *) sw_vers -productName | awk -F: '{print $2}' ;;
+            esac
+        ;;
         Linux|GNU) 
             if [ -d /bedrock ]; then 
                 brl version
@@ -128,6 +133,7 @@ pkgm(){
     pkgs "mine" "mine" "mine -q | wc -l"
     pkgs "inary" "inary" "ls /var/lib/inary/package -1 | wc -l"
     pkgs "tce" "tce" "tce-status -i | wc -l"
+    pkgs "guix" "guix" "echo $(( $(guix package -I | wc -l) + $(guix package -p /run/current_system/profile -I | wc -l) ))"
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
 }
@@ -225,8 +231,17 @@ cpug(){
         Minix) grep 'model name' /proc/cpuinfo | awk '{print $3}' ;;
         Haiku) sysinfo -cpu | awk -F '\"' '/CPU #0/ {print $2}' ;;
         SunOS) kstat -p cpu_info:0:*:brand | awk -F'\t' '{print $2}' ;;
+        Darwin)
+            case "$(uname -m)" in
+                iPhone13,*) echo "Apple A14 Bionic" ;;
+                iPhone14,*) echo "Apple A15 Bionic" ;;
+                iPhone15,*) echo "Apple A16 Bionic" ;;
+                iPhone16,*) echo "Apple A17 Pro" ;;
+                iPhone17,*) echo "Apple A18" ;;
+                iPhone18,*) echo "Apple A19" ;;
+            esac
+        ;;
         *) if command -v getprop >/dev/null 2>&1; then
-           #     cat /proc/cpuinfo | grep -i 'hardware' | awk -F ': ' '{print $2}'
                 getprop ro.hardware
            else
                 grep -m 1 'model name' /proc/cpuinfo | cut -d ':' -f2 | sed 's/^ //'
@@ -714,6 +729,30 @@ case "$ascii" in
         ascih="${gray}                "
         ascij="${gray}                "
         color="$gray"
+        ;;
+    [Ii][Oo][Ss]|[Mm]ac\ [Oo][Ss]\ [Xx]|[Mm]ac[Oo][Ss]|[Ii][Pp]hone\ [Oo][Ss]|[Dd]arwin*)
+        ascia="${green}          .:'     "
+        ascib="${green}      __ :'__     "
+        ascic="${yellow}   .'\`__\`-'__\`\`.  "
+        ascid="${red}  :__________.-'  "
+        ascie="${red}  :_________:     "
+        ascif="${purple}   :_________\`-;  "
+        ascig="${blue}    \`.__.-.__.'   "
+        ascih="                  "
+        ascij="                  "
+        color="$purple"
+        ;;
+    [Gg]uix\ [Ss]ystem|[Gg]uix*)
+        ascia="${yellow}                    "
+        ascib="${yellow}  |.__        __.|  "
+        ascic="${yellow}  |__ \\\      / __|  "
+        ascid="${yellow}     \\\ \\\    / /     "
+        ascie="${yellow}      \\\ \\\  / /      "
+        ascif="${yellow}       \\\ \\\/ /       "
+        ascig="${yellow}        \\\__/        "
+        ascih="${yellow}                    "
+        ascij="${yellow}                    "
+        color="$yellow"
         ;;
     *)
         ascia="      ___     "
