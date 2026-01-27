@@ -133,7 +133,7 @@ pkgm(){
     pkgs "mine" "mine" "mine -q | wc -l"
     pkgs "inary" "inary" "ls /var/lib/inary/package -1 | wc -l"
     pkgs "tce" "tce" "tce-status -i | wc -l"
-    pkgs "guix" "guix" "echo $(( $(guix package -I | wc -l) + $(guix package -p /run/current_system/profile -I | wc -l) ))"
+    pkgs "guix" "guix" "echo $(( $(guix package -I | wc -l) + $(guix package -p /run/current-system/profile -I | wc -l) ))"
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
 }
