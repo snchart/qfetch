@@ -76,7 +76,7 @@ for arg in "$@"; do
 EndeavourOS, Void, Ubuntu, Debian, Arch, Mint, NixOS, Alpine, Fedora, PostmarketOS, CRUX, openSUSE, Locoware, Artix
 Slackware, Devuan, Gentoo, Android, PopOS, CachyOS, CentOS, Venom, Chimera, KISS, Exherbo, Bedrock, Obarun, Solus
 Gobo, T2/Linux, SulinOS, Parabola, TinyCore, FreeBSD, OpenBSD, NetBSD, DragonflyBSD, HaikuOS, MINIX, OpenIndiana
-OmniOS"
+OmniOS, OpenMandriva, Guix, Darwin(not full support)"
             echo -n "$nooohelp\n"
             exit 0
             ;;
@@ -133,7 +133,8 @@ pkgm(){
     pkgs "mine" "mine" "mine -q | wc -l"
     pkgs "inary" "inary" "ls /var/lib/inary/package -1 | wc -l"
     pkgs "tce" "tce" "tce-status -i | wc -l"
-    pkgs "guix" "guix" "echo $(( $(guix package -I | wc -l) + $(guix package -p /run/current-system/profile -I | wc -l) ))"
+    pkgs "guix" "guix" "guix"
+    pkgs "lvu" "lin" "lvu installed | wc -l"
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
 }
@@ -753,6 +754,18 @@ case "$ascii" in
         ascih="${yellow}                    "
         ascij="${yellow}                    "
         color="$yellow"
+        ;;
+    [Oo]pen[Mm]andriva*)
+        ascia="${blue}      ,-'\"OO^-       "
+        ascib="${blue}    .\`  .\`.:'\`':.,   "
+        ascic="${blue}   /   /,/\`     \`\\\\\\  "
+        ascid="${blue}  |   | ||       |H  "
+        ascie="${blue}  |   : \\\\\\,     ,//  "
+        ascif="${blue}  '    ',\`':._.:'\`   "
+        ascig="${blue}   \`.    \`'-...-:'   "
+        ascih="${blue}     \`-._____,-\`     "
+        ascij="                     "
+        color="$blue"
         ;;
     *)
         ascia="      ___     "
