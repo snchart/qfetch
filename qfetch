@@ -193,13 +193,8 @@ ramd(){
         echo "${usedm}MiB / ${physm}MiB"
         ;;
         OpenBSD)
-        # i dont know how to make it work T_T
-        pagesi="$(sysctl -n hw.pagesize)"
-        wiredm="$(vmstat -s | grep "pages wired" | awk '{print $1}')"
-        activm=$(vmstat -s | grep "pages active" | awk '{print $1}')
-        usedm=$(((wiredm + activm) * pagesi / 1024 / 1024))
-        physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
-        echo "${usedm}MiB / ${physm}MiB"
+        total_mem="$(($(sysctl -n hw.physmem) / 1024 / 1024))"
+        free_mem="$(($(vmstat | awk 'END {printf $5}') / 1024))"
         ;;
         NetBSD)
         total_mem="$(($(sysctl -n hw.physmem64) / 1024 / 1024))"
