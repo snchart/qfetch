@@ -192,7 +192,9 @@ ramd(){
         ;;
         OpenBSD)
         total_mem="$(($(sysctl -n hw.physmem) / 1024 / 1024))"
-        free_mem="$(vmstat -z | awk 'END {print $4}' | tr -d 'M')"
+        cache_mem="$(vmstat | awk 'END {print $4}' | tr -d 'M')"
+        pfree_mem="$(top -d 1 | grep 'Memory:' | awk '{print $8}' | tr -d 'M')"
+        free_mem="$((cache_mem + pfree_mem))"
         ;;
         NetBSD)
         total_mem="$(($(sysctl -n hw.physmem64) / 1024 / 1024))"
@@ -201,7 +203,6 @@ ramd(){
         Haiku)
         total_mem="$(($(vmstat | grep "max memory" | awk '{print $3}') / 1024 / 1024))"
         free_mem="$(($(vmstat | grep "free memory" | awk '{print $3}') / 1024 / 1024))"
-        echo "${usedmem}MiB / ${totalmem}MiB"
         ;;
         SunOS)
         total_mem="$(prtconf | grep Memory | awk '{print $3}')"
