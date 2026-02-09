@@ -183,13 +183,12 @@ env() {
 ramd(){
     case "$UNAME" in
         FreeBSD|DragonFly)
-        pagesi="$(sysctl -n hw.pagesize)"
-        wiredm="$(($(sysctl -n vm.stats.vm.v_wire_count) * pagesi / 1024 / 1024))"
-        activm=$(($(sysctl -n vm.stats.vm.v_active_count) * pagesi / 1024 / 1024))
-        inactm=$(($(sysctl -n vm.stats.vm.v_inactive_count) * pagesi / 1024 / 1024))
-        usedm=$((wiredm + activm + inactm))
-        physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
-        echo "${usedm}MiB / ${physm}MiB"
+        pagesize_mem="$(sysctl -n hw.pagesize)"
+        inactive_mem="$(($(sysctl -n vm.stats.vm.v_free_count) * pagesize_mem))"
+        unused_mem="$(($(sysctl -n vm.stats.vm.v_free_count) * pagesize_mem))"
+        cache_mem="$(($(sysctl -n vm.stats.vm.v_cache_count) * pagesize_mem))"
+        free_mem="$(((inactive_mem + unused_mem + cache_mem) / 1024 / 1024))"
+        total_mem=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         ;;
         OpenBSD)
         total_mem="$(($(sysctl -n hw.physmem) / 1024 / 1024))"
@@ -200,18 +199,17 @@ ramd(){
         free_mem="$(($(grep "MemFree" /proc/meminfo | awk '{print $2}') / 1024))"
         ;;
         Haiku)
-        totalmem="$(($(vmstat | grep "max memory" | awk '{print int($3 / 1024 / 1024)}')))"
-        usedmem="$(((totalmem - $(vmstat | grep "free memory" | awk '{print int($3 / 1024 / 1024)}'))))"
+        total_mem="$(($(vmstat | grep "max memory" | awk '{print $3}') / 1024 / 1024))"
+        free_mem="$(($(vmstat | grep "free memory" | awk '{print $3}') / 1024 / 1024))"
         echo "${usedmem}MiB / ${totalmem}MiB"
         ;;
         SunOS)
-        memtot="$(prtconf | grep Memory | awk '{print $3}')"
-        memavb="$(vmstat | awk 'NR==3 {print int($5 / 1024)}')"
-        memusd="$((memtot - memavb))"
-        echo "${memusd}MiB / ${memtot}MiB"
+        total_mem="$(prtconf | grep Memory | awk '{print $3}')"
+        free_mem="$(($(vmstat | awk 'NR==3 {print $5}') / 1024))"
         ;;
         Darwin)
-        echo "fuck puredarwin"
+        total_mem="0"
+        free_mem="0"
         ;;
         *)
         # i made it cuz environmentingonment bot doesn't have free command
