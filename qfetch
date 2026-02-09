@@ -188,7 +188,7 @@ ramd(){
         unused_mem="$(($(sysctl -n vm.stats.vm.v_free_count) * pagesize_mem))"
         cache_mem="$(($(sysctl -n vm.stats.vm.v_cache_count) * pagesize_mem))"
         free_mem="$(((inactive_mem + unused_mem + cache_mem) / 1024 / 1024))"
-        total_mem=$(($(sysctl -n hw.physmem) / 1024 / 1024))
+        total_mem=$(($(sysctl -n hw.physmem) / 1024 / 1024 / 2))
         ;;
         OpenBSD)
         total_mem="$(($(sysctl -n hw.physmem) / 1024 / 1024))"
