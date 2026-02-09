@@ -176,6 +176,7 @@ env() {
     elif proch "icewm"; then echo "icewm"
     elif proch "jwm"; then echo "jwm"
     elif proch "fvwm"; then echo "fvwm"
+    elif proch "spectrwm"; then echo "spectrwm"
     else echo "$(tty)"
     fi
 }
@@ -191,7 +192,7 @@ ramd(){
         physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         echo "${usedm}MiB / ${physm}MiB"
         ;;
-        OpenBSD|NetBSD)
+        OpenBSD)
         # i dont know how to make it work T_T
         pagesi="$(sysctl -n hw.pagesize)"
         wiredm="$(vmstat -s | grep "pages wired" | awk '{print $1}')"
@@ -199,6 +200,10 @@ ramd(){
         usedm=$(((wiredm + activm) * pagesi / 1024 / 1024))
         physm=$(($(sysctl -n hw.physmem) / 1024 / 1024))
         echo "${usedm}MiB / ${physm}MiB"
+        ;;
+        NetBSD)
+        total_mem="$(($(sysctl -n hw.physmem64) / 1024 / 1024))"
+        free_mem="$(($(grep "MemFree" /proc/meminfo | awk '{print $2}') / 1024))"
         ;;
         Haiku)
         totalmem="$(($(vmstat | grep "max memory" | awk '{print int($3 / 1024 / 1024)}')))"
