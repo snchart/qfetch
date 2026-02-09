@@ -121,7 +121,6 @@ pkgm(){
     pkgs "emerge" "emerge" "qlist -I | wc -l"
     pkgs "prt-get" "prt-get" "pkginfo -i | wc -l"
     pkgs "scratch" "scratch" "ls /var/lib/scratchpkg/db/ | wc -l"
-    pkgs "pkgin" "pkgin" "pkg_info | wc -l | tr -d ' '"
     pkgs "pkg_add" "pkg_add" "pkg_info | wc -l | tr -d ' '"
     pkgs "pkgman" "pkgman" "find /boot/system/packages /boot/home/config/packages -name \"*.hpkg\" | wc -l"
     pkgs "kiss" "kiss" "ls /var/db/kiss/installed | wc -l"
@@ -194,7 +193,7 @@ ramd(){
         ;;
         OpenBSD)
         total_mem="$(($(sysctl -n hw.physmem) / 1024 / 1024))"
-        free_mem="$(($(vmstat | awk 'END {printf $5}') / 1024))"
+        free_mem="$(vmstat -z | awk 'END {print $4}' | tr -d 'M')"
         ;;
         NetBSD)
         total_mem="$(($(sysctl -n hw.physmem64) / 1024 / 1024))"
