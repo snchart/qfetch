@@ -779,6 +779,7 @@ case "$ascii" in
             ascig="${blue}  | | | |  ______  "
             ascih="${blue}  '.' | |  ______) "
             ascij="${blue}                   "
+            color="$blue"
             ;;
         *BSD*)
             ascia="${red}    .'/.___\\\'.     "
@@ -789,6 +790,7 @@ case "$ascii" in
             ascif="${red}    '''(._.l,      "
             ascig="${green}   ,-='   \\\'${red}:*-.,  "
             ascih="${green}    \`\`\`\`\`\`\`${red} -::-'  "
+            color="$red"
             ascij="                   "
         ;;
     esac
