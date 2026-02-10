@@ -188,35 +188,28 @@ ramd(){
         unused_mem="$(($(sysctl -n vm.stats.vm.v_free_count) * pagesize_mem))"
         cache_mem="$(($(sysctl -n vm.stats.vm.v_cache_count) * pagesize_mem))"
         free_mem="$(((inactive_mem + unused_mem + cache_mem) / 1024 / 1024))"
-        total_mem=$(($(sysctl -n hw.physmem) / 1024 / 1024))
-        ;;
+        total_mem=$(($(sysctl -n hw.physmem) / 1024 / 1024)) ;;
         OpenBSD)
         total_mem="$(($(sysctl -n hw.physmem) / 1024 / 1024))"
         cache_mem="$(vmstat | awk 'END {print $4}' | tr -d 'M')"
         pfree_mem="$(top -d 1 | grep 'Memory:' | awk '{print $8}' | tr -d 'M')"
-        free_mem="$((cache_mem + pfree_mem))"
-        ;;
+        free_mem="$((cache_mem + pfree_mem))" ;;
         NetBSD)
         total_mem="$(($(sysctl -n hw.physmem64) / 1024 / 1024))"
-        free_mem="$(($(grep "MemFree" /proc/meminfo | awk '{print $2}') / 1024))"
-        ;;
+        free_mem="$(($(grep "MemFree" /proc/meminfo | awk '{print $2}') / 1024))" ;;
         Haiku)
         total_mem="$(($(vmstat | grep "max memory" | awk '{print $3}') / 1024 / 1024))"
-        free_mem="$(($(vmstat | grep "free memory" | awk '{print $3}') / 1024 / 1024))"
-        ;;
+        free_mem="$(($(vmstat | grep "free memory" | awk '{print $3}') / 1024 / 1024))" ;;
         SunOS)
         total_mem="$(prtconf | grep Memory | awk '{print $3}')"
-        free_mem="$(($(vmstat | awk 'NR==3 {print $5}') / 1024))"
-        ;;
+        free_mem="$(($(vmstat | awk 'NR==3 {print $5}') / 1024))" ;;
         Darwin)
         total_mem="0"
-        free_mem="0"
-        ;;
+        free_mem="0" ;;
         *)
         # i made it cuz environmentingonment bot doesn't have free command
         total_mem="$(($(cat /proc/meminfo | awk 'NR==1 {print $2}') / 1024))"
-        free_mem="$(($(cat /proc/meminfo | awk 'NR==3 {print $2}') / 1024))"
-        ;;
+        free_mem="$(($(cat /proc/meminfo | awk 'NR==3 {print $2}') / 1024))" ;;
     esac
     used_mem="$((total_mem - free_mem))"
     echo "${used_mem}MiB / ${total_mem}MiB"
@@ -764,17 +757,42 @@ case "$ascii" in
         ascij="                     "
         color="$blue"
         ;;
-    *)
-        ascia="      ___     "
-        ascib="     (.. |    "
-        ascic="     (<> |    "
-        ascid="    / __  \\\   "
-        ascie="   ( /  \\\ /|  "
-        ascif="  _/\\\ __)/_)  "
-        ascig="  \\\/-____\\\/   "
-        ascih="              "
-        ascij="              "
+    *) case "$(uname -s)" in
+        Linux*)
+            ascia="      ___     "
+            ascib="     (.. |    "
+            ascic="     (<> |    "
+            ascid="    / __  \\\   "
+            ascie="   ( /  \\\ /|  "
+            ascif="  _/\\\ __)/_)  "
+            ascig="  \\\/-____\\\/   "
+            ascih="              "
+            ascij="              "
+            ;;
+        SunOS*)
+            ascia="${blue}  ______  . .  .   "
+            ascib="${blue} (______  | | | |  "
+            ascic="${blue}  ______  | | | |  "
+            ascid="${blue}  ______) '.' | |  "
+            ascie="${blue}  . .  .   ______  "
+            ascif="${blue}  | | | | (______  "
+            ascig="${blue}  | | | |  ______  "
+            ascih="${blue}  '.' | |  ______) "
+            ascij="${blue}                   "
+            ;;
+        *BSD*)
+            ascia="${red}    .'/.___\\\'.     "
+            ascib="${red}    \\\      .'      "
+            ascic="${red}    /${reset} ''${red}   )       "
+            ascid="${yellow}  VV${red}\`'-,  /        "
+            ascie="${yellow}   '\`${red}:/   j        "
+            ascif="${red}    '''(._.l,      "
+            ascig="${green}   ,-='   \\\'${red}:*-.,  "
+            ascih="${green}    \`\`\`\`\`\`\`${red} -::-'  "
+            ascij="                   "
         ;;
+    esac
+    ;;
 esac
 
 printf "\n"
