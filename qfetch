@@ -115,7 +115,7 @@ pkgm(){
             *) command -v getprop >/dev/null 2>&1 && pkgc="${pkgc}" || pkgc="${pkgc}pkg, " ;;
         esac
     fi
-    pkgs "nix-store" "nix" "ls /nix/store | wc -l"
+    pkgs "nix-store" "nix-system" "nix-store -qR /run/current-system/sw | wc -l"
     pkgs "pkgtool" "pkgtool" "ls /var/log/packages | wc -l"
     pkgs "yum" "yum" "rpm -qa | wc -l"
     pkgs "emerge" "emerge" "qlist -I | wc -l"
@@ -132,7 +132,7 @@ pkgm(){
     pkgs "mine" "mine" "mine -q | wc -l"
     pkgs "inary" "inary" "ls /var/lib/inary/package -1 | wc -l"
     pkgs "tce" "tce" "tce-status -i | wc -l"
-    pkgs "guix" "guix" "guix"
+    pkgs "guix" "guix" "echo ''"
     pkgs "lvu" "lin" "lvu installed | wc -l"
     [ -n "$pkgc" ] && pkgc=${pkgc%??}
     echo "$pkgc"
@@ -791,6 +791,17 @@ case "$ascii" in
             ascig="${green}   ,-='   \\\'${red}:*-.,  "
             ascih="${green}    \`\`\`\`\`\`\`${red} -::-'  "
             color="$red"
+            ascij="                   "
+        ;;
+        GNU|Hurd*)
+            ascia="  /             \\\  "
+            ascib=" ((__-^^-,-^^-__)) "
+            ascic="  \`-_---' \`---_-'  "
+            ascid="   \`--|o\` 'o|--'   "
+            ascie="      \\\  \`  /      "
+            ascif="       ): :(       "
+            ascig="       :o_o:       "
+            ascih="        \"-\"        "
             ascij="                   "
         ;;
     esac
