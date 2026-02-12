@@ -233,7 +233,7 @@ cpug(){
             esac
         ;;
         *) if command -v getprop >/dev/null 2>&1; then
-                getprop ro.hardware
+                getprop ro.soc.model
            else
                 grep -m 1 'model name' /proc/cpuinfo | cut -d ':' -f2 | sed 's/^ //'
            fi
@@ -241,15 +241,17 @@ cpug(){
 }
 
 disk(){
-    if command -v getprop >/dev/null 2>&1; then
-        df /data -h | awk 'NR==2 {print $3 " / " $2}'
-    elif [ "$(uname -s)" = "Haiku" ]; then
-        disktotal="$(df /boot | grep "Total Blocks" | awk '{print int($3)}')"
-        diskused="$(((disktotal - $(df /boot | grep "Free Blocks" | awk '{print int($3)}'))))"
-        echo "${diskused}GiB / ${disktotal}GiB"
-    else
-        df -h / | awk 'NR==2 {print $3 " / " $2}' 
-    fi
+    case "$UNAME" in
+        Haiku*)
+            total_disk="$(df /boot | grep "Total Blocks" | awk '{print int($3)}')"
+            used_disk="$((total_disk - $(df /boot | grep "Free Blocks" | awk '{print int($3)}')))" ;;
+        *)
+            command -v getprop >/dev/null 2>&1 && partition="/data" || partition="/"
+            total_disk="$(df -h $partition | awk 'NR==2 {print $2}')"
+            used_disk="$(df -h $partition | awk 'NR==2 {print $3}')"
+        ;; 
+    esac
+    echo "${used_disk} / ${total_disk}"
 }
 
 case "$ascii" in
